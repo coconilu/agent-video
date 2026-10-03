@@ -33,10 +33,9 @@
 <section>
   <h2><span class="sec">11.1</span>演示：混合管线流程图</h2>
   <div class="demo">
-    <div class="demo-title">点任意环节，看它的工具选择与闸门</div>
-    <div class="demo-note">这就是第 7 章六轮五闸的管线形态：琥珀色虚线框是人工闸门（G1 定位、G2/G3 脚本、G3.5 关键帧、G4 终审），青色实线框是生产环节，中间三条是并行泳道。点击展开详情。</div>
+    <div class="demo-title">点任意环节，就地展开它的工具选择与闸门</div>
+    <div class="demo-note">这就是第 7 章六轮五闸的管线形态：琥珀色虚线框是人工闸门（G1 定位、G2/G3 脚本、G3.5 关键帧、G4 终审），青色实线框是生产环节，中间三条是并行泳道。点击任意环节，详情直接展开在它下方；再点一次收起。</div>
     <div class="pipeline" id="d9-pipe"></div>
-    <div class="pdetail" id="d9-detail"><h4>← 点击上方任意环节</h4><p class="muted">每个环节都会显示：用什么工具、过哪个闸门、最容易踩什么坑。</p></div>
   </div>
 </section>
 
@@ -140,21 +139,26 @@
     {gate:false,ico:'G5 分发',name:'轮 6：渲染 ＋ 分发物料',sub:'可经剪映草稿收尾',
      tool:'渲染：HyperFrames CLI（draft 迭代 → 高质量交付）；需人工收尾可经 ChatCut 导出剪映草稿，剪映做最后一公里',gateTxt:'G5：贵的约束最后加（分辨率/调色/字幕规范）；封面标题按域 8 公式审——决定点开率',warn:'发布物料是独立工序：封面多尺寸、标题、简介、章节时间轴、多画幅——权重常被技术型创作者低估'}
   ];
-  var pipe=document.getElementById('d9-pipe'),detail=document.getElementById('d9-detail');
+  var pipe=document.getElementById('d9-pipe');
   NODES.forEach(function(n,i){
     if(i>0){var lk=document.createElement('div');lk.className='plink';pipe.appendChild(lk);}
     var d=document.createElement('div');
     d.className='pnode'+(n.gate?' gate':'');
     d.innerHTML='<span class="pn-ico">'+n.ico+'</span><span><span class="pn-name">'+n.name+'</span><br><span class="pn-sub">'+n.sub+'</span></span>';
+    var det=document.createElement('div');
+    det.className='pnode-detail';
+    det.innerHTML='<h4>'+n.name+'</h4>'
+      +'<div class="kv"><b>工具选择</b><span>'+n.tool+'</span></div>'
+      +'<div class="kv"><b>闸门</b><span>'+n.gateTxt+'</span></div>'
+      +'<div class="kv"><b>最易踩的坑</b><span style="color:var(--warn)">'+n.warn+'</span></div>';
     d.addEventListener('click',function(){
+      var willOpen=!det.classList.contains('open');
       pipe.querySelectorAll('.pnode').forEach(function(x){x.classList.remove('on')});
-      d.classList.add('on');
-      detail.innerHTML='<h4>'+n.name+'</h4>'
-        +'<div class="kv"><b>工具选择</b><span>'+n.tool+'</span></div>'
-        +'<div class="kv"><b>闸门</b><span>'+n.gateTxt+'</span></div>'
-        +'<div class="kv"><b>最易踩的坑</b><span style="color:var(--warn)">'+n.warn+'</span></div>';
+      pipe.querySelectorAll('.pnode-detail').forEach(function(x){x.classList.remove('open')});
+      if(willOpen){d.classList.add('on');det.classList.add('open');}
     });
     pipe.appendChild(d);
+    pipe.appendChild(det);
   });
 })();
 
