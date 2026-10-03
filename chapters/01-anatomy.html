@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 1 章 · 解剖：三轴体系 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<style>
+.pick.on{border-color:var(--accent);color:var(--accent);background:rgba(79,209,197,.12)}
+.pickrow{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+.axis-label{font-family:var(--mono);font-size:13px;color:var(--muted);margin:10px 0 4px}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl active" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 1 · CHAPTER 01</span>
+  <h1>解剖：三轴体系——来源 × 职能 × 图层</h1>
+  <p class="hook">痛点钩子：两条讲同一个话题的视频，一条看完想三连，一条 10 秒就被划走。区别多数人只能说出「节奏好」「看着舒服」——但「舒服」不是玄学，它是一组可以逐个指认的零件。<strong>能拆，才能装</strong>：看懂别人的视频，是让 agent 做出满意视频的前置课。</p>
+</header>
+
+<section>
+  <h2><span class="sec">1.1</span>暂停一帧：画面是叠出来的</h2>
+  <p>暂停任何一条视频，你看到的「一个画面」其实是几层叠在一起的合成结果：<strong>背景、主体、图形叠加层</strong>（箭头、高亮框、贴纸）、<strong>文字层</strong>（标题与字幕）。声音虽然看不见，也是独立的轨——人声、BGM、音效各走各的。</p>
+  <p>另一种看法不按「层」，按「职能」：主叙事画面叫 <strong>A-roll</strong>（讲解者对着镜头讲），辅助画面叫 <strong>B-roll</strong>（手部特写、产品演示、资料画面）。专业视频的呼吸感，大多来自 A-roll 与 B-roll 的交替——一直对着脸讲，10 秒就闷了。</p>
+  <div class="callout intuition">
+    <span class="tag">💡 一句话直觉</span>
+    A-roll 管「谁在讲」（主叙事），B-roll 管「看什么」（辅助画面）。口播驱动的视频里，<strong>大部分画面是 B-roll 性质的辅助视觉</strong>——它们的成败标准不是「多惊艳」，而是「是否刚好解释了这句话」。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">1.2</span>演示：暂停一帧，数数有几层</h2>
+  <div class="demo">
+    <div class="demo-title">一帧画面的图层拆解器</div>
+    <div class="demo-note">下面是一帧合成的示意画面。点按开关逐个关掉图层，看画面如何「瘦身」——再全部关掉主体层试试：剩下的包装再精美也不是一条视频。音频轨虽然不可见，也画在下方分轨上。</div>
+    <div class="pickrow" id="d1-toggles">
+      <button class="chip pick on" data-l="bg">背景层</button>
+      <button class="chip pick on" data-l="main">主体画面层</button>
+      <button class="chip pick on" data-l="gfx">图形叠加层</button>
+      <button class="chip pick on" data-l="text">文字字幕层</button>
+      <button class="chip pick on" data-l="audio">音频轨（人声/BGM/SFX）</button>
+    </div>
+    <div class="preset-row">
+      <button class="chip" id="d1-all">全部打开</button>
+      <button class="chip" id="d1-bare">只剩主体</button>
+    </div>
+    <canvas class="diagram" id="d1-canvas" width="880" height="500"></canvas>
+    <div class="readout">
+      <span class="badge info" id="d1-ro1">画面层：—</span>
+      <span class="badge info" id="d1-ro2">音频轨：—</span>
+      <span class="badge warn" id="d1-ro3">—</span>
+    </div>
+  </div>
+  <div class="callout intuition">
+    <span class="tag">💡 小实验</span>
+    下次看视频时随便暂停一帧，数数这一帧有几层、想想它是什么职能（A-roll 还是 B-roll）。能回答这两个问题，你就已经开始「看懂」了。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">1.3</span>三条正交轴：像填快递单一样描述镜头</h2>
+  <p>「层」和「职能」是两条不同的轴，再加上「画面从哪来」，就齐了。三条轴各回答一个问题，互不干涉——「正交」就是这个意思。像填快递单：<strong>寄的什么、干嘛用的、怎么打包</strong>，三栏各填各的，任意组合都合法。</p>
+  <table>
+    <tr><th>轴</th><th>回答的问题</th><th>决定什么</th><th>取值（列举）</th></tr>
+    <tr><td><strong>轴一 · 来源</strong></td><td>画面从哪来</td><td><strong>成本与工期</strong>——选哪条路，价格和返工难度差出一个数量级</td><td>实拍 / 录屏 / 静帧运镜 / 代码 MG / AI 视频 / 数字人 / 数据可视化……共 13 类（见 1.5）</td></tr>
+    <tr><td><strong>轴二 · 职能</strong></td><td>它在这段里起什么作用</td><td><strong>叙事结构</strong>——与来源无关，同一段素材可以担不同职能</td><td>A-roll 主叙事 / B-roll 辅助 / 钩子 / 章节卡 / 插入镜 / 转场 / 结尾卡</td></tr>
+    <tr><td><strong>轴三 · 图层 / 轨道</strong></td><td>它叠在第几层</td><td><strong>工程结构</strong>——渲染时分几个元素、混音时分几条轨、改的时候动哪一层</td><td>背景 / 主体画面 / 图形叠加 / 文字字幕 / 音频分轨（人声、BGM、SFX）</td></tr>
+  </table>
+  <p>三轴合起来，描述一个镜头就是报出它的三个坐标。以一段「数字从 0 跳到 4 分钟」的计数动画为例（沿下图中红色虚线走一遍）：来源是 ①<strong>数据可视化</strong>（代码生成的画面），职能是 ②<strong>B-roll</strong>（给口播配画面），位置是 ③<strong>图形叠加层</strong>（压在底图之上）。三个坐标一交，这个镜头就被完整描述了：</p>
+  <svg viewBox="0 0 640 368" role="img" aria-label="三轴体系示意图：来源 × 职能 × 图层，红色虚线走一遍计数动画示例" style="width:100%;background:var(--canvas);border:1px solid var(--border);border-radius:10px">
+    <g font-size="12" fill="#e6e9f0" font-family="inherit">
+      <rect x="16" y="40" width="608" height="76" rx="10" fill="#161b26" stroke="#2a3244"/>
+      <text x="32" y="62" font-weight="700" fill="#4fd1c5" font-family="ui-monospace,Consolas,monospace">轴一 · 来源</text>
+      <text x="32" y="80" font-size="11" fill="#9aa3b5">画面从哪来（列举）</text>
+      <g font-size="11.5">
+        <rect x="130" y="48" width="56" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="158" y="64" text-anchor="middle" fill="#9aa3b5">实拍</text>
+        <rect x="192" y="48" width="56" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="220" y="64" text-anchor="middle" fill="#9aa3b5">录屏</text>
+        <rect x="254" y="48" width="70" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="289" y="64" text-anchor="middle" fill="#9aa3b5">静帧运镜</text>
+        <rect x="330" y="48" width="46" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="353" y="64" text-anchor="middle" fill="#9aa3b5">MG</text>
+        <rect x="382" y="48" width="76" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="420" y="64" text-anchor="middle" fill="#9aa3b5">AI 视频</text>
+        <rect x="464" y="48" width="64" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="496" y="64" text-anchor="middle" fill="#9aa3b5">数字人</text>
+        <rect x="130" y="80" width="90" height="24" rx="12" fill="#1d2433" stroke="#fc8181" stroke-width="1.6"/><text x="175" y="96" text-anchor="middle" fill="#e6e9f0">数据可视化</text>
+        <rect x="226" y="80" width="66" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="259" y="96" text-anchor="middle" fill="#9aa3b5">三维 CG</text>
+        <rect x="298" y="80" width="88" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="342" y="96" text-anchor="middle" fill="#9aa3b5">叠加层/文字卡</text>
+        <rect x="392" y="80" width="104" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="444" y="96" text-anchor="middle" fill="#9aa3b5">音频轨与字幕轨</text>
+      </g>
+      <rect x="16" y="140" width="608" height="64" rx="10" fill="#161b26" stroke="#2a3244"/>
+      <text x="32" y="162" font-weight="700" fill="#f6ad55" font-family="ui-monospace,Consolas,monospace">轴二 · 叙事职能</text>
+      <text x="32" y="180" font-size="11" fill="#9aa3b5">起什么作用，与来源无关</text>
+      <g font-size="11.5">
+        <rect x="170" y="150" width="64" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="202" y="166" text-anchor="middle" fill="#9aa3b5">A-roll</text>
+        <rect x="240" y="150" width="64" height="24" rx="12" fill="#1d2433" stroke="#fc8181" stroke-width="1.6"/><text x="272" y="166" text-anchor="middle" fill="#e6e9f0">B-roll</text>
+        <rect x="310" y="150" width="46" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="333" y="166" text-anchor="middle" fill="#9aa3b5">钩子</text>
+        <rect x="362" y="150" width="56" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="390" y="166" text-anchor="middle" fill="#9aa3b5">章节卡</text>
+        <rect x="424" y="150" width="56" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="452" y="166" text-anchor="middle" fill="#9aa3b5">插入镜</text>
+        <rect x="486" y="150" width="56" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="514" y="166" text-anchor="middle" fill="#9aa3b5">转场</text>
+      </g>
+      <rect x="16" y="228" width="608" height="64" rx="10" fill="#161b26" stroke="#2a3244"/>
+      <text x="32" y="250" font-weight="700" fill="#48bb78" font-family="ui-monospace,Consolas,monospace">轴三 · 图层 / 轨道</text>
+      <text x="32" y="268" font-size="11" fill="#9aa3b5">叠在第几层，决定渲染与混音结构</text>
+      <g font-size="11.5">
+        <rect x="196" y="238" width="46" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="219" y="254" text-anchor="middle" fill="#9aa3b5">背景</text>
+        <rect x="248" y="238" width="46" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="271" y="254" text-anchor="middle" fill="#9aa3b5">主体</text>
+        <rect x="300" y="238" width="70" height="24" rx="12" fill="#1d2433" stroke="#fc8181" stroke-width="1.6"/><text x="335" y="254" text-anchor="middle" fill="#e6e9f0">图形叠加</text>
+        <rect x="376" y="238" width="70" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="411" y="254" text-anchor="middle" fill="#9aa3b5">文字字幕</text>
+        <rect x="452" y="238" width="70" height="24" rx="12" fill="#1d2433" stroke="#2a3244"/><text x="487" y="254" text-anchor="middle" fill="#9aa3b5">音频分轨</text>
+      </g>
+      <path d="M175,104 V128 H272 V150" fill="none" stroke="#fc8181" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <path d="M272,174 V206 H335 V238" fill="none" stroke="#fc8181" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <path d="M335,262 V312" fill="none" stroke="#fc8181" stroke-width="1.4" stroke-dasharray="5 4"/>
+      <circle cx="175" cy="116" r="8" fill="#fc8181"/><text x="175" y="119.5" text-anchor="middle" fill="#0d1117" font-size="10" font-weight="700">1</text>
+      <circle cx="272" cy="190" r="8" fill="#fc8181"/><text x="272" y="193.5" text-anchor="middle" fill="#0d1117" font-size="10" font-weight="700">2</text>
+      <circle cx="335" cy="287" r="8" fill="#fc8181"/><text x="335" y="290.5" text-anchor="middle" fill="#0d1117" font-size="10" font-weight="700">3</text>
+      <rect x="120" y="312" width="460" height="40" rx="8" fill="#1d2433" stroke="#fc8181" stroke-width="1.2"/>
+      <text x="350" y="329" text-anchor="middle" font-size="12" fill="#fc8181" font-weight="600">例：一段数据计数动画（数字从 0 跳到 4 分钟）</text>
+      <text x="350" y="345" text-anchor="middle" font-size="11.5" fill="#fc8181">＝ ①数据可视化（来源） × ②B-roll（职能） × ③图形叠加（轨道）</text>
+    </g>
+  </svg>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    轴二最容易被忽视的一点是：<strong>同一段素材可以担不同职能</strong>——一段录屏，放开头是钩子，放中段是 B-roll。所以职能不贴在素材文件上，而贴在「时间轴上的这一段」上。这也是为什么分镜表要逐镜填写职能，而不是给素材库打标签。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">1.4</span>演示：三轴坐标器</h2>
+  <div class="demo">
+    <div class="demo-title">给任何镜头报出「三轴坐标」</div>
+    <div class="demo-note">在三条轴上各点选一个值，下方读数区会报出这个镜头的完整坐标描述和一句点评。也可以直接点下面的预设——四个练手画面，先自己猜再对答案。</div>
+    <div class="axis-label">轴一 · 来源（13 类）</div>
+    <div class="pickrow" id="d2-src">
+      <button class="chip pick" data-v="实拍">实拍</button>
+      <button class="chip pick" data-v="录屏">录屏</button>
+      <button class="chip pick" data-v="静帧运镜">静帧运镜</button>
+      <button class="chip pick" data-v="代码 MG">代码 MG</button>
+      <button class="chip pick" data-v="AI 文生视频">AI 文生视频</button>
+      <button class="chip pick" data-v="AI 图生视频">AI 图生视频</button>
+      <button class="chip pick" data-v="数字人">数字人</button>
+      <button class="chip pick" data-v="数据可视化">数据可视化</button>
+      <button class="chip pick" data-v="三维 CG">三维 CG</button>
+      <button class="chip pick" data-v="白板/手绘">白板/手绘</button>
+      <button class="chip pick" data-v="透明叠加层">透明叠加层</button>
+      <button class="chip pick" data-v="文字卡">文字卡</button>
+      <button class="chip pick" data-v="音频与字幕">音频与字幕</button>
+    </div>
+    <div class="axis-label">轴二 · 职能</div>
+    <div class="pickrow" id="d2-role">
+      <button class="chip pick" data-v="A-roll 主叙事">A-roll 主叙事</button>
+      <button class="chip pick" data-v="B-roll 辅助画面">B-roll 辅助画面</button>
+      <button class="chip pick" data-v="钩子">钩子</button>
+      <button class="chip pick" data-v="章节卡">章节卡</button>
+      <button class="chip pick" data-v="插入镜">插入镜</button>
+      <button class="chip pick" data-v="转场">转场</button>
+      <button class="chip pick" data-v="结尾卡">结尾卡</button>
+    </div>
+    <div class="axis-label">轴三 · 图层 / 轨道</div>
+    <div class="pickrow" id="d2-layer">
+      <button class="chip pick" data-v="背景层">背景层</button>
+      <button class="chip pick" data-v="主体画面层">主体画面层</button>
+      <button class="chip pick" data-v="图形叠加层">图形叠加层</button>
+      <button class="chip pick" data-v="文字字幕层">文字字幕层</button>
+      <button class="chip pick" data-v="音频轨">音频轨</button>
+      <button class="chip pick" data-v="多层复合">多层复合</button>
+    </div>
+    <div class="preset-row">
+      <button class="chip" data-p="计数动画">★ 练手：数据计数动画</button>
+      <button class="chip" data-p="讲解者">★ 练手：讲解者正对镜头</button>
+      <button class="chip" data-p="录屏教程">★ 练手：录屏上叠箭头和大字</button>
+      <button class="chip" data-p="求三连">★ 练手：片尾求三连小动画</button>
+    </div>
+    <div class="readout">
+      <span class="badge info" id="d2-ro1">尚未选定坐标</span>
+      <span class="badge good" id="d2-ro2">—</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">1.5</span>轴一速查：13 类来源，按生产方式分五族</h2>
+  <p>来源轴决定成本与工期，值得单独记一张速查表。13 类按生产方式分成五族——注意「代码生成」这一族，它是 agent 工作流的主场：</p>
+  <table>
+    <tr><th>族</th><th>来源类别</th><th>要点</th></tr>
+    <tr><td class="mono">拍摄 / 捕获</td><td>实拍（A-roll / B-roll）· 录屏 / 界面捕获 · 静帧 + 运镜</td><td>录屏可脚本化（OBS / 无头浏览器）；静帧缓慢推拉（Ken Burns 式）的运动曲线代码可精确控制</td></tr>
+    <tr><td class="mono">代码生成</td><td>图形动画（MG）· 数据可视化动画 · 三维动画 / CG · 透明叠加层 · 文字卡 / 标题卡</td><td><strong>agent 路线的结构性优势区</strong>：排版动画、计数、图表、屏幕下方字幕条（下三分之一）、LOGO 演绎全在这里</td></tr>
+    <tr><td class="mono">AI 模型</td><td>AI 文生视频（T2V）· AI 图生视频（I2V）· 数字人</td><td>按次计费，重试是主成本；I2V 先生成一致性静帧再动起来，是当前跨镜一致性的主流工程绕行方案</td></tr>
+    <tr><td class="mono">专用工具 / 库</td><td>白板 / 手绘 / 程序化动画（Manim 类）</td><td>手写逐步画的效果，部分可代码生成</td></tr>
+    <tr><td class="mono">音频轨</td><td>口播 · BGM · SFX · 字幕轨</td><td>画面之外同样需要调度与混音——混音时人声、BGM、音效分轨处理</td></tr>
+  </table>
+  <p>做教学 / 科普 / 产品宣传的开发者，实际高频组合是：<strong>录屏 + MG + 数据可视化 + 静帧运镜 + 少量 AI 视频（做氛围 B-roll）+ 可选数字人</strong>。这恰好是代码 + agent 路线覆盖最好的组合——你的主战场恰好是可以编程的那部分。</p>
+  <div class="callout trap">
+    <span class="tag">⚠️ 透明叠加层的编码坑</span>
+    带 alpha 的图形层（字幕条、贴纸动效）编码要走 WebM alpha 或 ProRes 4444，<strong>与 HDR 通常互斥</strong>。第一次需要透明通道时再查编码参数就晚了，写进你的设计契约里。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  一条视频可以沿三条正交轴拆开：<strong>来源</strong>（画面从哪来，决定成本工期）、<strong>职能</strong>（A-roll / B-roll / 钩子 / 卡片，决定叙事结构）、<strong>图层</strong>（叠在第几层，决定渲染与混音结构）。看到任何镜头都报得出三轴坐标，你就「看懂」了。但画面还有另一个维度——镜头离你多远，下一章拆景别与构图。
+</div>
+
+<div class="mark-done"><button data-done="ch1">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="../index.html"><div class="dir">← 返回</div><div class="t">首页 · 学习路径</div></a>
+  <a class="next" href="02-shots.html"><div class="dir">下一章 →</div><div class="t">镜头：景别与构图</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.01 解剖：三轴体系</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* ===== Demo 1：暂停一帧数层数 ===== */
+(function(){
+  var cv=document.getElementById('d1-canvas'),ctx=cv.getContext('2d');
+  var on={bg:true,main:true,gfx:true,text:true,audio:true};
+  var LNAME={bg:'背景层',main:'主体画面层',gfx:'图形叠加层',text:'文字字幕层'};
+  function rr(x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
+  var FX=110,FY=24,FW=660,FH=330; // 画面区
+  function draw(){
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.font='12px ui-monospace,Consolas,monospace';
+    // 外框
+    ctx.strokeStyle='#2a3244';rr(FX-8,FY-8,FW+16,FH+16,10);ctx.stroke();
+    // 背景层
+    if(on.bg){
+      var g=ctx.createLinearGradient(0,FY,0,FY+FH);
+      g.addColorStop(0,'#182032');g.addColorStop(1,'#0d1117');
+      ctx.fillStyle=g;rr(FX,FY,FW,FH,6);ctx.fill();
+      ctx.strokeStyle='rgba(79,209,197,.08)';
+      for(var gx=FX+40;gx<FX+FW;gx+=40){ctx.beginPath();ctx.moveTo(gx,FY);ctx.lineTo(gx,FY+FH);ctx.stroke();}
+      for(var gy=FY+40;gy<FY+FH;gy+=40){ctx.beginPath();ctx.moveTo(FX,gy);ctx.lineTo(FX+FW,gy);ctx.stroke();}
+      tag(FX+12,FY+22,'背景层','#9aa3b5');
+    }else{
+      ctx.fillStyle='#0d1117';rr(FX,FY,FW,FH,6);ctx.fill();
+      ctx.fillStyle='#4a5468';ctx.textAlign='center';
+      ctx.fillText('（背景已关闭）',FX+FW/2,FY+FH/2);
+    }
+    // 主体画面层：一块终端/图表窗口
+    if(on.main){
+      var wx=FX+70,wy=FY+70,ww=380,wh=200;
+      ctx.fillStyle='#1d2433';rr(wx,wy,ww,wh,8);ctx.fill();
+      ctx.strokeStyle='#4a5468';rr(wx,wy,ww,wh,8);ctx.stroke();
+      ctx.fillStyle='#2a3244';ctx.fillRect(wx,wy,ww,26);
+      ctx.fillStyle='#fc8181';ctx.beginPath();ctx.arc(wx+16,wy+13,4,0,7);ctx.fill();
+      ctx.fillStyle='#f6ad55';ctx.beginPath();ctx.arc(wx+30,wy+13,4,0,7);ctx.fill();
+      ctx.fillStyle='#48bb78';ctx.beginPath();ctx.arc(wx+44,wy+13,4,0,7);ctx.fill();
+      // 折线图
+      ctx.strokeStyle='#4fd1c5';ctx.lineWidth=2;ctx.beginPath();
+      var pts=[0.75,0.7,0.72,0.55,0.6,0.4,0.45,0.25,0.3,0.15];
+      for(var i=0;i<pts.length;i++){
+        var px=wx+24+i*(ww-48)/(pts.length-1),py=wy+40+pts[i]*(wh-70);
+        if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);
+      }
+      ctx.stroke();ctx.lineWidth=1;
+      // 柱状
+      ctx.fillStyle='rgba(79,209,197,.25)';
+      for(var b=0;b<6;b++){var bh=20+((b*53)%80);ctx.fillRect(wx+24+b*56,wy+wh-16-bh,30,bh);}
+      // 右侧讲解者剪影
+      var px2=FX+FW-150,py2=FY+120;
+      ctx.fillStyle='#2f3a50';
+      ctx.beginPath();ctx.arc(px2,py2,34,0,7);ctx.fill();
+      ctx.beginPath();ctx.moveTo(px2-58,py2+118);ctx.quadraticCurveTo(px2,py2+30,px2+58,py2+118);ctx.closePath();ctx.fill();
+      tag(FX+12,FY+44,'主体画面层','#9aa3b5');
+    }
+    // 图形叠加层：箭头 + 高亮框
+    if(on.gfx){
+      ctx.strokeStyle='#f6ad55';ctx.lineWidth=2.5;
+      ctx.setLineDash([6,4]);rr(FX+330,FY+92,140,90,8);ctx.stroke();ctx.setLineDash([]);
+      ctx.beginPath();ctx.moveTo(FX+520,FY+60);ctx.quadraticCurveTo(FX+470,FY+80,FX+452,FY+108);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(FX+452,FY+108);ctx.lineTo(FX+444,FY+92);ctx.moveTo(FX+452,FY+108);ctx.lineTo(FX+468,FY+102);ctx.stroke();
+      ctx.lineWidth=1;
+      ctx.fillStyle='#f6ad55';ctx.textAlign='left';
+      ctx.fillText('注意这个拐点',FX+524,FY+56);
+      tag(FX+12,FY+66,'图形叠加层','#f6ad55');
+    }
+    // 文字字幕层
+    if(on.text){
+      ctx.fillStyle='rgba(13,17,23,.82)';
+      rr(FX+90,FY+FH-56,FW-180,36,8);ctx.fill();
+      ctx.strokeStyle='#2a3244';rr(FX+90,FY+FH-56,FW-180,36,8);ctx.stroke();
+      ctx.fillStyle='#e6e9f0';ctx.textAlign='center';ctx.font='14px ui-monospace,Consolas,monospace';
+      ctx.fillText('「视频不是一个画面，是一叠图层。」',FX+FW/2,FY+FH-32);
+      ctx.font='12px ui-monospace,Consolas,monospace';
+      ctx.fillStyle='rgba(79,209,197,.9)';rr(FX+FW-180,FY+14,150,26,6);ctx.fill();
+      ctx.fillStyle='#0d1117';ctx.fillText('CH.01 · 解剖三轴',FX+FW-105,FY+31);
+      tag(FX+12,FY+88,'文字字幕层','#4fd1c5');
+    }
+    // 音频分轨
+    var ty=FY+FH+44;
+    ctx.textAlign='left';
+    if(on.audio){
+      var tracks=[['人声','#4fd1c5',1.0],['BGM','#f6ad55',0.45],['SFX','#b794f4',0.3]];
+      tracks.forEach(function(t,ti){
+        var y=ty+ti*38;
+        ctx.fillStyle='#9aa3b5';ctx.textAlign='right';ctx.fillText(t[0],FX-14,y+14);
+        ctx.strokeStyle='#2a3244';rr(FX,y,FW,22,5);ctx.stroke();
+        ctx.strokeStyle=t[1];ctx.lineWidth=1.6;ctx.beginPath();
+        for(var x=0;x<FW-8;x+=4){
+          var amp=(ti===0?(Math.sin(x*0.11)*0.5+Math.sin(x*0.031)*0.5):ti===1?0.7:(x%97<10?1:0.06));
+          var h=Math.max(1.5,Math.abs(amp)*9*t[2]+1);
+          ctx.moveTo(FX+4+x,y+11-h);ctx.lineTo(FX+4+x,y+11+h);
+        }
+        ctx.stroke();ctx.lineWidth=1;
+      });
+      ctx.fillStyle='#9aa3b5';ctx.textAlign='left';
+      ctx.fillText('音频分轨（不可见层）：混音时人声需要压 BGM（ducking）',FX,ty+3*38+8);
+    }else{
+      ctx.fillStyle='#4a5468';
+      ctx.fillText('音频轨已关闭——它不可见，但一直是独立的一层',FX,ty+16);
+    }
+    // readout
+    var vc=0;['bg','main','gfx','text'].forEach(function(k){if(on[k])vc++;});
+    var ac=on.audio?3:0;
+    document.getElementById('d1-ro1').textContent='画面层：'+vc+' / 4';
+    document.getElementById('d1-ro2').textContent='音频轨：'+ac+' / 3（人声·BGM·SFX）';
+    var hint;
+    if(!on.main)hint='主体层关掉了：剩下的包装再精美也不是一条视频——主体永远是刚需';
+    else if(vc===4&&on.audio)hint='完整结构：渲染合成 4 个画面层，混音 3 条音频轨';
+    else if(vc===1&&on.main)hint='只剩主体也能成立——这就是「极简镜头」，B-roll 原素材常长这样';
+    else if(vc===0)hint='全关了：连背景都没有，这就是「空」';
+    else hint='当前 '+vc+' 个画面层 + '+ac+' 条音频轨——改哪层就动哪层，互不影响';
+    document.getElementById('d1-ro3').textContent=hint;
+  }
+  function tag(x,y,s,c){ctx.fillStyle=c;ctx.textAlign='left';ctx.fillText('· '+s,x,y);}
+  document.querySelectorAll('#d1-toggles .pick').forEach(function(b){
+    b.addEventListener('click',function(){
+      var k=b.getAttribute('data-l');on[k]=!on[k];
+      b.classList.toggle('on',on[k]);draw();
+    });
+  });
+  document.getElementById('d1-all').addEventListener('click',function(){
+    ['bg','main','gfx','text','audio'].forEach(function(k){on[k]=true;});
+    document.querySelectorAll('#d1-toggles .pick').forEach(function(b){b.classList.add('on')});
+    draw();
+  });
+  document.getElementById('d1-bare').addEventListener('click',function(){
+    on={bg:false,main:true,gfx:false,text:false,audio:false};
+    document.querySelectorAll('#d1-toggles .pick').forEach(function(b){
+      b.classList.toggle('on',on[b.getAttribute('data-l')]);
+    });
+    draw();
+  });
+  draw();
+})();
+
+/* ===== Demo 2：三轴坐标器 ===== */
+(function(){
+  var state={src:'',role:'',layer:''};
+  var SRC_C={
+    '实拍':'需要真实拍摄环境，改一处常常要重拍',
+    '录屏':'可脚本化录制，改稿后重录成本低',
+    '静帧运镜':'一张照片加缓慢推拉（Ken Burns 式）就成立，成本极低',
+    '代码 MG':'纯代码生成，agent 的主场，改参数即重出',
+    'AI 文生视频':'按次计费，重试是主成本，一致性难保证',
+    'AI 图生视频':'先锁静帧再动起来，跨镜一致性更好的工程绕行',
+    '数字人':'脚本或音频驱动，改稿常需重新生成',
+    '数据可视化':'代码生成 + 独立数据源，精确且可复算',
+    '三维 CG':'代码可生成，但建模调参成本高',
+    '白板/手绘':'程序化绘制，适合「逐步推导」的讲解',
+    '透明叠加层':'带 alpha 的图形层，编码与 HDR 互斥，要提前约定',
+    '文字卡':'纯排版镜头，兼做节奏呼吸口，成本最低',
+    '音频与字幕':'不可见素材，同样需要调度与混音'
+  };
+  var ROLE_C={
+    'A-roll 主叙事':'扛起信息主线，决定观众「听谁讲」',
+    'B-roll 辅助画面':'给口播配画面，成败标准是「是否刚好解释了这句话」',
+    '钩子':'前 15 秒抓人，决定完播率的半壁江山',
+    '章节卡':'段落之间的呼吸口，也帮观众建立结构感',
+    '插入镜':'打断单调，给节奏一次换气',
+    '转场':'衔接两段内容，宜短不宜炫',
+    '结尾卡':'回收钩子 + 行动号召，别让它拖长'
+  };
+  var LAYER_C={
+    '背景层':'垫底的一层，通常在基调定好后就不再动',
+    '主体画面层':'叙事主体所在层，这一层关掉视频就不成立',
+    '图形叠加层':'压在主体之上的标注与动效，改的时候只动这层',
+    '文字字幕层':'标题与字幕所在层，通常由时间戳数据驱动',
+    '音频轨':'不可见但独立分轨：人声、BGM、SFX 分开混音',
+    '多层复合':'主体 + 叠加 + 文字同时出现，是信息密度最高的形态'
+  };
+  var PRESETS={
+    '计数动画':{src:'数据可视化',role:'B-roll 辅助画面',layer:'图形叠加层',
+      note:'示例：数字从 0 跳到 4 分钟——可代码生成，成本低且精确可复算'},
+    '讲解者':{src:'实拍',role:'A-roll 主叙事',layer:'主体画面层',
+      note:'主叙事镜头：主体层扛画面，字幕轨同步走文字'},
+    '录屏教程':{src:'录屏',role:'B-roll 辅助画面',layer:'多层复合',
+      note:'主体（录屏）＋图形叠加（箭头）＋文字层（大字）——信息密度最高的常见形态'},
+    '求三连':{src:'代码 MG',role:'结尾卡',layer:'图形叠加层',
+      note:'章节卡 / 行动号召：图形叠加层＋音效轨，纯代码可生成'}
+  };
+  function bind(id,key){
+    document.querySelectorAll('#'+id+' .pick').forEach(function(b){
+      b.addEventListener('click',function(){
+        document.querySelectorAll('#'+id+' .pick').forEach(function(x){x.classList.remove('on')});
+        b.classList.add('on');state[key]=b.getAttribute('data-v');report();
+      });
+    });
+  }
+  function report(extra){
+    var ro1=document.getElementById('d2-ro1'),ro2=document.getElementById('d2-ro2');
+    if(!state.src||!state.role||!state.layer){
+      var miss=[];
+      if(!state.src)miss.push('来源');
+      if(!state.role)miss.push('职能');
+      if(!state.layer)miss.push('图层');
+      ro1.textContent='还差：'+miss.join('、');
+      ro2.textContent='三条轴各选一个，坐标才完整';
+      return;
+    }
+    ro1.textContent='坐标 = '+state.src+'（来源） × '+state.role+'（职能） × '+state.layer+'（图层）';
+    ro2.textContent=extra||('点评：'+SRC_C[state.src]+'；'+ROLE_C[state.role]+'；'+LAYER_C[state.layer]+'。');
+  }
+  bind('d2-src','src');bind('d2-role','role');bind('d2-layer','layer');
+  document.querySelectorAll('.chip[data-p]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var p=PRESETS[b.getAttribute('data-p')];
+      state={src:p.src,role:p.role,layer:p.layer};
+      [['d2-src',p.src],['d2-role',p.role],['d2-layer',p.layer]].forEach(function(pair){
+        document.querySelectorAll('#'+pair[0]+' .pick').forEach(function(x){
+          x.classList.toggle('on',x.getAttribute('data-v')===pair[1]);
+        });
+      });
+      report(p.note);
+    });
+  });
+  report();
+})();
+</script>
+</body>
+</html>

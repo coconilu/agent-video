@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 7 章 · 渐进式生成流程 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl active" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 2 · CHAPTER 07</span>
+  <h1>渐进式生成流程</h1>
+  <p class="hook">痛点钩子：把 2000 字的要求一次性丢给 agent，喊一句「帮我做条视频」——它确实会跑完，但成品总是差点意思：定位漂了、风格混了、节奏平了。同样这个 agent，把任务拆成六七轮、每轮只让它干一件事，质量完全是两个物种。差别不在模型，在你给它的是「一把梭」还是「渐进」。</p>
+</header>
+
+<section>
+  <h2><span class="sec">7.1</span>为什么必须分轮推进</h2>
+  <p>第 5 章给了流程骨架，第 6 章给了 G1–G4 四道闸门。这一章把它们变成<strong>下次做视频可以直接照喊的操作法</strong>：一条视频分成若干轮，每轮只产出一个可确认的中间产物，过完闸再进下一轮。这么做的理由有三条：</p>
+  <table>
+    <tr><th>理由</th><th>机制</th><th>后果</th></tr>
+    <tr><td><strong>① 错误会复利</strong></td><td>视频是链条产物：定位 → 脚本 → 风格 → 素材 → 成片，每一级都建立在上一级之上</td><td>第一步偏了 5°，后面每一级都在这个偏差上继续放大——到成片时已经偏出 40°。越早拦截越便宜</td></tr>
+    <tr><td><strong>② 长提示词注意力漂移</strong></td><td>一次性塞 2000 字约束，模型往往只抓住开头和结尾，中间的约束最容易丢</td><td>「受众是开发者」「不要营销腔」这类中段要求被静默忽略，你还以为它听到了</td></tr>
+    <tr><td><strong>③ 生成便宜，定稿贵</strong></td><td>出草稿是 AI 的事，又快又便宜；确认方向是人的事，慢但只做一次</td><td>正确姿势是<strong>多出草稿、人来做选择、选定后再精修</strong>——而不是让 AI 一次猜中你要什么</td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 核心原则</span>
+    <strong>每一级的验证成本，要和下游返工成本成正比。</strong>下游返工越贵，这一级越值得停下来仔细确认；下游改起来只要几分钟的，就不要设闸硬停。这正是第 6 章「闸门设在下游返工成本 &gt; 评审成本处」的执行版——渐进不是「步骤越多越好」，是把确认的力气花在刀刃上。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">7.2</span>六轮五闸：完整渐进流程</h2>
+  <p>把第 5、6 章的流程和闸门展开成逐轮操作，就是下面这张表。每一轮的产物都<strong>小而可决策</strong>，闸（⛔）是人工确认点，过闸前不进下一轮：</p>
+  <table>
+    <tr><th>轮</th><th>产物</th><th>闸</th><th>这一轮的要点</th></tr>
+    <tr><td class="mono">0</td><td><strong>内容来源</strong>：调研报告 / 定稿文章</td><td>—</td><td>脚本的唯一事实出处。没有地基不动笔，别让 agent 从一句主题里现编</td></tr>
+    <tr><td class="mono">1</td><td><strong>定位</strong>：选题 / 钩子 / 受众 / 时长</td><td class="mono">⛔ G1</td><td>10 分钟确认，写进脚本文件头；之后的每一轮都把它贴回提示词</td></tr>
+    <tr><td class="mono">2</td><td><strong>一份视频脚本</strong></td><td class="mono">⛔ G2 → ⛔ G3</td><td>先只起草口播栏，按「读出来顺不顺」审（⛔G2）；锁定后再补画面栏，逐镜画面＋<strong>素材来源类型标注</strong>（⛔G3）（第 5 章）</td></tr>
+    <tr><td class="mono">3</td><td><strong>视觉风格方向</strong></td><td>人挑选</td><td>让 agent 出 <strong>2–3 个风格方向</strong>（配色 / 字体 / 版式小样），人做选择题；选定的那套写进设计契约，后面所有镜头引用它</td></tr>
+    <tr><td class="mono">4</td><td><strong>关键帧预览</strong></td><td class="mono">⛔ G3.5</td><td>素材开工前先看关键帧——但<strong>按素材类型分级施用</strong>，不是每镜都审（见 7.4）</td></tr>
+    <tr><td class="mono">5</td><td><strong>并行生产 ＋ 低成本草稿片</strong></td><td class="mono">⛔ G4 / G4a</td><td>TTS 最先（音频先行，第 5 章）；先出低分辨率草稿片审节奏与事实（⛔G4）；片段之间的组合衔接单独确认（G4a，见第 8 章）</td></tr>
+    <tr><td class="mono">6</td><td><strong>高质量终稿</strong></td><td class="mono">⛔ G5</td><td>分辨率、调色、字幕规范这些「贵」的要求<strong>只在终稿轮追加</strong>——草稿轮提它们纯属浪费</td></tr>
+  </table>
+  <div class="callout trap">
+    <span class="tag">⚠️ 别把渐进理解成「每次只发一句短提示词」</span>
+    渐进拆的是<strong>决策点</strong>，不是字数。第 2 轮起草口播栏时提示词可以很长——长在该轮的上下文和约束上，而不是长在「顺便把后面六轮的要求也说了」。每轮只携带：已确认的决定 ＋ 当前这一步的要求。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">7.3</span>演示：一把梭 vs 渐进 · 偏差复利模拟器</h2>
+  <div class="demo">
+    <div class="demo-title">一个初始偏差，两种推进方式，成片差多少</div>
+    <div class="demo-note">拖动「初始方向偏差」和「链条级数」。红线（一把梭）的偏差逐级复利放大；青线（渐进式）每到一道闸（琥珀虚线）就被人工纠正回落，呈锯齿形。链条越长，两者差距越夸张。</div>
+    <div class="ctl">
+      <label>初始方向偏差 <input type="range" id="d1-bias" min="1" max="15" value="6" step="1"><output id="d1-bias-o">6°</output></label>
+      <label>链条级数 <input type="range" id="d1-levels" min="4" max="12" value="9" step="1"><output id="d1-levels-o">9 级</output></label>
+    </div>
+    <div class="preset-row">
+      <button class="chip" data-b="2">小偏差 2°（措辞不准）</button>
+      <button class="chip" data-b="6">中等 6°（理解偏了）</button>
+      <button class="chip" data-b="13">立意就错了 13°</button>
+    </div>
+    <canvas class="diagram" id="d1-canvas" width="880" height="340"></canvas>
+    <div class="readout">
+      <span class="badge bad" id="d1-ro1">一把梭成片偏差：—</span>
+      <span class="badge good" id="d1-ro2">渐进式成片偏差：—</span>
+      <span class="badge warn" id="d1-ro3">返工成本对比：—</span>
+      <span class="badge info" id="d1-ro4">—</span>
+    </div>
+  </div>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    注意渐进式的青线<strong>不是不回弹</strong>——每道闸都有评审时间成本（第 6 章的停顿成本），而且闸只能把偏差压小、压不到零。所以渐进式的前提是「初始偏差别太大」：立意层面的错误（预设里那个 13°）再多闸也救不回来，它必须在 G1 就被拦下。这也是六轮流程里 G1 最便宜却最不可跳过的原因。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">7.4</span>关键帧预览闸（G3.5）：按素材类型分级施用</h2>
+  <p>第 4 轮的「关键帧预览」是本章新增的闸：素材正式开工前，先让 agent 出关键帧图确认画面方向。但它<strong>绝不能一刀切</strong>——不同素材类型的「改稿成本」差着数量级，预览强度必须分级：</p>
+  <table>
+    <tr><th>素材类型</th><th>预览强度</th><th>审什么</th><th>成本理由</th></tr>
+    <tr><td><strong>AI 生成视频</strong></td><td class="mono">★★★ 最强</td><td>首帧＋尾帧＋中间关键帧全审：主体一致性、有没有乱码文字、构图是否符合画面栏</td><td>按次计费，改稿＝重做一条；确认后的关键帧图直接作为生成的<strong>首/尾帧条件</strong>，不是审完就扔</td></tr>
+    <tr><td><strong>数字人</strong></td><td class="mono">★★☆ 强</td><td>人物形象定妆图＋场景设定图</td><td>形象定了渲染只是照做，但重渲染仍要排队计费</td></tr>
+    <tr><td><strong>纯代码 MG</strong></td><td class="mono">★☆☆ 弱</td><td>线框 / 分镜结构扫一眼即可</td><td>确定性产出、可以 diff（对比两版代码差异），改参数重渲只要几分钟</td></tr>
+    <tr><td><strong>静帧＋运镜</strong></td><td class="mono">★☆☆ 弱</td><td>素材图本身就是草图，标出运镜的起点框和终点框</td><td>素材即草图，运镜路径改起来便宜</td></tr>
+    <tr><td><strong>实拍 / 录屏</strong></td><td class="mono">— 无草图可审</td><td>闸前移到<strong>操作步骤确认</strong>：开录之前对一遍步骤清单</td><td>真实世界没有关键帧，录错只能重录，所以确认设在「录之前」</td></tr>
+  </table>
+  <div class="callout trap">
+    <span class="tag">⚠️ 闸门太多等于没有闸门</span>
+    不分级施用的下场是<strong>审批疲劳</strong>：每镜都弹确认，人审到第十镜就开始无脑点「满意」——闸门形同虚设，还不如不设。把最严格的审留给最贵的素材（AI 生成视频），便宜的素材用软闸门批量过（联络表拼图一次过完，第 6 章）。
+  </div>
+  <div class="demo">
+    <div class="demo-title">这道预览闸该多严？</div>
+    <div class="demo-note">点按镜头类型，看对应的分级结论：预览强度、该审什么、一句成本理由。对照上表记忆——核心是「改稿成本决定预览强度」。</div>
+    <div class="preset-row" id="d2-chips">
+      <button class="chip" data-k="aiv">AI 生成视频</button>
+      <button class="chip" data-k="avatar">数字人</button>
+      <button class="chip" data-k="mg">纯代码 MG</button>
+      <button class="chip" data-k="still">静帧＋运镜</button>
+      <button class="chip" data-k="rec">实拍 / 录屏</button>
+    </div>
+    <div class="pdetail" id="d2-panel" style="margin-top:12px"></div>
+    <div class="readout">
+      <span class="badge info" id="d2-ro1">预览强度：—</span>
+      <span class="badge warn" id="d2-ro2">闸的位置：—</span>
+    </div>
+  </div>
+  <div class="callout intuition">
+    <span class="tag">💡 关键帧不是一次性消耗品</span>
+    确认通过的关键帧图有两个后续用途：作为图生视频（I2V）的<strong>首帧 / 尾帧条件</strong>直接喂给生成模型，以及作为跨镜头一致性的<strong>参考锚点</strong>（人物换脸、风格漂移时就拿它对齐，第 6 章坑 #04）。审过的每一张图都进素材库，别审完就扔。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">7.5</span>渐进提示词四要点</h2>
+  <p>分轮只是框架，每轮的提示词写法决定它落不落地。四条要点：</p>
+  <table>
+    <tr><th>要点</th><th>写法</th><th>反面教材</th></tr>
+    <tr><td><strong>① 携带「已确认的决定」</strong></td><td>每轮提示词开头贴定稿清单：「已定稿勿改：定位＝…；口播栏第 2 段＝…；风格契约＝…」</td><td>不贴——模型没有记忆边界，会把上一轮定稿的东西「顺手优化」掉</td></tr>
+    <tr><td><strong>② 限定当前只做哪一步</strong></td><td>「这一轮<strong>先只出大纲</strong>，不要写正文」「只改第 4 镜的画面描述」</td><td>「把脚本完善一下」——它会连口播栏一起重写，G2 白过</td></tr>
+    <tr><td><strong>③ 卡点产物要可决策</strong></td><td>「给我 3 个风格方向，各配一句取舍说明」——人做<strong>选择题</strong></td><td>「给我个风格方案」——人被迫做审稿人，逐句批改比自己做还累</td></tr>
+    <tr><td><strong>④ 质量约束最后才加</strong></td><td>分辨率、调色、字幕规范只进第 6 轮终稿提示词</td><td>草稿轮就要 4K＋调色——每一轮迭代都在为最终才需要的质量付费</td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 一句话记住</span>
+    渐进式 = <strong>把「做视频」从一次开卷考试，改成六轮有标准答案的小测验</strong>。每轮你都知道该检查什么、错了改哪里——这就是可以直接照喊的操作法。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">7.6</span>六轮提示词模板：可直接拷贝</h2>
+  <p>把上面所有要点落成可以直接发给 agent 的话，<strong>每一段对应第 5 章完整工作流（5.3）的一环</strong>——从脚本的三栏结构、TTS 时长回填，到 ducking 混音、分发物料，都写进了模板。<strong>【】里换成你自己的内容</strong>，每轮只发对应那一段——注意每段开头都贴了「已定稿勿改」，这是防漂移的关键（要点①）。</p>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 1 · 定位（⛔ G1：选题 / 钩子 / 受众 / 时长）</span><button class="copy-btn">复制</button></div>
+    <pre>你是短视频策划。基于下面这份内容来源，这一轮只做定位，不要写脚本。
+请输出：选题角度、开头 3 秒钩子、目标受众、目标时长，每项给我 2 个候选并各附一句取舍说明，我来选。
+确认后的定位会写进脚本文件头，之后每一轮都把它贴回给你。
+
+【粘贴内容来源：调研报告 / 定稿文章——脚本的事实出处】</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 2 上半 · 视频脚本之口播栏（⛔ G2：先只填口播）</span><button class="copy-btn">复制</button></div>
+    <pre>已定稿勿改：选题＝【…】；钩子＝【…】；受众＝【…】；目标时长＝【…】。
+脚本是一份文档、分段写，每段固定三栏：【画面】【口播】【备注】。
+这一轮只填【口播】栏，【画面】和【备注】留空，不要提前写。
+要求：口语化、短句、一句一个信息点、读出来顺；
+全文读完落在目标时长 ±10%；每段末尾标注预估秒数。
+（脚本是全片最贵的产物，约花 30% 精力——可以分几次给我，不要一次硬出全文。）</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 2 下半 · 画面栏＝逐镜分镜表（⛔ G3：口播锁定后补画面）</span><button class="copy-btn">复制</button></div>
+    <pre>已定稿勿改：脚本的【口播】栏全文如下，一字不改。
+【粘贴锁定后的脚本】
+这一轮为每段补【画面】栏和【备注】栏，形成逐镜分镜表：
+· 【画面】：逐镜画面描述 ＋ 素材来源类型标注
+  （实拍 / 录屏 / 静帧运镜 / 纯代码 MG / 数据可视化 / AI 视频 / 数字人）——
+  来源标注直接决定成本和工期，每镜必填；
+· 【备注】：该镜的转场意向、强调词、类比锚点、与上下镜的衔接关系。
+不要动【口播】栏的任何文字。</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 3 · 视觉风格方向（人做选择题）</span><button class="copy-btn">复制</button></div>
+    <pre>已定稿勿改：【粘贴定位 ＋ 脚本要点】。
+给我 3 个视觉风格方向，各含：配色（给具体色值）、字体、版式小样描述、
+字幕样式与章节卡样式、一句取舍说明（适合什么、牺牲什么）。我来选，不要替我定。
+选定的那套会写成风格契约，后面所有镜头引用它。</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 4 · 关键帧预览（⛔ G3.5：按素材类型分级）</span><button class="copy-btn">复制</button></div>
+    <pre>已定稿勿改：风格契约＝【粘贴选定的风格方向】。
+先不要生成视频。按分镜表为以下镜头各出 1 张关键帧图：【镜头编号列表】。
+要求：严格套用风格契约；每张图附一句「这一帧要验证什么」，方便我审。
+（实拍 / 录屏镜头没有草图可审，改为输出开录前的操作步骤清单。）</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 5 上半 · TTS 口播＋时长同步（音频先行）</span><button class="copy-btn">复制</button></div>
+    <pre>已定稿勿改：脚本＝【…】（口播栏已锁定）。
+先合成全部 TTS 口播，拿到每句真实时长＋词级时间戳；
+把真实时长回填进脚本对应段，画面时长按配音反向适配——
+回填之后脚本时长不再手改，一切以真实语音为准。
+（音乐 / 音效可以并行开始准备，但混音到组装阶段再做。）</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 5 下半 · 并行生产＋组装＋草稿片（⛔ G4 / G4a）</span><button class="copy-btn">复制</button></div>
+    <pre>已定稿勿改：脚本＝【…】（含回填后的真实时长）；风格契约＝【…】；已审关键帧＝【…】。
+按【画面】栏的来源标注逐镜生产素材，然后组装：转场 → 字幕 → 混音
+（混音做 ducking——人声压过 BGM——与音量标准化）。
+先出低成本草稿片：低分辨率、不调色——只用于审节奏、信息密度、事实正确。
+另出一段 15 秒衔接小样：挑 3 处切镜点，验证转场方式与配音连续性（组合衔接单独确认）。</pre>
+  </div>
+
+  <div class="prompt">
+    <div class="prompt-head"><span>轮 6 · 高质量终稿＋分发物料（⛔ G5：贵的约束最后加）</span><button class="copy-btn">复制</button></div>
+    <pre>已定稿勿改：草稿片已审通过，叙事结构、口播、节奏不再动。
+这一轮只追加质量约束并出分发物料：
+· 渲染：分辨率【1080p / 4K】、调色【…】、字幕规范【字体 / 位置 / 样式】；
+· 分发物料：封面多尺寸、标题、简介、章节时间轴、多画幅版本（16:9 / 9:16…）。
+只改质量项，不改内容。</pre>
+  </div>
+
+  <div class="callout trap">
+    <span class="tag">⚠️ 模板是骨架，不是咒语</span>
+    直接整套照抄而不填【】，等于又变回「一句主题让 AI 自由发挥」。每段模板里真正起作用的是三样东西：<strong>贴回的定稿、当前这一步的边界、可决策的产物形式</strong>。填得越具体，闸越好过。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  渐进式生成：错误会复利、长提示词会漂移、生成便宜定稿贵，所以<strong>分轮推进、每轮一个可决策的小产物</strong>。六轮五闸：内容来源 → G1 定位 → 脚本（G2 口播栏 / G3 画面栏）→ 风格 2–3 选 1 → <strong>G3.5 关键帧预览（按素材类型分级，AI 生成视频最严、实拍录屏无草图可审）</strong>→ G4 草稿片（组合衔接 G4a 见下一章）→ G5 终稿（贵的约束最后加）。提示词四要点：携带已定稿决定、限定当前步骤、产物出成选择题、质量约束最后加——六轮提示词模板在 7.6，可直接拷贝。下一章解决「单镜都满意、拼起来一顿一顿」的问题——接缝。
+</div>
+
+<div class="mark-done"><button data-done="ch7">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="06-gates.html"><div class="dir">← 上一章</div><div class="t">人工闸门与常见坑</div></a>
+  <a class="next" href="08-transitions.html"><div class="dir">下一章 →</div><div class="t">片段过渡：转场与衔接</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.07 渐进式生成流程</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* ===== Demo 1：一把梭 vs 渐进 · 偏差复利模拟器 =====
+   模型：一把梭 d(i)=d0·1.35^i；渐进式每级同样 ×1.35，
+   但在 5 道闸（x = N·k/6, k=1..5）处被人工纠正 ×0.15，形成锯齿。 */
+(function(){
+  var cv=document.getElementById('d1-canvas'),ctx=cv.getContext('2d');
+  var biasEl=document.getElementById('d1-bias'),lvEl=document.getElementById('d1-levels');
+  var biasO=document.getElementById('d1-bias-o'),lvO=document.getElementById('d1-levels-o');
+  var X0=64,X1=cv.width-26,Y0=cv.height-38,Y1=52;
+  function gates(n){var g=[];for(var k=1;k<6;k++){var x=n*k/6;if(x<n)g.push(x);}return g;}
+  function oneShot(d0,n){var a=[d0];for(var i=1;i<=n;i++)a.push(a[i-1]*1.35);return a;}
+  function prog(d0,n){
+    var a=[d0],g=gates(n),gi=0;
+    for(var i=1;i<=n;i++){
+      var d=a[i-1]*1.35;
+      while(gi<g.length&&i-1<g[gi]&&i>=g[gi]){d*=0.15;gi++;}
+      a.push(d);
+    }
+    return a;
+  }
+  function draw(){
+    var d0=+biasEl.value,n=+lvEl.value;
+    biasO.value=d0+'°';lvO.value=n+' 级';
+    var os=oneShot(d0,n),pg=prog(d0,n);
+    var ymax=Math.max(os[n],pg[n],d0*2)*1.12;
+    function sx(i){return X0+(X1-X0)*i/n;}
+    function sy(v){return Y0-(Y0-Y1)*Math.min(v,ymax)/ymax;}
+    ctx.clearRect(0,0,cv.width,cv.height);
+    ctx.font='12px ui-monospace,Consolas,monospace';
+    // 闸门虚线
+    gates(n).forEach(function(g){
+      ctx.strokeStyle='rgba(246,173,85,.5)';ctx.setLineDash([4,4]);
+      ctx.beginPath();ctx.moveTo(sx(g),Y0);ctx.lineTo(sx(g),Y1+14);ctx.stroke();ctx.setLineDash([]);
+      ctx.fillStyle='#f6ad55';ctx.textAlign='center';
+      ctx.fillText('⛔闸',sx(g),Y1+8);
+    });
+    // 坐标轴
+    ctx.strokeStyle='#2a3244';ctx.beginPath();ctx.moveTo(X0,Y1);ctx.lineTo(X0,Y0);ctx.lineTo(X1,Y0);ctx.stroke();
+    ctx.fillStyle='#9aa3b5';ctx.textAlign='center';
+    ctx.fillText('0',X0,Y0+16);ctx.fillText(n,X1,Y0+16);
+    ctx.fillText('链条级数（定位→脚本→风格→素材→成片…）→',(X0+X1)/2,Y0+30);
+    ctx.textAlign='right';ctx.fillText('偏差°',X0-8,Y1+2);
+    // 两条曲线
+    function curve(arr,color){
+      ctx.strokeStyle=color;ctx.lineWidth=2.2;ctx.beginPath();
+      arr.forEach(function(v,i){var px=sx(i),py=sy(v);if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);});
+      ctx.stroke();ctx.lineWidth=1;
+      ctx.fillStyle=color;
+      arr.forEach(function(v,i){ctx.beginPath();ctx.arc(sx(i),sy(v),2.6,0,7);ctx.fill();});
+    }
+    curve(os,'#fc8181');curve(pg,'#4fd1c5');
+    // 终点标注
+    ctx.textAlign='left';
+    ctx.fillStyle='#fc8181';ctx.fillText(os[n].toFixed(1)+'°',sx(n)-46,sy(os[n])-8);
+    ctx.fillStyle='#4fd1c5';ctx.fillText(pg[n].toFixed(1)+'°',sx(n)-46,Math.min(sy(pg[n])+16,Y0-6));
+    // 图例（画布顶部留白区，避开绘图区与闸线）
+    var lg=[['#fc8181','一把梭：偏差复利放大'],['#4fd1c5','渐进式：闸点纠正回落'],['#f6ad55','⛔ 人工闸门']];
+    var lx=X0+8;
+    lg.forEach(function(L,li){
+      var ly=13+li*17;
+      if(li<2){ctx.strokeStyle=L[0];ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(lx,ly-4);ctx.lineTo(lx+18,ly-4);ctx.stroke();ctx.lineWidth=1;}
+      ctx.fillStyle=L[0];ctx.fillText(L[1],lx+24,ly);
+    });
+    // readout
+    var osH=os[n]*0.9,pgH=5*0.5+pg[n]*0.9; // 返工估算（h）：闸的评审时间 + 残余偏差修复
+    document.getElementById('d1-ro1').textContent='一把梭成片偏差：'+os[n].toFixed(1)+'°';
+    document.getElementById('d1-ro2').textContent='渐进式成片偏差：'+pg[n].toFixed(1)+'°';
+    document.getElementById('d1-ro3').textContent='返工估算：一把梭 ≈'+osH.toFixed(1)+'h vs 渐进 ≈'+pgH.toFixed(1)+'h（含 5 次评审）';
+    var ro4=document.getElementById('d1-ro4'),ratio=os[n]/pg[n];
+    if(d0>=12){ro4.textContent='立意层的错误再多闸也救不回——它必须在 G1 就被拦下';ro4.className='badge bad';}
+    else if(ratio>5){ro4.textContent='同一初始偏差，一把梭成片偏差是渐进式的 '+ratio.toFixed(1)+' 倍';ro4.className='badge warn';}
+    else{ro4.textContent='偏差小时差距不大——但你无法预知偏差会出在哪一级';ro4.className='badge info';}
+  }
+  biasEl.addEventListener('input',draw);lvEl.addEventListener('input',draw);
+  document.querySelectorAll('.chip[data-b]').forEach(function(b){
+    b.addEventListener('click',function(){biasEl.value=b.getAttribute('data-b');draw();});
+  });
+  draw();
+})();
+
+/* ===== Demo 2：这道预览闸该多严？（分级施用点按） ===== */
+(function(){
+  var DATA={
+    aiv:{name:'AI 生成视频',stars:'★★★ 最强',cls:'bad',gate:'素材开工前 · 逐镜',what:'首帧＋尾帧＋中间关键帧<strong>全审</strong>：主体一致性、有没有乱码文字、构图是否符合脚本画面栏。确认后的关键帧图直接作为生成的首/尾帧条件。',why:'按次计费，改稿＝重做一条——下游最贵的素材，值得最严的审。'},
+    avatar:{name:'数字人',stars:'★★☆ 强',cls:'warn',gate:'素材开工前 · 批量化',what:'审<strong>人物形象定妆图＋场景设定图</strong>：脸对不对、服装场景是否贴题。',why:'形象定了渲染只是照做，但重渲染仍要排队计费——审图一分钟，重渲半小时。'},
+    mg:{name:'纯代码 MG',stars:'★☆☆ 弱',cls:'good',gate:'线框扫一眼 · 可软闸门',what:'线框 / 分镜结构看一眼即可，不必逐帧审。',why:'确定性产出、可以 diff（对比两版差异），改参数重渲只要几分钟——审太细纯属浪费。'},
+    still:{name:'静帧＋运镜',stars:'★☆☆ 弱',cls:'good',gate:'素材图即草图',what:'素材图本身就是草图，只需确认图上标出的运镜<strong>起点框与终点框</strong>。',why:'素材即草图，运镜路径改起来便宜，无需独立预览环节。'},
+    rec:{name:'实拍 / 录屏',stars:'— 无草图可审',cls:'info',gate:'前移到「操作步骤确认」',what:'真实世界没有关键帧。闸设在<strong>开录之前</strong>：把操作步骤清单对一遍，确认环境、数据、路径都就位。',why:'录错只能重录——确认必须在「录之前」，而不是录之后。'}
+  };
+  var panel=document.getElementById('d2-panel');
+  var ro1=document.getElementById('d2-ro1'),ro2=document.getElementById('d2-ro2');
+  function show(k){
+    var d=DATA[k];
+    panel.innerHTML='<h4>'+d.name+' · 预览强度 '+d.stars+'</h4>'
+      +'<div class="kv"><b>该审什么</b><span>'+d.what+'</span></div>'
+      +'<div class="kv"><b>成本理由</b><span>'+d.why+'</span></div>';
+    ro1.textContent='预览强度：'+d.stars;ro1.className='badge '+d.cls;
+    ro2.textContent='闸的位置：'+d.gate;
+  }
+  document.querySelectorAll('#d2-chips .chip').forEach(function(b){
+    b.addEventListener('click',function(){show(b.getAttribute('data-k'));});
+  });
+  show('aiv');
+})();
+
+/* ===== 提示词模板复制按钮 ===== */
+document.querySelectorAll('.prompt').forEach(function(p){
+  var btn=p.querySelector('.copy-btn'),pre=p.querySelector('pre');
+  btn.addEventListener('click',function(){
+    var t=pre.textContent;
+    function done(){btn.textContent='已复制 ✓';btn.classList.add('ok');
+      setTimeout(function(){btn.textContent='复制';btn.classList.remove('ok');},1500);}
+    function fallback(){
+      var ta=document.createElement('textarea');ta.value=t;
+      ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();
+      try{document.execCommand('copy');done();}catch(e){btn.textContent='复制失败';}
+      document.body.removeChild(ta);
+    }
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(done,fallback);
+    }else fallback();
+  });
+});
+</script>
+</body>
+</html>

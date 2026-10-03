@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 9 章 · 素材成本决策 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl active" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 2 · CHAPTER 09</span>
+  <h1>素材成本决策：生成是最贵的来源</h1>
+  <p class="hook">痛点钩子：「这个镜头用 AI 生成一下吧」——每说一次这句话，成本表就跳一格。AI 生成视频按次计费，<strong>重试是主成本</strong>。一条 4 分钟的科普片，90% 的画面本可以不花一分钱生成费。</p>
+</header>
+
+<section>
+  <h2><span class="sec">9.1</span>来源决策表：加上「AI 参与方式」这一维</h2>
+  <p>几乎所有来源都可以交给 AI 完成——但「AI 参与」有两种成本结构完全不同的方式：<strong>AI 写代码</strong>（MG、数据可视化、运镜：确定性产出、可 diff、重试几乎免费）和<strong>AI 生像素</strong>（AI 视频、数字人、AI 生图：有随机性、按次计费、重试是主成本）。都靠 AI，<strong>不改变这张表的结论</strong>——便宜的依然便宜，贵的依然贵。</p>
+  <table>
+    <tr><th>来源</th><th>AI 参与方式</th><th>相对成本</th><th>修改成本</th><th>适合</th></tr>
+    <tr><td>实拍 / 录屏</td><td><span class="badge good">录屏可自动</span> agent 代操作软件自己录；实拍不行，真实性不可替代</td><td><span class="badge good">极低</span></td><td>低</td><td>口播、教程、产品演示</td></tr>
+    <tr><td>静帧＋运镜</td><td>AI 生图＋代码运镜</td><td><span class="badge good">极低</span></td><td>极低</td><td>补充画面、图集</td></tr>
+    <tr><td>纯代码 MG</td><td><span class="badge info">AI 写代码</span> 确定性产出，可 diff</td><td><span class="badge good">低</span>（写好可复用）</td><td>极低（改代码）</td><td>图解、数据、章节卡</td></tr>
+    <tr><td>数字人</td><td><span class="badge bad">AI 生像素</span></td><td><span class="badge warn">中</span></td><td>中（改稿常要重做）</td><td>口播替代、批量本地化</td></tr>
+    <tr><td>AI 生成视频</td><td><span class="badge bad">AI 生像素</span> 按次＋重试</td><td><span class="badge bad">高</span></td><td><span class="badge bad">高</span></td><td><strong>只给无法实拍 / 图形表达的镜头</strong></td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 一句话直觉</span>
+    把「生成」当默认动作，就像写代码时把「调外部付费 API」当默认实现——能本地算的绝不该发包。关键不是「用没用 AI」，而是 <strong>AI 以哪种方式参与</strong>：写代码的 AI 越用越便宜（产出可复用），生像素的 AI 越用越贵（每次都要重新掷骰子）。
+  </div>
+  <div class="callout trap">
+    <span class="tag">⚠️ 实拍是唯一的例外</span>
+    录屏可以全自动——agent 能替你操作软件、自己录；<strong>实拍不行</strong>。AI 视频只能伪造「实拍感」，而观众信的就是真实发生的画面。需要「这事真的发生了」的镜头（产品在手里的样子、真实操作过程），不要用生成糊弄。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">9.2</span>演示：一条片的成本构成</h2>
+  <div class="demo">
+    <div class="demo-title">成本决策器 · 给一条 4 分钟科普片配料</div>
+    <div class="demo-note">用 ＋/− 给每种来源分配镜头数（共约 20 镜）。注意每类来源上的标签——<b style="color:var(--accent)">AI 写代码</b>（青）、<b style="color:var(--bad)">AI 生像素</b>（红）、<b style="color:var(--good)">录屏可自动</b>（绿）：同样的镜头数，成本结构天差地别。再点「全用 AI 生成」预设对比量级。</div>
+    <div class="preset-row">
+      <button class="chip" id="d7-preset-rec">★ 推荐配置</button>
+      <button class="chip" id="d7-preset-allai">全用 AI 生成（反面教材）</button>
+      <button class="chip" id="d7-preset-zero">清零</button>
+    </div>
+    <div id="d7-rows"></div>
+    <canvas class="diagram" id="d7-canvas" width="880" height="120"></canvas>
+    <div class="readout">
+      <span class="badge info" id="d7-ro1">总镜头：—</span>
+      <span class="badge warn" id="d7-ro2">相对总成本：—</span>
+      <span class="badge good" id="d7-ro3">vs 全 AI：—</span>
+      <span class="badge bad" id="d7-ro4">生像素镜头：—</span>
+    </div>
+  </div>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层：重试才是主成本</span>
+    AI 生像素标价按次/按秒，但真实账单由<strong>重试次数</strong>决定。成本工程的四个杠杆：先 draft 质量后 high 质量；同 prompt 缓存不重跑；设预算护栏；无依赖任务并发、有依赖的同序列镜头一次只提交一个。而 AI 写代码那一侧，「重试」几乎免费——改一行代码重新渲染就行。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">9.3</span>决策规则</h2>
+  <ol>
+    <li><strong>能录屏不生成</strong>：软件演示、代码、网页——录屏永远更准更便宜，而且可以全自动（agent 代操作软件自己录，OBS / 无头浏览器脚本化）。</li>
+    <li><strong>能图形不实拍</strong>：概念、数据、结构——代码 MG 和数据可视化是「AI 写代码」的主场，确定性产出、可 diff、改稿只改代码。</li>
+    <li><strong>AI 生像素只给「实拍感」镜头</strong>：真正需要真实世界质感、又拍不到的镜头才用 T2V/I2V，一条 4 分钟片通常两三处。</li>
+    <li><strong>把来源写进分镜表</strong>：每镜一个显式「素材来源」字段——它直接决定成本与工期，在分镜阶段就能算出来。</li>
+  </ol>
+  <div class="callout intuition">
+    <span class="tag">💡 你的结构性优势</span>
+    教学/科普/产品宣传的高频组合——<strong>录屏＋MG＋数据可视化＋静帧运镜＋少量 AI 视频（氛围 B-roll）</strong>——恰好是代码＋agent 覆盖最好的一片。这是开发者相对传统创作者的结构性优势：你最擅长的方式，恰好是最便宜的方式。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  素材来源是成本的第一变量。「AI 参与」分两种成本结构：AI 写代码（确定性、可 diff、重试近乎免费）与 AI 生像素（有随机性、按次计费、重试是主成本）；录屏可全自动，实拍的真实性不可替代。一条 4 分钟科普片 90% 画面可以是代码 MG＋静帧＋录屏。下一章看：这些素材分别在哪个工具里生产与组装。
+</div>
+
+<div class="mark-done"><button data-done="ch9">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="08-transitions.html"><div class="dir">← 上一章</div><div class="t">片段过渡：转场与衔接</div></a>
+  <a class="next" href="10-tools.html"><div class="dir">下一章 →</div><div class="t">工具格局：剪映 / ChatCut / HyperFrames</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.09 素材成本决策</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* 成本决策器：镜头数 × 相对成本（以「录屏 1 镜」为 1 单位），按 AI 参与方式打标 */
+(function(){
+  var TYPES=[
+    {id:'footage',name:'已有实拍素材',cost:1,note:'口播/访谈',color:'#48bb78',tag:'人工实拍 · 不可替代',tagc:'#9aa3b5',pixel:false},
+    {id:'screen',name:'录屏',cost:1,note:'教程/产品演示',color:'#48bb78',tag:'录屏可自动',tagc:'#48bb78',pixel:false},
+    {id:'still',name:'静帧+运镜',cost:1,note:'补充画面',color:'#68d391',tag:'AI 生图＋代码运镜',tagc:'#4fd1c5',pixel:false},
+    {id:'mg',name:'纯代码 MG',cost:3,note:'图解/章节卡',color:'#4fd1c5',tag:'AI 写代码',tagc:'#4fd1c5',pixel:false},
+    {id:'dataviz',name:'数据可视化',cost:3,note:'动态图表',color:'#4fd1c5',tag:'AI 写代码',tagc:'#4fd1c5',pixel:false},
+    {id:'d3',name:'三维渲染',cost:15,note:'产品/科学可视化',color:'#f6ad55',tag:'AI 写代码',tagc:'#4fd1c5',pixel:false},
+    {id:'avatar',name:'数字人',cost:10,note:'口播替代',color:'#ed8936',tag:'AI 生像素',tagc:'#fc8181',pixel:true},
+    {id:'i2v',name:'AI 图生视频',cost:25,note:'实拍感镜头(可控)',color:'#fc8181',tag:'AI 生像素 · 按次＋重试',tagc:'#fc8181',pixel:true},
+    {id:'t2v',name:'AI 文生视频',cost:30,note:'实拍感镜头(直接)',color:'#fc8181',tag:'AI 生像素 · 按次＋重试',tagc:'#fc8181',pixel:true}
+  ];
+  var counts={};
+  var rows=document.getElementById('d7-rows');
+  TYPES.forEach(function(t){
+    counts[t.id]=0;
+    var div=document.createElement('div');
+    div.style.cssText='display:flex;align-items:center;gap:10px;margin:8px 0;flex-wrap:wrap';
+    div.innerHTML='<span style="min-width:250px;flex:1">'
+      +'<i style="display:inline-block;width:10px;height:10px;border-radius:3px;background:'+t.color+';margin-right:7px"></i>'
+      +t.name+' <span class="muted" style="font-size:12px">'+t.note+'</span> '
+      +'<span class="mtag" style="color:'+t.tagc+';border-color:'+t.tagc+'55">'+t.tag+'</span></span>'
+      +'<button class="chip" data-a="-1" style="padding:2px 11px">−</button>'
+      +'<output id="d7-n-'+t.id+'" style="min-width:64px;text-align:center">0 镜</output>'
+      +'<button class="chip" data-a="1" style="padding:2px 11px">＋</button>'
+      +'<span class="muted mono" style="font-size:12.5px">× '+t.cost+' /镜</span>';
+    div.querySelectorAll('button').forEach(function(b){
+      b.addEventListener('click',function(){
+        counts[t.id]=Math.max(0,Math.min(20,counts[t.id]+ +b.getAttribute('data-a')));
+        render();
+      });
+    });
+    rows.appendChild(div);
+  });
+  var cv=document.getElementById('d7-canvas'),ctx=cv.getContext('2d');
+  function render(){
+    var total=0,cost=0,pixel=0;
+    TYPES.forEach(function(t){
+      document.getElementById('d7-n-'+t.id).value=counts[t.id]+' 镜';
+      total+=counts[t.id];cost+=counts[t.id]*t.cost;
+      if(t.pixel)pixel+=counts[t.id];
+    });
+    // 堆叠条
+    ctx.clearRect(0,0,cv.width,cv.height);
+    var x=10,W=cv.width-20,y=30,h=44;
+    ctx.fillStyle='#0d1117';ctx.fillRect(0,0,cv.width,cv.height);
+    if(cost>0){
+      TYPES.forEach(function(t){
+        var c=counts[t.id]*t.cost;if(!c)return;
+        var w=W*c/cost;
+        ctx.fillStyle=t.color;ctx.fillRect(x,y,w,h);
+        if(w>60){ctx.fillStyle='#0d1117';ctx.font='12px ui-monospace,Consolas,monospace';ctx.textAlign='center';ctx.fillText(t.name+' '+c,x+w/2,y+h/2+4);}
+        x+=w;
+      });
+    }else{
+      ctx.fillStyle='#9aa3b5';ctx.font='13px sans-serif';ctx.textAlign='center';
+      ctx.fillText('给上方任意来源加几个镜头，这里出现成本构成条',cv.width/2,y+h/2+4);
+    }
+    ctx.strokeStyle='#2a3244';ctx.strokeRect(10,y,W,h);
+    // readout
+    document.getElementById('d7-ro1').textContent='总镜头：'+total+' 镜';
+    document.getElementById('d7-ro2').textContent='相对总成本：'+cost+' 单位';
+    var allAI=total*30;
+    var ro3=document.getElementById('d7-ro3');
+    if(total>0){
+      var save=Math.round((1-cost/allAI)*100);
+      ro3.textContent=save>=0?('vs 全 AI 生成（'+allAI+'）：省 '+save+'%'):('比全 AI 还贵 '+(0-save)+'%？检查配置');
+      ro3.className='badge '+(save>=80?'good':save>=40?'info':save>=0?'warn':'bad');
+    }else ro3.textContent='vs 全 AI：—';
+    var ro4=document.getElementById('d7-ro4');
+    ro4.textContent='生像素镜头：'+pixel+' 镜 · '+(pixel===0?'无重试风险':pixel<=3?'重试敏感（可控）':'重试成本将主导账单');
+    ro4.className='badge '+(pixel===0?'good':pixel<=3?'warn':'bad');
+  }
+  function setAll(map){TYPES.forEach(function(t){counts[t.id]=map[t.id]||0});render();}
+  document.getElementById('d7-preset-rec').addEventListener('click',function(){
+    setAll({screen:4,still:3,mg:8,dataviz:3,i2v:2});
+  });
+  document.getElementById('d7-preset-allai').addEventListener('click',function(){
+    setAll({t2v:20});
+  });
+  document.getElementById('d7-preset-zero').addEventListener('click',function(){setAll({})});
+  setAll({screen:4,still:3,mg:8,dataviz:3,i2v:2});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 6 章 · 人工闸门与常见坑 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl active" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 2 · CHAPTER 06</span>
+  <h1>人工闸门与常见坑</h1>
+  <p class="hook">痛点钩子：有人追求「一句话进去、成片出来」的全自动流水线。现状是——完全无人值守只能出「能看」的视频，出不了「自己满意」的视频。差别就在闸门上。但闸门设太多，又会把 agent 拖垮：<strong>每次停顿都重置上下文</strong>。</p>
+</header>
+
+<section>
+  <h2><span class="sec">6.1</span>闸门设在哪：一条权衡曲线</h2>
+  <p>原则只有一句：<strong>闸门设在「下游返工成本 &gt; 一次评审时间」的地方</strong>。口播栏定稿要设闸门——口播一改，画面、配音、字幕、时长全废；而单条 MG 镜头的配色微调，就不值得停下整条流水线。</p>
+  <p>但闸门有代价：每次停顿都要打断 agent、<strong>重置上下文</strong>。所以存在一个最优点——太少返工爆炸，太多停顿拖垮。亲手拖出来看：</p>
+  <div class="demo">
+    <div class="demo-title">闸门数量 · 总成本 U 形曲线</div>
+    <div class="demo-note">拖动「人工闸门数」：绿线（返工期望成本）下降，琥珀线（停顿+上下文重置成本）上升，白线（总成本）呈 U 形。注意阴影区——推荐的 G1–G4 四个必设闸门，正落在谷底附近。</div>
+    <div class="ctl">
+      <label>人工闸门数 <input type="range" id="d3-gates" min="0" max="8" value="4" step="1"><output id="d3-gates-o">4 个</output></label>
+    </div>
+    <div class="preset-row">
+      <button class="chip" data-g="0">全自动派（0 闸门）</button>
+      <button class="chip" data-g="4">推荐配置（G1–G4）</button>
+      <button class="chip" data-g="8">过度评审（8 闸门）</button>
+    </div>
+    <canvas class="diagram" id="d3-canvas" width="880" height="340"></canvas>
+    <div class="readout">
+      <span class="badge good" id="d3-ro1">返工成本：—</span>
+      <span class="badge warn" id="d3-ro2">停顿成本：—</span>
+      <span class="badge info" id="d3-ro3">总成本：—</span>
+    </div>
+  </div>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    曲线只是示意（单位是「相对成本」），但形状是真实的：返工成本随闸门指数下降（越早拦截越便宜），停顿成本随闸门超线性上升（上下文重置有固定开销——agent 每次被叫停都要重新装载脚本、素材清单、做到哪一步）。<strong>最优解几乎从不在端点</strong>——「全自动」和「步步确认」一样贵。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">6.2</span>G1–G4：四个硬闸门逐闸讲</h2>
+  <table>
+    <tr><th>闸门</th><th>设在哪</th><th>审什么</th><th>为什么在这</th></tr>
+    <tr><td class="mono">G1</td><td><strong>定位</strong>（选题 / 钩子 / 受众 / 时长）</td><td>这个选题值不值得做？钩子能不能留住人前 15 秒？</td><td>10 分钟确认，省掉整条视频白做——越上游的错越贵</td></tr>
+    <tr><td class="mono">G2</td><td><strong>口播栏定稿</strong></td><td>按「读出来顺不顺」逐段审口播，不是「看起来对不对」</td><td>口播一改，画面、配音、字幕、时长<strong>全废</strong>——下游返工成本最高的点，所以先锁这一栏</td></tr>
+    <tr><td class="mono">G3</td><td><strong>画面栏草图</strong>（口播锁定后）</td><td>在同一份脚本里补逐镜画面＋素材来源，几分钟铺线框看结构</td><td>口播已锁定，补画面不再动叙事；一眼看出哪镜素材决策有问题</td></tr>
+    <tr><td class="mono">G4</td><td><strong>渲染前终审</strong></td><td>节奏、信息密度、AI 失真与事实准确性</td><td>渲染是最贵的一步，只在这个点问「要不要渲染」</td></tr>
+  </table>
+  <p><strong>软闸门</strong>（不停顿，但要有自动检查）：TTS 试听校对、把关键帧截图拼成一张联络表（<strong>contact sheet</strong>）一次性批量过、lint/check 自动门禁。视觉检查一定要<strong>批量化</strong>——逐帧单看既慢又贵，而且 agent 中途查看一张图片可能作废整个 prompt 缓存。</p>
+  <div class="callout trap">
+    <span class="tag">⚠️ 两个方向都会翻车</span>
+    闸门太少：完全无人值守在当前模型水平下出不了「满意」的视频。闸门太密：<strong>每次停顿都重置上下文</strong>，agent 被拖垮，人也被评审淹没。G1–G4 是权衡后的谷底，不是信仰——这条结论有保质期，随模型能力变化，<strong>值得每半年重估一次</strong>。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">6.3</span>常见坑清单（按踩中频率排序）</h2>
+  <p class="muted">点击展开每条坑的解法。前两条都与「顺序」有关——这正是第 5 章「先锁口播栏、音频先行」要拆掉的。</p>
+  <details class="pit" open><summary><span class="rank">#01</span><strong>先做画面后配音</strong>（新手第一大坑）</summary><div class="body">音画错位，截断语音或加速播放都毁观感；语音时长不可压缩，预估必然有误差。<br><span class="fix">解法：音频先行——TTS 先出真实时长，画面时长反向适配（第 5 章返工模拟器）。</span></div></details>
+  <details class="pit"><summary><span class="rank">#02</span><strong>没过 G2 就开工</strong>：改一句文案，下游全废</summary><div class="body">口播栏没锁定就做 MG 动画 / 字幕 / 配乐，上游一改全部重做。<br><span class="fix">解法：口播栏设 G2 硬闸门；定稿前下游只许做不依赖时长与文案的工作。</span></div></details>
+  <details class="pit"><summary><span class="rank">#03</span><strong>跳过调研直接让 AI 自由发挥</strong></summary><div class="body">没有调研报告 / 定稿文章当地基，脚本事实没出处，写着写着立场漂移。<br><span class="fix">解法：流程最上游是内容来源——脚本从调研结果里长出来，不是从一句主题里编出来。</span></div></details>
+  <details class="pit"><summary><span class="rank">#04</span><strong>AI 视频跨镜头一致性漂移</strong>（角色换脸、风格漂移）</summary><div class="body">先生成一致性关键帧图，再图生视频（I2V）；固定参考图/种子，建角色资产库。同一问题两次纯文本调参无效就<strong>换参考锚点</strong>，不要盲试第三次。</div></details>
+  <details class="pit"><summary><span class="rank">#05</span><strong>BGM 压人声</strong></summary><div class="body">观众能容忍画面平庸，不能容忍听不清。<br><span class="fix">解法：混音做人声避让（ducking）+ 音量标准化；必做人声隔离/增强。</span></div></details>
+  <details class="pit"><summary><span class="rank">#06</span><strong>AI 编造数据 / 事实</strong></summary><div class="body">AI 生成的图表数字、「看起来像」的 UI 截图是事实性大坑。<br><span class="fix">解法：事实核查是独立工序；涉产品/数据的镜头必须回源验证，G4 终审重点盯。</span></div></details>
+  <details class="pit"><summary><span class="rank">#07</span><strong>TTS 翻车</strong>：多音字、数字读法、英文混排</summary><div class="body">「行长」读成 háng 长、「2026」读法混乱。<br><span class="fix">解法：TTS 后必须试听校对，这是软闸门里最便宜的一道。</span></div></details>
+  <details class="pit"><summary><span class="rank">#08</span><strong>字幕晚做</strong></summary><div class="body">字幕依赖上游词级时间戳，转录质量决定字幕质量。<br><span class="fix">解法：转录在 TTS 环节同步预留（第 5 章）；ASR 专有名词人工过一遍。</span></div></details>
+  <details class="pit"><summary><span class="rank">#09</span><strong>生成成本失控</strong></summary><div class="body">视频生成按次/按秒计费，<strong>重试是主成本</strong>。<br><span class="fix">解法：先 draft 质量后 high 质量；同 prompt 缓存不重跑；设预算护栏；无依赖任务并发、有依赖的同序列镜头一次只提交一个。</span></div></details>
+  <details class="pit"><summary><span class="rank">#10</span><strong>agent 过度工程</strong></summary><div class="body">让 agent 自由发挥，常把简单动效做复杂。<br><span class="fix">解法：给它受控的组件库 / 设计规范（frame.md / design.md）与明确的视觉参考。</span></div></details>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  闸门是权衡不是信仰：设在「下游返工成本 &gt; 评审成本」处，推荐 <strong>G1 定位 / G2 口播栏定稿 / G3 画面栏草图 / G4 渲染前终审</strong>四个硬闸门 + 不停顿的软闸门（TTS 试听、联络表拼图批量过、lint/check）。坑清单前两名都是顺序问题——第 5 章的工作流能直接拆掉。下一章把流程和闸门串成你下次做视频可以直接照喊的渐进式操作法。
+</div>
+
+<div class="mark-done"><button data-done="ch6">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="05-workflow.html"><div class="dir">← 上一章</div><div class="t">修正后的工作流</div></a>
+  <a class="next" href="07-progressive.html"><div class="dir">下一章 →</div><div class="t">渐进式生成流程</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.06 人工闸门与常见坑</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* 闸门数量 → 总成本 U 形曲线
+   模型：返工成本 R(x)=40·e^(-0.8x)；停顿成本 P(x)=0.5x+0.18x²；总成本 T=R+P（相对单位）
+   参数已调至 T 的最小值落在 x=4（推荐配置：G1–G4 四个硬闸门）。 */
+(function(){
+  var cv=document.getElementById('d3-canvas'),ctx=cv.getContext('2d');
+  var g=document.getElementById('d3-gates'),go=document.getElementById('d3-gates-o');
+  function R(x){return 40*Math.exp(-0.8*x)}
+  function P(x){return 0.5*x+0.18*x*x}
+  function T(x){return R(x)+P(x)}
+  var X0=70,X1=cv.width-30,Y0=cv.height-34,Y1=24,MAXY=26;
+  function sx(x){return X0+(X1-X0)*x/8}
+  function sy(v){return Y0-(Y0-Y1)*Math.min(v,MAXY)/MAXY}
+  function curve(fn,color){
+    ctx.beginPath();
+    for(var i=0;i<=160;i++){var x=i/160*8,y=fn(x);var px=sx(x),py=sy(y);if(i===0)ctx.moveTo(px,py);else ctx.lineTo(px,py);}
+    ctx.strokeStyle=color;ctx.lineWidth=2.2;ctx.stroke();ctx.lineWidth=1;
+  }
+  function draw(){
+    var x=+g.value;go.value=x+' 个';
+    ctx.clearRect(0,0,cv.width,cv.height);
+    // 推荐区阴影 3–5
+    ctx.fillStyle='rgba(79,209,197,.07)';
+    ctx.fillRect(sx(3),Y1,sx(5)-sx(3),Y0-Y1);
+    ctx.fillStyle='#4fd1c5';ctx.font='12px ui-monospace,Consolas,monospace';ctx.textAlign='center';
+    ctx.fillText('推荐区 3–5 个硬闸门',sx(4),160);
+    ctx.fillText('G1–G4 落在这里',sx(4),178);
+    // 坐标轴
+    ctx.strokeStyle='#2a3244';ctx.beginPath();ctx.moveTo(X0,Y1);ctx.lineTo(X0,Y0);ctx.lineTo(X1,Y0);ctx.stroke();
+    ctx.fillStyle='#9aa3b5';
+    for(var i=0;i<=8;i++){ctx.fillText(i,sx(i),Y0+16);}
+    ctx.fillText('人工闸门数 →',(X0+X1)/2,Y0+30);
+    ctx.textAlign='right';ctx.fillText('相对成本',X0-8,Y1+4);
+    // 曲线
+    curve(R,'#48bb78');curve(P,'#ed8936');curve(T,'#e6e9f0');
+    // 图例（右上角竖排，色线样本与曲线一一对应）
+    ctx.textAlign='left';
+    var lg=[['#48bb78','返工期望成本'],['#ed8936','停顿＋上下文重置'],['#e6e9f0','总成本']];
+    lg.forEach(function(L,li){
+      var ly=Y1+22+li*18;
+      ctx.strokeStyle=L[0];ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(X1-152,ly-4);ctx.lineTo(X1-134,ly-4);ctx.stroke();ctx.lineWidth=1;
+      ctx.fillStyle=L[0];ctx.fillText(L[1],X1-126,ly);
+    });
+    // 当前点：空心琥珀圆环（与谷底实心点区分）
+    var px=sx(x),py=sy(T(x));
+    ctx.strokeStyle='rgba(230,233,240,.4)';ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(px,Y0);ctx.lineTo(px,py);ctx.stroke();ctx.setLineDash([]);
+    ctx.strokeStyle='#f6ad55';ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(px,py,6,0,7);ctx.stroke();ctx.lineWidth=1;
+    // 最优点标记：青色虚线 + 实心点 + 文字标签
+    var bx=0,bv=1e9;for(i=0;i<=8;i++){if(T(i)<bv){bv=T(i);bx=i;}}
+    ctx.strokeStyle='rgba(79,209,197,.55)';ctx.setLineDash([3,4]);
+    ctx.beginPath();ctx.moveTo(sx(bx),Y0);ctx.lineTo(sx(bx),sy(bv));ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#4fd1c5';ctx.beginPath();ctx.arc(sx(bx),sy(bv),4.5,0,7);ctx.fill();
+    ctx.textAlign='center';
+    ctx.fillText('谷底 x='+bx,sx(bx),sy(bv)-14);
+    // readout
+    document.getElementById('d3-ro1').textContent='返工成本：'+R(x).toFixed(1);
+    document.getElementById('d3-ro2').textContent='停顿成本：'+P(x).toFixed(1);
+    var tot=T(x);
+    var ro3=document.getElementById('d3-ro3');
+    ro3.textContent='总成本：'+tot.toFixed(1)+(x===bx?'（谷底！）':(tot>bv*1.6?'（偏高）':''));
+    ro3.className='badge '+(x===bx?'good':(tot>bv*1.6?'bad':'info'));
+  }
+  g.addEventListener('input',draw);
+  document.querySelectorAll('.chip[data-g]').forEach(function(b){
+    b.addEventListener('click',function(){g.value=b.getAttribute('data-g');draw();});
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

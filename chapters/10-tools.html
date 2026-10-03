@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 10 章 · 工具格局 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl active" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 2 · CHAPTER 10</span>
+  <h1>工具格局：剪映 / ChatCut / HyperFrames</h1>
+  <p class="hook">痛点钩子：「有没有 AI 版剪映？」这个问题本身就是错的。剪映、ChatCut、HyperFrames 常被混为一谈，其实它们是<strong>三种不同的物种</strong>——本质区别是可编程性、可复现性、agent 可驱动性，不是 AI 功能多少。</p>
+</header>
+
+<section>
+  <h2><span class="sec">10.1</span>六维对比：三个物种，三种活法</h2>
+  <table>
+    <tr><th></th><th>剪映（传统 GUI）</th><th>ChatCut</th><th>HyperFrames</th></tr>
+    <tr><td><strong>谁动手剪</strong></td><td><strong>人动手剪</strong>：手动时间线＋点状 AI 功能</td><td><strong>agent 替你剪</strong>：对话驱动真实时间线，还能顺手生成素材</td><td><strong>没人动手剪</strong>：整条视频是代码，渲染即编译</td></tr>
+    <tr><td><strong>素材从哪来</strong></td><td>素材库＋自己拍</td><td>内置一站式生成：AI 视频 / 图片 / MG / 配音 / 音乐 / 数字人</td><td>画面由代码声明；AI 生成走外部模型，渲染时接入</td></tr>
+    <tr><td><strong>类比</strong></td><td>自动挡代步车（自己开）</td><td>代驾：说目的地它开，最后一公里你随时接管</td><td>3D 打印机：图纸即产品</td></tr>
+    <tr><td><strong>agent 驱动</strong></td><td><span class="badge bad">无 API</span></td><td><span class="badge info">Agent Plugin＋MCP</span> 接 Codex 等</td><td><span class="badge info">CLI＋仓库</span> 进 CI 无障碍</td></tr>
+    <tr><td><strong>可复现</strong></td><td><span class="badge bad">不可</span></td><td>可版本化（生成有随机性）</td><td><span class="badge good">同输入同输出</span></td></tr>
+    <tr><td><strong>主战场</strong></td><td>社交短视频快剪、音乐音效素材渠道</td><td>实拍口播 / 访谈的 AI 精剪＋生成素材补给</td><td>MG、图解、数据视频、批量变体</td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 一句话直觉</span>
+    不处在同一格，也就不存在「谁替代谁」。选工具的依据是<strong>镜头类型与工序</strong>，不是品牌偏好——这正是下一章混合管线存在的原因。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">10.2</span>演示：六个维度上的三工具</h2>
+  <div class="demo">
+    <div class="demo-title">切换维度，看各自的主场</div>
+    <div class="demo-note">点上方六个维度标签。每张卡片里的能量条是该工具在这条维度上的强度（5 分制，定性结论的量化示意）。注意：没有任何一个工具在六条维度上全胜。</div>
+    <div class="ctl"><div class="btn-group" id="d8-axis">
+      <button class="on" data-a="who">谁动手剪</button><button data-a="src">素材从哪来</button><button data-a="analogy">类比</button><button data-a="agent">agent 驱动</button><button data-a="repro">可复现</button><button data-a="field">主战场</button>
+    </div></div>
+    <div class="tool-cols" id="d8-cols"></div>
+    <div class="readout"><span class="badge info" id="d8-ro">—</span></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">10.3</span>三个物种各自的定位</h2>
+  <h3>剪映：降低门槛，不是提升上限</h3>
+  <p>对开发者，剪映的定位是<strong>末端精修、音乐音效素材渠道、快速糙稿验证</strong>——不是主生产线。它是黑盒 GUI：不可编程、不可批量、工程文件封闭，agent 无法精确驱动。模板与素材库是它的护城河，也是「一眼剪映」同质化的来源。</p>
+  <h3>ChatCut：取代「人的手工剪辑」，而不是取代剪映</h3>
+  <p>关键设计：<strong>agent 的工作成果落在人还能继续精修的真实时间轴上</strong>。它取代的是剪映里「人的手工剪辑」环节，而不是剪映本身——还能导出可编辑的剪映草稿，最后一公里自己开。同时它把素材生产也搬进了同一个对话：AI 视频、图片、MG、配音、音乐、数字人，就地生成、直接上轨。</p>
+  <h3>HyperFrames：视频即代码</h3>
+  <p>HeyGen 开源的代码框架（<strong>Apache 2.0</strong>，无逐帧计费）：一个 composition 就是一个 HTML 文件，headless Chrome 逐帧渲染。代码路线的账很直白——</p>
+  <div class="callout intuition">
+    <span class="tag">💡 优势</span>
+    可 diff / review / 回滚；可批量参数化（数据 → 视频是函数，100 条变体是 for 循环）；风格沉淀为<strong>主题包</strong>——设计 token（把颜色/字号写成具名变量）与组件库让第二条视频起边际成本骤降；agent 原生（LLM 操作文本远强于操作 GUI）。
+  </div>
+  <div class="callout trap">
+    <span class="tag">⚠️ 短板同样真实</span>
+    反馈回路慢（改节奏要重渲染）；没有素材库和「手感」；<strong>审美要显式写成设计契约</strong>（agent 不会「有品味地」设计，除非你写下 frame.md/design.md）。记住：<strong>第一次渲染是草稿，不是成品。</strong>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">10.4</span>替代、互补还是合作？看工序，不看工具</h2>
+  <p>「这三个工具到底谁取代谁」——这个问题没有单一答案，因为关系要落到<strong>哪道工序</strong>上看。先把三者摆上工序轴（主＝主场，辅＝能接手，—＝基本不沾）：</p>
+  <div class="lane head"><span></span><span>素材生产</span><span>剪辑组装</span><span>收尾分发</span></div>
+  <div class="lane"><span class="tool">剪映</span><span class="cell sub">辅：素材库＋自己拍</span><span class="cell main">主：手动时间线</span><span class="cell main">主：模板 / 音乐音效 / 快发</span></div>
+  <div class="lane"><span class="tool">ChatCut</span><span class="cell main">主：一站式生成</span><span class="cell main">主：agent 精剪实拍</span><span class="cell sub">辅：导出草稿 / XML 交接</span></div>
+  <div class="lane"><span class="tool">HyperFrames</span><span class="cell main">主：代码生成 MG / 批量</span><span class="cell main">主：代码合成（限合成类）</span><span class="cell">—：只出 MP4</span></div>
+  <p>主场几乎不重叠——这是<strong>整体互补</strong>的证据。但两两之间的关系各有差别，点一对组合看判定：</p>
+  <div class="demo">
+    <div class="demo-title">两两关系判定器</div>
+    <div class="demo-note">每个判定都由三部分构成：替代掉的是哪个<strong>环节</strong>、没替代的是什么、合作接口在哪。没有一对是纯替代，也没有一对是纯互补。</div>
+    <div class="preset-row" id="d9-chips">
+      <button class="chip" data-k="ccjy">ChatCut × 剪映</button>
+      <button class="chip" data-k="hfjy">HyperFrames × 剪映</button>
+      <button class="chip" data-k="cchf">ChatCut × HyperFrames</button>
+    </div>
+    <div class="pdetail" id="d9-panel" style="margin-top:12px"></div>
+    <div class="readout">
+      <span class="badge warn" id="d9-ro1">关系判定：—</span>
+      <span class="badge info" id="d9-ro2">合作接口：—</span>
+    </div>
+  </div>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    「替代」永远发生在<strong>环节</strong>上，不发生在工具整体上：ChatCut 替代的是「人的手工剪辑」这个环节，不是剪映；AI 生成替代的是「补拍的镜头」，不是拍摄。所以问「A 会不会取代 B」之前先问「A 接管了 B 的哪道工序」——答得出工序，才谈得上判断。这也是下一章混合管线的分配原则：<strong>按工序分工具，不按喜好站队</strong>。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">10.5</span>务实结论：分层混合，而非二选一</h2>
+  <p>三个工具不是竞品是互补：剪映 = 手动 GUI＋素材库（末端收尾/糙稿验证）；ChatCut = agent 操作真实时间轴（实拍口播精剪＋生成素材补给，工程化出口接 Premiere XML/剪映草稿）；HyperFrames = 代码声明式合成（MG/图解/批量，确定性渲染进 CI）。</p>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    「代码路线效率更高」这句话有个前提：组件库成熟后的<strong>重复生产</strong>。第一条视频往往是投入期——你要顺手把配色、字体、卡片样式写成设计契约文件，从第二条开始才进入收获期。具体怎么混——下一章的混合管线图。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  三个工具是三个物种：剪映 = 人动手剪（自动挡代步车）；ChatCut = agent 替你剪＋顺手生成素材，成果落在人可精修的真实时间轴（代驾）；HyperFrames = 没人动手剪，视频是代码、渲染即编译（3D 打印机）。本质区别是可编程性、可复现性、agent 可驱动性。三者关系：<strong>整体互补（主场是不同工序）＋ 两两局部替代（替代的是环节不是工具）＋ 明确的合作接口（剪映草稿 / 片段交接）</strong>。下一章把三者装进同一条混合管线。
+</div>
+
+<div class="mark-done"><button data-done="ch10">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="09-cost.html"><div class="dir">← 上一章</div><div class="t">素材成本决策</div></a>
+  <a class="next" href="11-pipeline.html"><div class="dir">下一章 →</div><div class="t">混合管线与 30 分钟流水线</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.10 工具格局</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* 三工具 × 六维对比 */
+(function(){
+  var AXES={
+    who:{label:'谁动手剪',meter:'agent 代劳程度',note:'一句话记住三者：剪映=人动手剪；ChatCut=agent 替你剪＋顺手生成素材；HyperFrames=没人动手剪，视频是代码、渲染即编译。',
+      tools:[
+        {name:'剪映',line:'人动手剪',score:1,detail:'手动时间线＋点状 AI 功能。AI 是「按钮」不是「API」，剪的动作始终由人完成。'},
+        {name:'ChatCut',line:'agent 替你剪',score:4,detail:'对话驱动真实时间线，还能顺手生成素材；成果落在人还能继续精修的真实时间轴上。'},
+        {name:'HyperFrames',line:'没人动手剪',score:5,detail:'整条视频是代码，渲染即编译——没有「剪」这个动作，只有「改代码重新渲染」。'}
+      ]},
+    src:{label:'素材从哪来',meter:'素材自给能力',note:'素材来源决定一条片能不能离开外部素材库独立生产（成本逻辑见第 9 章）。',
+      tools:[
+        {name:'剪映',line:'素材库＋自己拍',score:4,detail:'模板与素材库是护城河，也是「一眼剪映」同质化的来源。'},
+        {name:'ChatCut',line:'内置一站式生成',score:5,detail:'AI 视频/图片/MG/配音/音乐/数字人就地生成、直接上轨——素材生产搬进了同一个对话。'},
+        {name:'HyperFrames',line:'代码声明＋外部模型',score:3,detail:'画面由代码声明；AI 生成走外部模型、渲染时接入。没有现成素材库——这是短板。'}
+      ]},
+    analogy:{label:'类比',meter:'自动化程度',note:'三个类比记住三个物种。',
+      tools:[
+        {name:'剪映',line:'自动挡代步车',score:2,detail:'车不错，门槛低，但始终是你自己开。'},
+        {name:'ChatCut',line:'代驾',score:4,detail:'说目的地它开，最后一公里你随时接管（可导可编辑剪映草稿）。'},
+        {name:'HyperFrames',line:'3D 打印机',score:5,detail:'图纸即产品：人只负责图纸（composition），机器负责产出。'}
+      ]},
+    agent:{label:'agent 驱动',meter:'agent 可驱动性',note:'LLM 操作文本远强于操作 GUI——交互形态直接决定 agent 能不能当你的主力工人。',
+      tools:[
+        {name:'剪映',line:'无 API',score:1,detail:'工程文件封闭，agent 无法精确驱动；只能靠脆弱的 UI 自动化模拟点击。'},
+        {name:'ChatCut',line:'Agent Plugin＋MCP',score:4,detail:'接入 Codex、Claude Code 等 CLI agent，背后是托管 MCP server；人说人话，agent 干活。'},
+        {name:'HyperFrames',line:'CLI＋仓库',score:5,detail:'composition 就是普通 HTML，CLI 默认非交互，配套 lint/check/snapshot 自动门禁——进 CI 无障碍。'}
+      ]},
+    repro:{label:'可复现',meter:'可复现性',note:'可复现＝同输入同输出＝改一处能确定性验证只有那处变了。这是回归测试与批量生产的地基。',
+      tools:[
+        {name:'剪映',line:'不可复现',score:1,detail:'手动操作无记录；AI 功能是黑盒按钮，同操作未必同结果。'},
+        {name:'ChatCut',line:'可版本化',score:2,detail:'生成类操作有随机性；但工程可保存、时间轴可回退版本。'},
+        {name:'HyperFrames',line:'同输入同输出',score:5,detail:'headless Chrome 逐帧 seek＋FFmpeg 编码，确定性渲染——前提是不在动画里用未播种的随机数。'}
+      ]},
+    field:{label:'主战场',meter:'与开发者管线契合',note:'不处在同一格，也就不存在「谁替代谁」——按工序分配，而不是二选一。',
+      tools:[
+        {name:'剪映',line:'社交短视频快剪',score:2,detail:'主业是快剪；对开发者的价值在末端精修、音乐音效素材渠道、快速糙稿验证。'},
+        {name:'ChatCut',line:'实拍口播/访谈精剪',score:4,detail:'实拍素材的 AI 精剪＋生成素材补给；可导 Premiere/达芬奇 XML 与剪映草稿。'},
+        {name:'HyperFrames',line:'MG/图解/数据/批量',score:5,detail:'教学图解、数据视频、产品宣传、N 个变体批量产出；不适合实拍素材的叙事性剪辑。'}
+      ]}
+  };
+  var cols=document.getElementById('d8-cols');
+  function render(axisKey){
+    var ax=AXES[axisKey];
+    cols.innerHTML='';
+    var best=Math.max.apply(null,ax.tools.map(function(t){return t.score}));
+    ax.tools.forEach(function(t){
+      var d=document.createElement('div');
+      d.className='tool-card'+(t.score===best?' focus':'');
+      d.innerHTML='<h4>'+t.name+'</h4><div class="oneliner">'+t.line+'</div>'
+        +'<div class="meter-label"><span>'+ax.meter+'</span><span>'+t.score+' / 5</span></div>'
+        +'<div class="meter"><i style="width:'+(t.score/5*100)+'%"></i></div>'
+        +'<p style="font-size:13.5px;color:var(--muted);margin:9px 0 0">'+t.detail+'</p>';
+      cols.appendChild(d);
+    });
+    document.getElementById('d8-ro').textContent=ax.label+'：'+ax.note;
+  }
+  document.querySelectorAll('#d8-axis button').forEach(function(b){
+    b.addEventListener('click',function(){
+      document.querySelectorAll('#d8-axis button').forEach(function(x){x.classList.remove('on')});
+      b.classList.add('on');render(b.getAttribute('data-a'));
+    });
+  });
+  render('who');
+})();
+
+/* ===== 两两关系判定器（10.4） ===== */
+(function(){
+  var DATA={
+    ccjy:{verdict:'局部替代 ＋ 合作',iface:'可编辑剪映草稿',cls:'warn',
+      title:'ChatCut × 剪映：替代「人的手工剪辑」，不替代剪映',
+      rows:[
+        ['替代的部分','「人的手工剪辑」这个环节——对话驱动真实时间线，取代了手动拖拽、逐句对轴。'],
+        ['没替代的','素材库与音乐音效渠道、模板生态、最后一公里的「手感」精修——这些仍是剪映的护城河。'],
+        ['合作接口','ChatCut 可导出<strong>可编辑的剪映草稿</strong>：agent 剪到八成，人接手最后两成，随时可以接管。']
+      ]},
+    hfjy:{verdict:'互补（几乎不相交）',iface:'片段进时间线 / 草稿收尾',cls:'good',
+      title:'HyperFrames × 剪映：一个管生成，一个管收尾',
+      rows:[
+        ['为什么互补','HyperFrames 管「确定性画面的生成」（MG / 图解 / 数据 / 批量变体），剪映管「手动快剪与收尾分发」——工序几乎不相交，谈不上替代。'],
+        ['各让一步的地方','几乎没有。唯一的重叠是「都能出完整视频」，但前者出的是合成类，后者出的是快剪类，观众一眼能分清。'],
+        ['合作接口','HyperFrames 渲染的片段可以进剪映时间线；整条片也可<strong>经剪映草稿做最后收尾与发布</strong>（音乐、字幕手感、平台快发）。']
+      ]},
+    cchf:{verdict:'互补为主 ＋ 生成素材局部重叠',iface:'MG 片段交接混排',cls:'warn',
+      title:'ChatCut × HyperFrames：主战场不同，生成素材有重叠',
+      rows:[
+        ['互补的部分','主战场不同：ChatCut 吃<strong>实拍口播 / 访谈的精剪</strong>（操作真实时间轴），HyperFrames 吃 <strong>MG / 图解 / 批量变体</strong>（代码声明式合成）。'],
+        ['重叠的部分','「生成素材」这一道工序两家都能做：ChatCut 内置一站式生成（AI 视频 / 图片 / 配音 / 数字人），HyperFrames 用代码生成 MG。简单补给用前者；要<strong>精确复用、批量、可 diff</strong> 用后者。'],
+        ['合作接口','HyperFrames 产的 MG 片段交给 ChatCut，与实拍素材在<strong>同一条时间线混排</strong>——生成归代码，组装归 agent。']
+      ]}
+  };
+  var panel=document.getElementById('d9-panel');
+  var ro1=document.getElementById('d9-ro1'),ro2=document.getElementById('d9-ro2');
+  function show(k){
+    var d=DATA[k];
+    panel.innerHTML='<h4>'+d.title+'</h4>'
+      +d.rows.map(function(r){return '<div class="kv"><b>'+r[0]+'</b><span>'+r[1]+'</span></div>';}).join('');
+    ro1.textContent='关系判定：'+d.verdict;ro1.className='badge '+d.cls;
+    ro2.textContent='合作接口：'+d.iface;
+  }
+  document.querySelectorAll('#d9-chips .chip').forEach(function(b){
+    b.addEventListener('click',function(){show(b.getAttribute('data-k'));});
+  });
+  show('ccjy');
+})();
+</script>
+</body>
+</html>

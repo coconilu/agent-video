@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>用 coding agent 做视频 · 交互图解</title>
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="index.html">agent<b>→</b>video</a>
+  <a class="nl" href="chapters/01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="chapters/02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="chapters/03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="chapters/04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="chapters/05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="chapters/06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="chapters/07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="chapters/08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="chapters/09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="chapters/10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="chapters/11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="hero">
+  <div class="kicker">INTERACTIVE FIELD GUIDE</div>
+  <h1>先学会<em>看懂</em>，<br>再让 agent <em>动手</em></h1>
+  <p class="sub">写给已经会用 Codex / Kimi Code 的开发者：<br>上篇拆解「看懂一条视频」的框架，下篇把框架变成 agent 可执行的生产线。</p>
+</header>
+
+<div class="callout intuition">
+  <span class="tag">💡 一句话直觉</span>
+  能拆，才能装。做视频和写软件是同一件事：都有单一事实来源（视频脚本之于源码）、都有依赖构建顺序（音频先行之于先编译底层库）、都需要门禁与评审（G1–G4 闸门之于 CI + code review）、都需要显式的规范文件（设计契约之于 lint 规则）。这个网站把这套对应关系变成十几个可以亲手玩的演示。
+</div>
+
+<section>
+  <h2 style="border:none;margin-top:1em;padding-top:0"><span class="sec">§</span>核心结论（TL;DR）</h2>
+  <div class="tldr">
+    <ol>
+      <li>一条视频不是「一幅画面」，而是<strong>来源 × 职能 × 图层</strong>三条正交轴的叠加。看懂一条视频，就是能给每个镜头报出它的三轴坐标。</li>
+      <li>景别有含义（远→近＝心理距离由疏到亲），风格是选出来的：选定一条路线写进<strong>设计契约</strong>，全系列不换皮——视觉壁垒是主题包，不是单条视频。</li>
+      <li>脚本从<strong>调研结果</strong>里长出来，不是让 AI 自由发挥：一份文档分段写【画面】【口播】【备注】，G2 先审口播栏、G3 再审画面栏。<strong>音频先行</strong>，画面时长由真实语音反推，real duration wins。</li>
+      <li>生成是最贵的来源：AI 写代码（图形动画 MG、数据可视化）确定性产出、重试近乎免费；AI 生像素（AI 视频、数字人）按次计费、重试是主成本。一条 4 分钟科普片，90% 的画面可以不「生成」。</li>
+      <li>剪映 / ChatCut / HyperFrames 是三个物种，本质区别在<strong>可编程性、可复现性、agent 可驱动性</strong>。按工序混着用的混合管线，是务实答案。</li>
+    </ol>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">§</span>学习路径</h2>
+  <p class="muted">十一章一条主线：前四章建立「看懂」的框架，后五章把框架变成生产线。后一章只依赖前面讲过的概念。每章都有可以上手调的演示——<strong>亲手把参数调崩，比看十遍结论记得牢</strong>。</p>
+
+  <h3 style="margin:.6em 0 .4em;color:var(--accent);font-family:ui-monospace,Consolas,monospace;font-size:13px;letter-spacing:2px">PART 1 · 看懂一条视频</h3>
+  <div class="path-grid">
+    <a class="path-card" data-card="ch1" href="chapters/01-anatomy.html">
+      <span class="pc-num">CH.01</span>
+      <h3>解剖：三轴体系</h3>
+      <p>来源 × 职能 × 图层，三条正交轴。点按筛选器给镜头报坐标，再走一遍红色虚线的完整示例。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch2" href="chapters/02-shots.html">
+      <span class="pc-num">CH.02</span>
+      <h3>镜头：景别与构图</h3>
+      <p>远景到特写，取景范围就是心理距离。拖动滑块切换五种景别，再开三分法网格看主体该放哪。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch3" href="chapters/03-style.html">
+      <span class="pc-num">CH.03</span>
+      <h3>气质：风格是选出来的</h3>
+      <p>同一个主体、九种风格路线一键切换。风格没有高下只有匹配，选定后写进设计契约不换皮。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch4" href="chapters/04-clarity.html">
+      <span class="pc-num">CH.04</span>
+      <h3>「讲得清楚」是一门学问</h3>
+      <p>科普视频的八个知识域，按杠杆率排序。最后动手：把一条你喜欢的视频拆成一张清单。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+  </div>
+
+  <h3 style="margin:1.2em 0 .4em;color:var(--accent2);font-family:ui-monospace,Consolas,monospace;font-size:13px;letter-spacing:2px">PART 2 · 让 agent 按图纸生产</h3>
+  <div class="path-grid">
+    <a class="path-card" data-card="ch5" href="chapters/05-workflow.html">
+      <span class="pc-num">CH.05</span>
+      <h3>修正后的工作流</h3>
+      <p>从调研到脚本再到并行生产。拖动滑块看「画面先行」的返工量，用脚本生成器看一份视频脚本的标准结构。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch6" href="chapters/06-gates.html">
+      <span class="pc-num">CH.06</span>
+      <h3>人工闸门与常见坑</h3>
+      <p>G1–G4 四个必设闸门，设几个最合适？拖出一条 U 形成本曲线。附按踩中频率排序的坑清单。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch7" href="chapters/07-progressive.html">
+      <span class="pc-num">CH.07</span>
+      <h3>渐进式生成流程</h3>
+      <p>下次做视频直接照喊的操作法：六轮五闸，每轮给 agent 什么指令、在哪停、人确认什么。拖动滑块看「一把梭」的偏差如何复利。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch8" href="chapters/08-transitions.html">
+      <span class="pc-num">CH.08</span>
+      <h3>片段过渡：转场与衔接</h3>
+      <p>单镜都满意，拼起来却一顿一顿？问题在接缝。转场四型的使用规律、音频床连续性，和一道 15 秒就能验货的衔接小样闸。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch9" href="chapters/09-cost.html">
+      <span class="pc-num">CH.09</span>
+      <h3>素材成本决策器</h3>
+      <p>「AI 写代码」与「AI 生像素」是两种成本结构。勾选镜头类型，累加一条片的成本构成。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch10" href="chapters/10-tools.html">
+      <span class="pc-num">CH.10</span>
+      <h3>工具格局：剪映 / ChatCut / HyperFrames</h3>
+      <p>谁动手剪、素材从哪来——三个物种按六条维度对比，看各自的主场。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+    <a class="path-card" data-card="ch11" href="chapters/11-pipeline.html">
+      <span class="pc-num">CH.11</span>
+      <h3>混合管线与 30 分钟流水线</h3>
+      <p>不按「用哪个工具」决策，按「哪道工序用哪个工具」分配。最后给你一条 30 分钟可跑通的最小流水线。</p>
+      <span class="pc-done">✓ 已完成</span>
+    </a>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">§</span>关于本站</h2>
+  <p class="muted">这是一个独立的交互式学习站点，从「看懂一条视频」到「让 agent 动手生产」共十一章，按顺序读即可。文中涉及的产品功能与价格随版本变化，动手前以官方当季信息为准。</p>
+</section>
+
+</main>
+<footer>agent→video · 交互图解 · 零依赖纯静态 · 内容仅供学习参考</footer>
+<script src="assets/js/site.js"></script>
+</body>
+</html>

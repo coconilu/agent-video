@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 3 章 · 气质：风格路线与设计契约 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl active" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 1 · CHAPTER 03</span>
+  <h1>气质：风格路线与设计契约</h1>
+  <p class="hook">痛点钩子：AI 每条视频给你一种画风，今天赛博明天水彩，单条看都还行——但观众就是记不住你。问题不在生成质量，<strong>在于你从没「选」过风格。</strong></p>
+</header>
+
+<section>
+  <h2><span class="sec">3.1</span>风格是选出来的，不是调出来的</h2>
+  <p>视觉风格不是每条视频现挑的，而是<strong>先选一条路线</strong>，和配色、字体一起写进设计契约（一份给 agent 看的视觉规范文件），之后全系列不换皮。观众记住一个账号，靠的是稳定的视觉气质，不是单条视频的惊艳。九条常见路线：</p>
+  <table>
+    <tr><th>风格</th><th>视觉特征</th><th>代表作</th><th>气质</th><th>适合题材</th></tr>
+    <tr><td><strong>手绘涂鸦白板风</strong></td><td>白底＋黑手绘线稿＋淡彩马克笔＋高亮胶囊</td><td>RSA Animate</td><td>轻松亲切，「有人在你面前画给你看」</td><td>科普、观点阐释</td></tr>
+    <tr><td><strong>扁平矢量插画风</strong></td><td>纯色几何、无/细描边、大胆撞色</td><td>SaaS 官网动画、Vox</td><td>现代干净、专业感强</td><td>产品讲解、教程</td></tr>
+    <tr><td><strong>卡通角色风</strong></td><td>吉祥物、表情演出、场景感强</td><td>Kurzgesagt、Duolingo</td><td>故事性强</td><td>叙事驱动题材</td></tr>
+    <tr><td><strong>玻璃拟态/渐变科技风</strong></td><td>深底、毛玻璃卡片、霓虹渐变、光效粒子</td><td>大厂发布会、AI 产品宣传</td><td>高级酷，但与亲和路线相反</td><td>品牌片、发布会</td></tr>
+    <tr><td><strong>等距 3D 风</strong></td><td>2.5D 等距建筑/管线/场景</td><td>Notion 风插画</td><td>精致、有空间感</td><td>系统架构、流程类</td></tr>
+    <tr><td><strong>剪纸/纸片风</strong></td><td>纸质纹理、分层阴影、停格质感</td><td>—</td><td>手作感、温度</td><td>儿童向、情怀向</td></tr>
+    <tr><td><strong>真实素材混剪风</strong></td><td>录屏/实拍打底＋MG 字幕标注叠加</td><td>—</td><td>实用、直接</td><td>软件教程、产品演示</td></tr>
+    <tr><td><strong>像素/复古游戏风</strong></td><td>像素块、8bit 音色点缀</td><td>—</td><td>怀旧、游戏化</td><td>游戏、怀旧主题</td></tr>
+    <tr><td><strong>黑板/深色手写风</strong></td><td>深底粉笔字、手绘高亮</td><td>—</td><td>课程感</td><td>数学、物理讲解</td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 关键直觉</span>
+    风格没有高下，只有匹配。一旦选定就写进设计契约，全系列不换皮——<strong>视觉壁垒是主题包，不是单条视频</strong>。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">3.2</span>演示：九风格切换器</h2>
+  <div class="demo">
+    <div class="demo-title">同一枚火箭，九种气质</div>
+    <div class="demo-note">点下方九个风格 chip。火箭的姿态、位置、大小完全没变，变的只有「画法」——注意同一条信息在不同路线下给你的感觉差异有多大。</div>
+    <div class="preset-row" id="d1-chips"></div>
+    <svg id="d1-svg" viewBox="0 0 480 300" style="width:100%;max-width:880px;display:block;margin:12px auto 0;border:1px solid var(--border);border-radius:10px"></svg>
+    <div class="readout">
+      <span class="badge info" id="d1-ro1">—</span>
+      <span class="badge good" id="d1-ro2">—</span>
+      <span class="badge warn" id="d1-ro3">风格没有高下，只有匹配</span>
+    </div>
+  </div>
+  <div class="callout trap">
+    <span class="tag">⚠️ 两个匹配陷阱</span>
+    一是<strong>每条视频现挑风格</strong>：观众记不住你，等于每期都在冷启动。二是<strong>只看酷不看用</strong>：玻璃拟态深底很高级，但对图表可读性要求极高，数据多的教学片选它要自己兜底对比度。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">3.3</span>把选中的风格写进设计契约</h2>
+  <p>选定路线后要做的第一件事：把它翻译成一份 agent 能逐条执行的契约文件——配色、字体、卡片样式全写成明确规则，而不是「要高级感」这种无法执行的形容词。</p>
+  <div class="demo">
+    <div class="demo-title">风格 → design-contract.md 生成器</div>
+    <div class="demo-note">点 chip 选一条路线，下方自动生成这段契约文本（节选）。注意每一行都是「可检查的规则」，不是审美形容词。</div>
+    <div class="preset-row" id="d2-chips"></div>
+    <pre id="d2-pre" style="background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-family:ui-monospace,Consolas,monospace;font-size:13px;line-height:1.7;color:var(--text);overflow-x:auto;white-space:pre-wrap;margin:12px 0 0"></pre>
+    <div class="readout">
+      <span class="badge info" id="d2-ro1">—</span>
+      <span class="badge good">铁律：选定后全系列不换皮</span>
+    </div>
+  </div>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    设计契约的真正读者是 agent。<strong>agent 没有品味，但会严格执行清单</strong>——所以契约里每条规则都要可判定：「主色 #2563eb」可检查，「配色要现代」不可检查。清单一旦沉淀，第二条视频起边际成本骤降。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  风格是选出来的：九条路线各有气质与适合题材，<strong>没有高下只有匹配</strong>。选定后立刻写进设计契约（配色/字体/卡片全落成可检查的规则），全系列不换皮——视觉壁垒是主题包。下一章看风格定下「皮」之后，「讲得清楚」这副「骨」怎么搭。
+</div>
+
+<div class="mark-done"><button data-done="ch3">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="02-shots.html"><div class="dir">← 上一章</div><div class="t">镜头：景别与构图</div></a>
+  <a class="next" href="04-clarity.html"><div class="dir">下一章 →</div><div class="t">讲得清楚：八个知识域</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.03 气质：风格路线与设计契约</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* ===== 共享：九种风格路线数据 + 火箭画法 ===== */
+var STYLES=[
+ {id:'whiteboard',name:'手绘白板',vibe:'轻松亲切，「有人在你面前画给你看」',fit:'科普、观点阐释',
+  palette:'白底 #faf7f0 ＋ 黑色手绘线稿 ＋ 马克笔淡彩（黄/蓝各一）',font:'手写感标题 ＋ 黑体正文',card:'不用卡片，用高亮胶囊划重点',
+  rule:'线条必须「像人画的」：允许抖，禁止完美几何'},
+ {id:'flat',name:'扁平矢量',vibe:'现代干净、专业感强',fit:'产品讲解、教程',
+  palette:'主色 #2563eb ＋ 强调 #f59e0b ＋ 浅蓝底 #eaf2ff，大胆撞色',font:'黑体 Bold 标题 ＋ Regular 正文，最多两个字重',card:'圆角 12px、无描边、纯色填充、无投影',
+  rule:'纯色几何、无渐变无描边，形状不超过 6 种'},
+ {id:'cartoon',name:'卡通角色',vibe:'故事性强，有角色可共情',fit:'叙事驱动题材',
+  palette:'奶油底 #fff3d6 ＋ 高饱和三原色，粗描边 #3a2f2f',font:'圆体标题，正文保持黑体',card:'圆角越大越好，一切带表情',
+  rule:'粗描边 5px、圆角优先、每个主体要有「脸」'},
+ {id:'glass',name:'玻璃拟态',vibe:'高级酷，但与亲和路线相反',fit:'品牌片、发布会',
+  palette:'深底 #0f172a ＋ 霓虹青→紫渐变 ＋ 毛玻璃白 8% 透明度',font:'细字重标题 ＋ 大留白',card:'毛玻璃卡片：圆角 22px、1px 半透明白描边',
+  rule:'深底对图表可读性要求高：对比度必须额外校验'},
+ {id:'iso',name:'等距 3D',vibe:'精致、有空间感',fit:'系统架构、流程类',
+  palette:'浅灰蓝底 #f2f5fa ＋ 灰蓝建筑三色阶（亮/中/暗面）',font:'黑体，标注沿轴测方向排',card:'物件即卡片：每个元素三面明暗',
+  rule:'固定 30° 轴测角，全片禁止换透视'},
+ {id:'paper',name:'剪纸纸片',vibe:'手作感、温度',fit:'儿童向、情怀向',
+  palette:'纸色底 #ece2cd ＋ 哑色纸系（陶红/苔绿/蜜黄）',font:'衬线标题 ＋ 黑体正文',card:'每层纸：白边 2px ＋ 右下偏移 5px 投影',
+  rule:'分层阴影制造停格质感，禁止渐变与发光'},
+ {id:'mixed',name:'真实混剪',vibe:'实用、直接',fit:'软件教程、产品演示',
+  palette:'录屏/实拍原色打底 ＋ 统一标注色（琥珀 #f6ad55）',font:'黑体，字幕条白字深底',card:'MG 标注三件套：高亮框、箭头、字幕条',
+  rule:'实拍打底＋MG 叠加，标注样式全片统一'},
+ {id:'pixel',name:'像素复古',vibe:'怀旧、游戏化',fit:'游戏、怀旧主题',
+  palette:'深底 #1a1a2e ＋ 限定 16 色 8bit 调色板',font:'像素字体标题，正文仍需可读黑体',card:'像素边框卡片，直角无圆角',
+  rule:'10px 像素网格对齐，禁止抗锯齿缩放'},
+ {id:'chalk',name:'黑板粉笔',vibe:'课程感',fit:'数学、物理讲解',
+  palette:'深绿底 #22382c ＋ 粉笔白线 ＋ 唯一高亮色（黄）',font:'手写粉笔感标题 ＋ 黑体正文',card:'粉笔圈划重点，不用实底卡片',
+  rule:'全片只有白＋一个高亮色，线条要带「粉感」'}
+];
+
+function rocketSVG(id){
+  switch(id){
+  case 'whiteboard':
+    return '<rect width="480" height="300" fill="#faf7f0"/>'
+    +'<rect x="150" y="252" width="180" height="20" rx="10" fill="#ffe08a" opacity=".7"/>'
+    +'<g stroke="#222" stroke-width="3" fill="none" stroke-linecap="round">'
+    +'<path d="M240,62 C222,86 218,120 218,160 L218,196 L262,196 L262,160 C262,120 258,86 240,62 Z"/>'
+    +'<circle cx="240" cy="132" r="13"/>'
+    +'<path d="M218,168 L196,214 L218,202"/><path d="M262,168 L284,214 L262,202"/>'
+    +'<path d="M230,206 Q240,238 250,206"/></g>'
+    +'<path d="M226,102 L254,96" stroke="#4a90d9" stroke-width="7" opacity=".5" stroke-linecap="round"/>'
+    +'<path d="M146,84 q12,-16 24,-4" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+    +'<path d="M330,110 q14,-10 20,4" stroke="#222" stroke-width="2.5" fill="none" stroke-linecap="round"/>';
+  case 'flat':
+    return '<rect width="480" height="300" fill="#eaf2ff"/>'
+    +'<circle cx="240" cy="150" r="110" fill="#dbeafe"/>'
+    +'<path d="M240,58 C220,84 216,120 216,162 L216,200 L264,200 L264,162 C264,120 260,84 240,58 Z" fill="#2563eb"/>'
+    +'<circle cx="240" cy="132" r="14" fill="#ffffff"/><circle cx="240" cy="132" r="7" fill="#93c5fd"/>'
+    +'<path d="M216,170 L192,222 L216,206 Z" fill="#f59e0b"/><path d="M264,170 L288,222 L264,206 Z" fill="#f59e0b"/>'
+    +'<path d="M228,210 Q240,246 252,210 Z" fill="#ef4444"/>'
+    +'<rect x="120" y="250" width="240" height="8" rx="4" fill="#2563eb" opacity=".25"/>';
+  case 'cartoon':
+    return '<rect width="480" height="300" fill="#fff3d6"/>'
+    +'<ellipse cx="120" cy="70" rx="34" ry="16" fill="#ffffff"/><ellipse cx="368" cy="96" rx="28" ry="13" fill="#ffffff"/>'
+    +'<path d="M216,170 L190,224 L218,206 Z" fill="#ff8a5c" stroke="#3a2f2f" stroke-width="5" stroke-linejoin="round"/>'
+    +'<path d="M264,170 L290,224 L262,206 Z" fill="#ff8a5c" stroke="#3a2f2f" stroke-width="5" stroke-linejoin="round"/>'
+    +'<path d="M240,56 C219,84 215,120 215,162 Q215,202 240,202 Q265,202 265,162 C265,120 261,84 240,56 Z" fill="#ffcf5c" stroke="#3a2f2f" stroke-width="5"/>'
+    +'<circle cx="240" cy="132" r="17" fill="#ffffff" stroke="#3a2f2f" stroke-width="4"/>'
+    +'<circle cx="234" cy="129" r="3" fill="#3a2f2f"/><circle cx="246" cy="129" r="3" fill="#3a2f2f"/>'
+    +'<path d="M234,138 Q240,143 246,138" stroke="#3a2f2f" stroke-width="2.5" fill="none" stroke-linecap="round"/>'
+    +'<circle cx="222" cy="150" r="4" fill="#ff9d9d" opacity=".8"/><circle cx="258" cy="150" r="4" fill="#ff9d9d" opacity=".8"/>'
+    +'<path d="M228,210 Q240,250 252,210 Q240,222 228,210 Z" fill="#ff6b4a" stroke="#3a2f2f" stroke-width="4" stroke-linejoin="round"/>';
+  case 'glass':
+    return '<defs>'
+    +'<linearGradient id="ggbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0b1220"/><stop offset="1" stop-color="#1e293b"/></linearGradient>'
+    +'<radialGradient id="gglow"><stop offset="0" stop-color="#4fd1c5" stop-opacity=".45"/><stop offset="1" stop-color="#4fd1c5" stop-opacity="0"/></radialGradient>'
+    +'<linearGradient id="gbody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4fd1c5"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs>'
+    +'<rect width="480" height="300" fill="url(#ggbg)"/>'
+    +'<circle cx="240" cy="150" r="100" fill="url(#gglow)"/>'
+    +'<rect x="150" y="36" width="180" height="236" rx="22" fill="rgba(255,255,255,.07)" stroke="rgba(255,255,255,.25)"/>'
+    +'<path d="M240,58 C220,84 216,120 216,162 L216,200 L264,200 L264,162 C264,120 260,84 240,58 Z" fill="url(#gbody)" opacity=".9" stroke="rgba(255,255,255,.5)"/>'
+    +'<circle cx="240" cy="132" r="13" fill="rgba(255,255,255,.9)"/>'
+    +'<path d="M216,170 L192,222 L216,206 Z" fill="#a78bfa" opacity=".85"/><path d="M264,170 L288,222 L264,206 Z" fill="#a78bfa" opacity=".85"/>'
+    +'<path d="M228,210 Q240,244 252,210 Z" fill="#4fd1c5" opacity=".9"/>'
+    +'<circle cx="170" cy="70" r="2.5" fill="#4fd1c5"/><circle cx="318" cy="120" r="2" fill="#a78bfa"/><circle cx="300" cy="60" r="2.5" fill="#f6ad55"/><circle cx="176" cy="220" r="2" fill="#a78bfa"/><circle cx="330" cy="230" r="2.5" fill="#4fd1c5"/>';
+  case 'iso':
+    return '<rect width="480" height="300" fill="#f2f5fa"/>'
+    +'<path d="M140,252 L240,200 L340,252 L240,298 Z" fill="#dde5f0"/>'
+    +'<path d="M204,232 L244,212 L284,232 L244,250 Z" fill="#c3cede"/>'
+    +'<path d="M216,170 L192,222 L216,206 Z" fill="#5b7299"/>'
+    +'<path d="M264,170 L288,222 L264,206 Z" fill="#8ba0c2"/>'
+    +'<path d="M240,58 C220,84 216,120 216,162 L216,200 L240,200 L240,58 Z" fill="#7c93b5"/>'
+    +'<path d="M240,58 C260,84 264,120 264,162 L264,200 L240,200 L240,58 Z" fill="#b8c7de"/>'
+    +'<circle cx="240" cy="132" r="13" fill="#ffffff" stroke="#7c93b5" stroke-width="3"/>'
+    +'<path d="M230,208 L240,238 L250,208 Z" fill="#f2a65a"/>';
+  case 'paper':
+    return '<rect width="480" height="300" fill="#ece2cd"/>'
+    +'<ellipse cx="130" cy="66" rx="36" ry="14" fill="#b3a686"/><ellipse cx="126" cy="62" rx="36" ry="14" fill="#f7f1e3"/>'
+    +'<g transform="translate(5 6)" fill="#b3a686">'
+    +'<path d="M240,58 C220,84 216,120 216,162 L216,200 L264,200 L264,162 C264,120 260,84 240,58 Z"/>'
+    +'<path d="M216,170 L192,222 L216,206 Z"/><path d="M264,170 L288,222 L264,206 Z"/></g>'
+    +'<path d="M240,58 C220,84 216,120 216,162 L216,200 L264,200 L264,162 C264,120 260,84 240,58 Z" fill="#e2725b" stroke="#ffffff" stroke-width="2"/>'
+    +'<path d="M216,170 L192,222 L216,206 Z" fill="#4f7942" stroke="#ffffff" stroke-width="2"/>'
+    +'<path d="M264,170 L288,222 L264,206 Z" fill="#4f7942" stroke="#ffffff" stroke-width="2"/>'
+    +'<circle cx="240" cy="132" r="13" fill="#f5efe0" stroke="#ffffff" stroke-width="2"/>'
+    +'<path d="M228,210 Q240,242 252,210 Z" fill="#e9b44c" stroke="#ffffff" stroke-width="2"/>';
+  case 'mixed':
+    return '<defs><linearGradient id="mxbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9db8d6"/><stop offset="1" stop-color="#e8d9b5"/></linearGradient></defs>'
+    +'<rect width="480" height="300" fill="url(#mxbg)"/>'
+    +'<rect y="230" width="480" height="70" fill="#8a9a7b"/>'
+    +'<circle cx="396" cy="52" r="22" fill="#f2e6c8" opacity=".9"/>'
+    +'<rect x="110" y="60" width="260" height="150" rx="8" fill="#1f2937" stroke="#0f172a" stroke-width="3"/>'
+    +'<rect x="126" y="82" width="120" height="8" rx="4" fill="#4b5563"/><rect x="126" y="100" width="180" height="8" rx="4" fill="#4b5563"/>'
+    +'<rect x="126" y="118" width="150" height="8" rx="4" fill="#4fd1c5" opacity=".7"/><rect x="126" y="136" width="96" height="8" rx="4" fill="#4b5563"/>'
+    +'<circle cx="348" cy="74" r="4" fill="#fc8181"/><text x="360" y="78" font-size="11" fill="#e6e9f0" font-family="ui-monospace,Consolas,monospace">REC</text>'
+    +'<rect x="120" y="112" width="112" height="24" fill="none" stroke="#f6ad55" stroke-width="2.5" stroke-dasharray="6 4" rx="4"/>'
+    +'<path d="M252,178 L286,150" stroke="#f6ad55" stroke-width="3" stroke-linecap="round"/><path d="M286,150 l-12,2 M286,150 l-2,12" stroke="#f6ad55" stroke-width="3" stroke-linecap="round"/>'
+    +'<rect x="110" y="224" width="260" height="26" rx="6" fill="rgba(13,17,23,.88)"/>'
+    +'<text x="240" y="241" text-anchor="middle" font-size="12" fill="#e6e9f0" font-family="ui-monospace,Consolas,monospace">字幕条 · MG 标注叠加</text>';
+  case 'pixel':
+    var rows=[
+      '....NN....',
+      '...NNNN...',
+      '..WWWWWW..',
+      '..WWWWWW..',
+      '..WBBBBW..',
+      '..WBBBBW..',
+      '..WWWWWW..',
+      '..WWWWWW..',
+      '.FWWWWWWF.',
+      '.FFWWWWFF.',
+      '...FFFF...',
+      '...FFFF...',
+      '....YY....'];
+    var colors={N:'#f87171',W:'#e2e8f0',B:'#38bdf8',F:'#fb923c',Y:'#facc15'};
+    var s='<rect width="480" height="300" fill="#1a1a2e"/>';
+    var stars=[[60,50],[120,110],[370,60],[420,140],[80,220],[400,230],[160,40]];
+    for(var i=0;i<stars.length;i++)s+='<rect x="'+stars[i][0]+'" y="'+stars[i][1]+'" width="6" height="6" fill="#f8fafc" opacity=".8"/>';
+    for(var r=0;r<rows.length;r++)for(var c=0;c<10;c++){
+      var ch=rows[r].charAt(c);
+      if(ch!=='.')s+='<rect x="'+(190+c*10)+'" y="'+(50+r*10)+'" width="10" height="10" fill="'+colors[ch]+'"/>';
+    }
+    return s;
+  case 'chalk':
+    return '<rect width="480" height="300" fill="#22382c"/>'
+    +'<g stroke="#f4f1e8" stroke-width="2.5" fill="none" stroke-linecap="round" opacity=".92">'
+    +'<path d="M240,62 C222,86 218,120 218,160 L218,198 L262,198 L262,160 C262,120 258,86 240,62 Z"/>'
+    +'<circle cx="240" cy="132" r="13"/>'
+    +'<path d="M218,168 L196,216 L218,203"/><path d="M262,168 L284,216 L262,203"/>'
+    +'<path d="M229,207 L235,222 L240,209 L245,224 L251,207"/></g>'
+    +'<g stroke="#f4f1e8" stroke-width="2" fill="none" opacity=".3">'
+    +'<path d="M241,64 C224,88 220,122 220,162"/><path d="M263,170 L283,214"/></g>'
+    +'<circle cx="240" cy="132" r="21" fill="none" stroke="#f6d365" stroke-width="2.5" stroke-dasharray="8 5"/>'
+    +'<path d="M150,250 q30,8 60,0 t60,0 t60,0" stroke="#f4f1e8" stroke-width="2" fill="none" opacity=".5"/>'
+    +'<path d="M120,70 l10,10 M130,70 l-10,10" stroke="#f4f1e8" stroke-width="2" opacity=".6"/>'
+    +'<path d="M350,90 l10,10 M360,90 l-10,10" stroke="#f4f1e8" stroke-width="2" opacity=".6"/>';
+  }
+  return '';
+}
+
+function buildChips(containerId,onPick){
+  var box=document.getElementById(containerId);
+  STYLES.forEach(function(st,i){
+    var b=document.createElement('button');
+    b.className='chip';b.textContent=st.name;b.setAttribute('data-i',i);
+    b.addEventListener('click',function(){onPick(i);});
+    box.appendChild(b);
+  });
+}
+function markChips(containerId,i){
+  document.querySelectorAll('#'+containerId+' .chip').forEach(function(b,bi){
+    b.style.borderColor=bi===i?'var(--accent)':'';
+    b.style.color=bi===i?'var(--accent)':'';
+  });
+}
+
+/* ===== Demo 1：九风格切换器 ===== */
+(function(){
+  var svg=document.getElementById('d1-svg');
+  function render(i){
+    var st=STYLES[i];
+    svg.innerHTML=rocketSVG(st.id);
+    markChips('d1-chips',i);
+    document.getElementById('d1-ro1').textContent=st.name+' · 气质：'+st.vibe;
+    document.getElementById('d1-ro2').textContent='适合题材：'+st.fit;
+  }
+  buildChips('d1-chips',render);
+  render(1);
+})();
+
+/* ===== Demo 2：设计契约生成器 ===== */
+(function(){
+  var pre=document.getElementById('d2-pre');
+  function render(i){
+    var st=STYLES[i];
+    markChips('d2-chips',i);
+    pre.textContent='# design-contract.md · 视觉契约（节选）\n'
+      +'style   : '+st.name+'\n'
+      +'palette : '+st.palette+'\n'
+      +'type    : '+st.font+'\n'
+      +'card    : '+st.card+'\n'
+      +'rule    : '+st.rule+'\n'
+      +'locked  : 选定后全系列不换皮 —— 视觉壁垒是主题包，不是单条视频';
+    document.getElementById('d2-ro1').textContent='已写进契约：'+st.name+' · 配色 / 字体 / 卡片 三件套';
+  }
+  buildChips('d2-chips',render);
+  render(1);
+})();
+</script>
+</body>
+</html>

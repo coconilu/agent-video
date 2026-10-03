@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 4 章 · 讲得清楚：八个知识域 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<style>
+#d2-table td[contenteditable]{min-width:80px;outline:none;cursor:text}
+#d2-table td[contenteditable]:focus{background:rgba(79,209,197,.08);box-shadow:inset 0 0 0 1px var(--accent)}
+#d2-table td[contenteditable]:empty::before{content:'点我填写…';color:var(--muted);font-size:12px}
+#d2-table tr.ex-row td{color:var(--muted)}
+.dom-item{border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:var(--surface);overflow:hidden}
+.dom-head{display:flex;align-items:center;gap:10px;width:100%;background:none;border:none;color:var(--text);padding:10px 14px;cursor:pointer;font-family:inherit;font-size:14px;text-align:left}
+.dom-head:hover{background:var(--surface2)}
+.dom-rank{font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted);min-width:22px}
+.dom-name{font-weight:600}
+.dom-tag{margin-left:auto;font-family:ui-monospace,Consolas,monospace;font-size:11px;padding:2px 8px;border-radius:99px;border:1px solid var(--border);color:var(--muted);white-space:nowrap}
+.dom-tag.top{color:var(--good);border-color:var(--good)}
+.dom-bar{height:4px;border-radius:2px;background:var(--surface2);flex:0 0 90px;position:relative;overflow:hidden}
+.dom-bar i{position:absolute;inset:0 auto 0 0;background:var(--accent);border-radius:2px}
+.dom-detail{display:none;padding:4px 14px 12px 46px;font-size:13.5px;color:var(--muted);line-height:1.7}
+.dom-detail b{color:var(--text)}
+.dom-item.open .dom-detail{display:block}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl active" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 1 · CHAPTER 04</span>
+  <h1>讲得清楚：八个知识域＋拆解练习</h1>
+  <p class="hook">痛点钩子：画面精美、信息正确，观众还是说「看不懂」。「讲得清楚」不是一种感觉——<strong>它是八个可以逐条检查、逐条写进规则的知识域。</strong></p>
+</header>
+
+<section>
+  <h2><span class="sec">4.1</span>八个知识域，按杠杆率排序</h2>
+  <p>风格定了皮，还有骨：科普视频的核心竞争力是「讲得清楚」。这背后是一套更细的设计知识，共八个域，<strong>按对成片的杠杆率从高到低排</strong>：</p>
+  <table>
+    <tr><th>#</th><th>知识域</th><th>管什么</th><th>一条守则</th></tr>
+    <tr><td class="mono">1</td><td><strong>图解类型学</strong></td><td>流程/步骤图、对比表、时间线、金字塔/分层、地图、数轴曲线、象限图、代码 diff 卡</td><td>教学视频 80% 的画面是这 8 种的排列组合，一镜一图</td></tr>
+    <tr><td class="mono">2</td><td><strong>动效语言</strong></td><td>缓动曲线的性格、stagger 逐个进入、入出场规范</td><td>单动作 0.3–0.5 秒，全片动效密度要匀</td></tr>
+    <tr><td class="mono">3</td><td><strong>多媒体学习原则（Mayer）</strong></td><td>画面与声音如何分工的认知科学</td><td>画面讲关系、声音讲细节；大字提炼，字幕逐字</td></tr>
+    <tr><td class="mono">4</td><td><strong>色彩与排版系统</strong></td><td>60-30-10 配色法则（主色/辅色/点缀的比例）、字体三件套（标题/正文/数据各一款）、对比度</td><td>AI 画面最易翻车处，好在可以写成自动检查</td></tr>
+    <tr><td class="mono">5</td><td><strong>钩子与叙事骨架</strong></td><td>开场四型（反直觉/数据/提问/场景）、SCQA（情境-冲突-问题-答案的开场结构）、open loop（开头留个悬念，结尾回收）</td><td>镜头时长要有方差，全等长镜头＝催眠</td></tr>
+    <tr><td class="mono">6</td><td><strong>声音设计</strong></td><td>BGM 情绪、音效语义库、ducking（人声出现时音乐自动压低）</td><td>讲解段低能量，结论段上扬</td></tr>
+    <tr><td class="mono">7</td><td><strong>镜头语言</strong></td><td>景别、三分法、视线方向</td><td>纯图形片也能借用，让画面有呼吸</td></tr>
+    <tr><td class="mono">8</td><td><strong>封面与标题公式</strong></td><td>封面构图（人脸/大字/高对比）、标题公式、平台调性</td><td>决定点开率，与内容同等重要</td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 一句话直觉</span>
+    这八个域是同一件事的八个切面：<strong>把审美判断翻译成可枚举的选型＋可写进文件的规则</strong>。「画面讲关系、声音讲细节」——光记住 Mayer 这一条，你的信息密度就已经超过大多数教程。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">4.2</span>演示：八域浏览器</h2>
+  <div class="demo">
+    <div class="demo-title">点按展开每一域：管什么 ＋ 一条守则</div>
+    <div class="demo-note">列表按杠杆率从高到低排，青色能量条即相对杠杆率。标绿的前三域决定「讲没讲清楚」，其余决定「精不精致」。</div>
+    <div id="d1-list"></div>
+    <div class="readout">
+      <span class="badge info" id="d1-ro1">点击任意一行展开详情</span>
+      <span class="badge warn">精力有限时：先保前三域</span>
+    </div>
+  </div>
+  <div class="callout trap">
+    <span class="tag">⚠️ 别平均用力</span>
+    这 8 个域不必全懂——<strong>前三项（图解、动效、Mayer 原则）决定「讲没讲清楚」</strong>，后面几项决定「精不精致」。精力有限时先保前三，就像做菜先管火候，再摆盘。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">4.3</span>把审美翻译成清单</h2>
+  <p>这批知识的用法是同一件事：把审美判断翻译成可枚举的选型＋可写进文件的规则。比如「动效要舒服」不可执行，但「单动作 0.3–0.5 秒、stagger 间隔 0.08 秒、全片动效密度均匀」可以逐条检查。</p>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    <strong>agent 没有品味，但会严格执行清单</strong>。八域守则沉淀成文件后，每次生成都过一遍这张检查表——清单一旦沉淀，第二条视频起边际成本骤降。这正是「设计契约」除了风格之外的另一半内容。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">4.4</span>动手：拆一条你喜欢的视频</h2>
+  <p>不用写代码。找一条你想模仿的科普视频，0.5 倍速看前三分钟，挑 5 个镜头填这张表——第一行是拆好的示例，剩下四行留给你。</p>
+  <div class="demo">
+    <div class="demo-title">镜头拆解练习表</div>
+    <div class="demo-note">点单元格直接输入（时间点已预填建议值，可改）。每行填够 3 个字段算完成一行；四行全部完成，你就拥有了一份属于自己的拆解清单。</div>
+    <div class="ctl">
+      <button class="chip" id="d2-clear">清空我填的内容，重来</button>
+    </div>
+    <div style="overflow-x:auto"><table id="d2-table">
+      <tr><th>时间点</th><th>有几层</th><th>职能</th><th>景别</th><th>风格元素</th><th>声音处理</th></tr>
+      <tr class="ex-row"><td class="mono">0:32</td><td>3 层：录屏＋高亮框＋大字</td><td>B-roll</td><td>近景</td><td>扁平风、蓝主色</td><td>BGM 压低，有 whoosh</td></tr>
+      <tr><td class="mono" contenteditable="true">0:48</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td class="mono" contenteditable="true">1:12</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td class="mono" contenteditable="true">1:40</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+      <tr><td class="mono" contenteditable="true">2:07</td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td><td contenteditable="true"></td></tr>
+    </table></div>
+    <div class="readout">
+      <span class="badge info" id="d2-ro1">—</span>
+      <span class="badge good" id="d2-ro2" style="display:none">✓ 这张清单就是你的设计契约雏形</span>
+    </div>
+  </div>
+  <div class="callout intuition">
+    <span class="tag">💡 拆完你会发现</span>
+    「舒服」变成了一张具体的清单：哪一秒有几层、什么职能、什么景别、声音怎么处理。这张清单，就是下半篇要给 agent 的设计契约雏形——<strong>你拆得越细，agent 执行得越准</strong>。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  「讲得清楚」= 八个知识域，按杠杆率排序：<strong>图解类型学、动效语言、Mayer 原则先保住</strong>，其余五域决定精致度。用法始终如一：把审美翻译成可枚举选型＋可写进文件的规则。到此 PART 1 结束——你已经能「看懂」一条视频，下一章进入 PART 2：让 agent 按图纸生产。
+</div>
+
+<div class="mark-done"><button data-done="ch4">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="03-style.html"><div class="dir">← 上一章</div><div class="t">气质：风格路线与设计契约</div></a>
+  <a class="next" href="05-workflow.html"><div class="dir">下一章 →</div><div class="t">修正后的工作流（PART 2 开始）</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.04 讲得清楚：八个知识域</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* ===== Demo 1：八域浏览器 ===== */
+(function(){
+  var DOMAINS=[
+    {name:'图解类型学',what:'流程/步骤图、对比表、时间线、金字塔/分层、地图、数轴曲线、象限图、代码 diff 卡',rule:'教学视频 80% 的画面是这 8 种的排列组合，一镜一图'},
+    {name:'动效语言',what:'缓动曲线的性格、stagger 逐个进入、入出场规范',rule:'单动作 0.3–0.5 秒，全片动效密度要匀'},
+    {name:'多媒体学习原则（Mayer）',what:'画面与声音如何分工的认知科学',rule:'画面讲关系、声音讲细节；大字提炼，字幕逐字'},
+    {name:'色彩与排版系统',what:'60-30-10 配色法则（主色/辅色/点缀的比例）、字体三件套（标题/正文/数据各一款）、对比度',rule:'AI 画面最易翻车处，好在可以写成自动检查'},
+    {name:'钩子与叙事骨架',what:'开场四型（反直觉/数据/提问/场景）、SCQA（情境-冲突-问题-答案的开场结构）、open loop（开头留个悬念，结尾回收）',rule:'镜头时长要有方差，全等长镜头＝催眠'},
+    {name:'声音设计',what:'BGM 情绪、音效语义库、ducking（人声出现时音乐自动压低）',rule:'讲解段低能量，结论段上扬'},
+    {name:'镜头语言',what:'景别、三分法、视线方向',rule:'纯图形片也能借用，让画面有呼吸'},
+    {name:'封面与标题公式',what:'封面构图（人脸/大字/高对比）、标题公式、平台调性',rule:'决定点开率，与内容同等重要'}
+  ];
+  var list=document.getElementById('d1-list');
+  var ro=document.getElementById('d1-ro1');
+  DOMAINS.forEach(function(d,i){
+    var item=document.createElement('div');item.className='dom-item';
+    var head=document.createElement('button');head.className='dom-head';
+    var top=i<3;
+    head.innerHTML='<span class="dom-rank">'+(i+1)+'</span>'
+      +'<span class="dom-name">'+d.name+'</span>'
+      +'<span class="dom-bar"><i style="width:'+Math.round((8-i)/8*100)+'%"></i></span>'
+      +'<span class="dom-tag'+(top?' top':'')+'">'+(top?'先保 · 决定清不清楚':'后补 · 决定精不精致')+'</span>';
+    var detail=document.createElement('div');detail.className='dom-detail';
+    detail.innerHTML='<b>管什么：</b>'+d.what+'<br><b>一条守则：</b>'+d.rule;
+    head.addEventListener('click',function(){
+      var open=item.classList.toggle('open');
+      if(open){
+        ro.textContent='第 '+(i+1)+' 域 · '+d.name+(top?' —— 属于「先保前三」':' —— 前三保牢后再投入');
+        ro.className='badge '+(top?'good':'info');
+      }
+    });
+    item.appendChild(head);item.appendChild(detail);
+    list.appendChild(item);
+  });
+})();
+
+/* ===== Demo 2：镜头拆解练习表 ===== */
+(function(){
+  var table=document.getElementById('d2-table');
+  var ro1=document.getElementById('d2-ro1'),ro2=document.getElementById('d2-ro2');
+  function editableRows(){
+    var rows=[];
+    for(var r=2;r<table.rows.length;r++)rows.push(table.rows[r]);
+    return rows;
+  }
+  function update(){
+    var done=0,total=0;
+    editableRows().forEach(function(tr){
+      total++;
+      var filled=0;
+      for(var c=0;c<tr.cells.length;c++){
+        if(tr.cells[c].textContent.trim()!=='')filled++;
+      }
+      if(filled>=4)done++; // 时间点(预填) + 至少 3 个字段
+    });
+    ro1.textContent='已填 '+done+' / '+total+' 行 · 每行除时间点外至少填 3 个字段算完成';
+    ro2.style.display=done===total?'':'none';
+  }
+  table.addEventListener('input',update);
+  document.getElementById('d2-clear').addEventListener('click',function(){
+    var defaults=['0:48','1:12','1:40','2:07'];
+    editableRows().forEach(function(tr,i){
+      for(var c=0;c<tr.cells.length;c++){
+        tr.cells[c].textContent=(c===0?defaults[i]:'');
+      }
+    });
+    update();
+  });
+  update();
+})();
+</script>
+</body>
+</html>

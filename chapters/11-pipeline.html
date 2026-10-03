@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 11 章 · 混合管线与 30 分钟流水线 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl active" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 2 · CHAPTER 11</span>
+  <h1>混合管线与 30 分钟流水线</h1>
+  <p class="hook">收官问题：前八章的零件——拆解三轴、音频先行、闸门、成本表、三个工具——怎么装成一条能跑的流水线？答案是：<strong>不按「用哪个工具」决策，按「哪道工序用哪个工具」分配。</strong></p>
+</header>
+
+<section>
+  <h2><span class="sec">11.1</span>演示：混合管线流程图</h2>
+  <div class="demo">
+    <div class="demo-title">点任意环节，看它的工具选择与闸门</div>
+    <div class="demo-note">琥珀色虚线框是人工闸门（定位、口播栏/画面栏、门禁人审），青色实线框是生产环节，中间三条是并行泳道。点击展开详情。</div>
+    <div class="pipeline" id="d9-pipe"></div>
+    <div class="pdetail" id="d9-detail"><h4>← 点击上方任意环节</h4><p class="muted">每个环节都会显示：用什么工具、过哪个闸门、最容易踩什么坑。</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">11.2</span>实拍口播为主时：泳道换一下</h2>
+  <table>
+    <tr><th>片型</th><th>管线配置</th></tr>
+    <tr><td><strong>教学/科普/产品宣传</strong>（图形驱动）</td><td>调研/定位（人＋agent）→ 视频脚本（G2/G3 人审）→ 三条并行泳道：<strong>HyperFrames</strong> 做 MG·图解·数据·章节卡，<strong>AI 视频模型</strong> 做少量实拍感镜头（带参考锚点），<strong>TTS</strong> 出口播（词级时间戳）→ 同步/组装（字幕·混音）→ 门禁人审 → 渲染/分发（可经剪映草稿收尾）</td></tr>
+    <tr><td><strong>真人出镜/访谈/课程录像</strong>（实拍驱动）</td><td>① <strong>ChatCut</strong> 做粗剪与口播清理（去口癖、压停顿）→ ② <strong>HyperFrames</strong> 做 MG 包装（标题、数据卡、章节卡）→ ③ 导出可编辑<strong>剪映草稿</strong>，人工做最后一公里的审美收尾</td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 为什么这样分工</span>
+    每个工具都被放在它最强的工序上：实拍素材的叙事性剪辑是代码路线最弱、ChatCut 最强的区域；MG/图解/数据是 HyperFrames 的主场且可批量复用；AI 生像素只出现在「拍不到又需要实拍感」的少数镜头（第 9 章的成本结论在这里落地）。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">11.3</span>动手环节：30 分钟最小流水线</h2>
+  <ol>
+    <li><strong>挑课题</strong>：挑一个已有调研结果的课题——调研报告、定稿文章、笔记都行，它就是脚本的唯一内容来源。</li>
+    <li><strong>写定位（10 分钟，过 G1）</strong>：受众、前 15 秒钩子、目标时长。</li>
+    <li><strong>起草脚本（过 G2）</strong>：让 agent 从调研结果起草视频脚本，<strong>先只写分段口播</strong>，自己朗读一遍再定稿。</li>
+    <li><strong>TTS 拿真实时长</strong>：出音频，拿到真实时长——这一步先于任何画面。</li>
+    <li><strong>补画面栏（过 G3）</strong>：在同一份脚本里补每镜画面，<strong>必填「素材来源」字段</strong>。</li>
+    <li><strong>只做一镜</strong>：用代码 MG 做一张数据动画或章节卡，渲染出来看效果。入口：<a href="https://github.com/heygen-com/hyperframes" style="color:var(--accent)">HyperFrames 官方仓库</a>的 README 有最小示例，照抄改字就是第一镜。</li>
+    <li><strong>沉淀设计契约</strong>：把配色、字体、卡片样式写成一份设计契约文件——下条视频直接复用。</li>
+  </ol>
+  <div class="callout intuition">
+    <span class="tag">💡 压轴直觉：先有一条能看的，再有一条满意的</span>
+    用最小流程跑通端到端验证选题，再投入搭建完整 agent 流水线——<strong>避免在没人看的选题上建完美工程</strong>。工程是放大器，选题才是信号源。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">11.4</span>演示：发布前自查清单</h2>
+  <div class="demo">
+    <div class="demo-title">12 个容易遗漏的角度 · 勾掉它们</div>
+    <div class="demo-note">把全站的关键结论浓缩成一张可勾选清单，进度存在本地浏览器里。发片前过一遍——勾选状态刷新后仍在。</div>
+    <div class="readout"><span class="badge info" id="d10-ro">0 / 12 已确认</span></div>
+    <div id="d10-list" style="margin-top:10px"></div>
+    <div class="preset-row"><button class="chip" id="d10-reset">清空重查</button></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">11.5</span>边界提醒：能帮你什么，不能证明什么</h2>
+  <table>
+    <tr><th>✅ 本系列能帮你</th><th>❌ 本系列不能证明</th></tr>
+    <tr><td>用三轴、景别、风格、知识域拆解任何一条视频</td><td><strong>看懂了就做得出</strong>——拆解能力要靠练习积累，不是读完就有</td></tr>
+    <tr><td>建立音频先行、分镜独立、闸门到位的工作流</td><td><strong>保证第一条视频就「满意」</strong>——审美判断无法代劳</td></tr>
+    <tr><td>按成本与修改成本选每镜素材来源</td><td><strong>AI 视频跨镜一致性已解决</strong>——关键帧图再图生视频仍是绕行方案，结论保质期约 6–12 个月</td></tr>
+    <tr><td>理解剪映 / ChatCut / HyperFrames 的分工</td><td><strong>「HyperFrames 对 agent 更友好」有独立背书</strong>——这是基于公开信息的判断，尚无公开基准测试，应视为待验证的假说</td></tr>
+  </table>
+  <div class="callout trap">
+    <span class="tag">⚠️ 时效性提醒</span>
+    剪映价格、字幕准确率、各工具集成的模型清单均随版本变化——动手前以官方当季信息为准，别把任何一张对比表当成长期依据。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 全站小结</span>
+  <strong>看懂</strong>：视频是「来源 × 职能 × 图层」的叠加；景别有含义，风格写进契约。<br>
+  <strong>生产</strong>：脚本从调研结果长出来，口播与画面同档分管；音频先行，四个闸门：定位、口播栏、画面栏、终审。<br>
+  <strong>工具</strong>：剪映、ChatCut、HyperFrames 是三个物种，按工序混着用，不是二选一。
+  <p style="text-align:center;font-family:var(--mono);font-size:19px;color:var(--accent);margin:1em 0 .2em"><strong>把流程写成代码，把判断留给自己。</strong></p>
+</div>
+
+<div class="mark-done"><button data-done="ch11">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="10-tools.html"><div class="dir">← 上一章</div><div class="t">工具格局</div></a>
+  <a class="next" href="../index.html"><div class="dir">完成 →</div><div class="t">回到首页 · 学习路径</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.11 混合管线</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* 混合管线流程图：点击节点看工具与闸门 */
+(function(){
+  var NODES=[
+    {gate:true,ico:'G1 闸门',name:'调研 / 定位',sub:'人＋agent · 约 10 分钟',
+     tool:'人＋任意 CLI agent 对话；课题优先选已有调研结果的（报告/文章/笔记），它就是脚本的唯一内容来源',gateTxt:'G1：确认受众、前 15 秒钩子与目标时长，省掉整条白做',warn:'不要指望 agent 替你选题——它擅长执行，选题与钩子决定视频上限'},
+    {gate:true,ico:'G2/G3',name:'视频脚本（口播稿＋分镜表）',sub:'AI 起草 → G2/G3 人审 · 约 30% 精力',
+     tool:'AI 起草，先只写分段口播；人工按「读出来顺不顺」朗读定稿（G2）；再补每镜画面栏（G3）',gateTxt:'G2 口播栏：稿子一改下游全废；G3 画面栏：每镜必填显式「素材来源」字段',warn:'产物是口播稿＋分镜表两份，不是一份纯文案；素材来源字段直接决定成本（第 9 章）'},
+    {gate:false,ico:'泳道 A',name:'HyperFrames：MG · 图解 · 数据 · 章节卡',sub:'AI 写代码 · 并行',
+     tool:'HyperFrames：composition=一个 HTML，headless Chrome 逐帧渲染；主题包复用，可批量',gateTxt:'自动门禁：lint/check/snapshot/compare 全绿',warn:'第一次渲染是草稿不是成品；审美要显式写成设计契约文件'},
+    {gate:false,ico:'泳道 B',name:'AI 视频模型：少量实拍感镜头',sub:'AI 生像素 · 并行',
+     tool:'T2V/I2V，带参考锚点（关键帧图再图生视频）；先 draft 后 high，同 prompt 缓存不重跑',gateTxt:'软闸门：逐帧检查 AI 失真，图表数字/UI 截图回源验证',warn:'只给无法实拍/图形表达的镜头；跨镜一致性仍是绕行方案，重试是主成本'},
+    {gate:false,ico:'泳道 C',name:'TTS 口播：词级时间戳',sub:'先于任何画面 · 并行',
+     tool:'TTS 出音频拿真实时长；词级时间戳是整条流水线的锚（字幕、逐词强调、动画关键帧都引用它）',gateTxt:'软闸门：试听校对多音字/数字/英文混排',warn:'画面时长按真实语音反向校正后不许手改——real duration wins'},
+    {gate:false,ico:'组装',name:'同步 / 组装：字幕 · 混音',sub:'独立工序，不是「拼接」',
+     tool:'HyperFrames（图形驱动片）或 ChatCut（实拍驱动片）；字幕依赖上游词级时间戳',gateTxt:'软闸门：contact sheet 关键帧拼图批量检查',warn:'混音必做 ducking（人声压 BGM）＋音量标准化；声音质量 ≫ 画面质量'},
+    {gate:true,ico:'G4 闸门',name:'门禁人审',sub:'只在这个点问「要不要渲染」',
+     tool:'人：节奏、信息密度、逐帧检查 AI 失真与事实准确性',gateTxt:'G4：自动门禁全绿之后的人工终审',warn:'事实核查是独立工序——AI 生成的图表数字、UI 截图必须回源验证'},
+    {gate:false,ico:'分发',name:'渲染 / 分发',sub:'可经剪映草稿收尾',
+     tool:'渲染：HyperFrames CLI（draft 迭代 → 高质量交付）；需人工收尾可经 ChatCut 导出剪映草稿，剪映做最后一公里',gateTxt:'无（但「起标题」仍是人的活）',warn:'发布物料是独立工序：封面多尺寸、标题、简介、章节时间轴、多画幅——权重常被技术型创作者低估'}
+  ];
+  var pipe=document.getElementById('d9-pipe'),detail=document.getElementById('d9-detail');
+  NODES.forEach(function(n,i){
+    if(i>0){var lk=document.createElement('div');lk.className='plink';pipe.appendChild(lk);}
+    var d=document.createElement('div');
+    d.className='pnode'+(n.gate?' gate':'');
+    d.innerHTML='<span class="pn-ico">'+n.ico+'</span><span><span class="pn-name">'+n.name+'</span><br><span class="pn-sub">'+n.sub+'</span></span>';
+    d.addEventListener('click',function(){
+      pipe.querySelectorAll('.pnode').forEach(function(x){x.classList.remove('on')});
+      d.classList.add('on');
+      detail.innerHTML='<h4>'+n.name+'</h4>'
+        +'<div class="kv"><b>工具选择</b><span>'+n.tool+'</span></div>'
+        +'<div class="kv"><b>闸门</b><span>'+n.gateTxt+'</span></div>'
+        +'<div class="kv"><b>最易踩的坑</b><span style="color:var(--warn)">'+n.warn+'</span></div>';
+    });
+    pipe.appendChild(d);
+  });
+})();
+
+/* 12 个遗漏角度 · 可勾选自查清单（localStorage 持久化） */
+(function(){
+  var ITEMS=[
+    '声音质量 ≫ 画面质量：人声隔离/增强、BGM ducking、音量标准化必做',
+    '音频先行 + 词级时间戳是整条流水线的锚，转录在上游预留',
+    '设计契约先行：第一支视频就把配色/字体/组件/字幕规范做成可复用主题（frame.md/design.md）',
+    '发布物料是独立工序：封面多尺寸、标题、简介、章节时间轴、多画幅裁剪',
+    '成本工程：重试是主成本；draft 先行、同 prompt 缓存不重跑、预算护栏、无依赖并发',
+    'AI 写代码 ≠ AI 生像素：能代码 MG 表达的镜头不要交给生像素模型（第 9 章）',
+    '素材真实性闸门：AI 生成的图表数字与 UI 截图必须回源验证；实拍的真实性不可替代',
+    '版权与合规（延伸提醒，本站未展开）：AI 音乐/素材/字体授权各不相同；声音克隆与数字人需明确授权；平台 AI 标识要求',
+    '数据回流（延伸提醒）：播放量、完播率、跳出点回流影响下一期脚本与节奏',
+    '本地优先（延伸提醒）：课程录像、未发布产品画面上云前的合规考量；本地渲染与导出是刚需',
+    '不要指望 agent 替你选题：选题、钩子、叙事取舍需要人的判断',
+    '先有一条能看的，再有一条满意的：最小流程验证选题，再建完美工程'
+  ];
+  var KEY='aivideo-checklist';
+  function get(){try{return JSON.parse(localStorage.getItem(KEY)||'[]')}catch(e){return[]}}
+  function set(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}
+  var list=document.getElementById('d10-list'),ro=document.getElementById('d10-ro');
+  var state=get();
+  ITEMS.forEach(function(txt,i){
+    var lab=document.createElement('label');
+    lab.style.cssText='display:flex;gap:10px;align-items:flex-start;margin:7px 0;cursor:pointer;font-size:14.5px';
+    var cb=document.createElement('input');
+    cb.type='checkbox';cb.checked=state.indexOf(i)>=0;cb.style.cssText='margin-top:5px;accent-color:var(--accent)';
+    var span=document.createElement('span');span.textContent=(i+1)+'. '+txt;
+    function paint(){span.style.color=cb.checked?'var(--good)':'var(--text)';span.style.textDecoration=cb.checked?'line-through':'none';}
+    cb.addEventListener('change',function(){
+      var s=get();var j=s.indexOf(i);
+      if(cb.checked&&j<0)s.push(i);if(!cb.checked&&j>=0)s.splice(j,1);
+      set(s);paint();update();
+    });
+    paint();lab.appendChild(cb);lab.appendChild(span);list.appendChild(lab);
+  });
+  function update(){
+    var n=get().length;
+    ro.textContent=n+' / '+ITEMS.length+' 已确认';
+    ro.className='badge '+(n===ITEMS.length?'good':n>=8?'info':'warn');
+  }
+  document.getElementById('d10-reset').addEventListener('click',function(){
+    set([]);
+    list.querySelectorAll('input').forEach(function(cb,i){cb.checked=false;cb.dispatchEvent(new Event('change'));});
+    set([]);update();
+  });
+  update();
+})();
+</script>
+</body>
+</html>

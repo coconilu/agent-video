@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>第 2 章 · 镜头：景别与构图 — agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+<div id="progress"></div>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="01-anatomy.html" data-done-dot="ch1">1 解剖三轴</a>
+  <a class="nl active" href="02-shots.html" data-done-dot="ch2">2 景别构图</a>
+  <a class="nl" href="03-style.html" data-done-dot="ch3">3 风格路线</a>
+  <a class="nl" href="04-clarity.html" data-done-dot="ch4">4 讲得清楚</a>
+  <a class="nl" href="05-workflow.html" data-done-dot="ch5">5 工作流</a>
+  <a class="nl" href="06-gates.html" data-done-dot="ch6">6 闸门与坑</a>
+  <a class="nl" href="07-progressive.html" data-done-dot="ch7">7 渐进流程</a>
+  <a class="nl" href="08-transitions.html" data-done-dot="ch8">8 片段过渡</a>
+  <a class="nl" href="09-cost.html" data-done-dot="ch9">9 成本决策</a>
+  <a class="nl" href="10-tools.html" data-done-dot="ch10">10 工具格局</a>
+  <a class="nl" href="11-pipeline.html" data-done-dot="ch11">11 混合管线</a>
+</nav>
+<main class="wrap">
+
+<header class="chap-head">
+  <span class="chap-num">PART 1 · CHAPTER 02</span>
+  <h1>镜头：景别与构图</h1>
+  <p class="hook">痛点钩子：同一个画面构图怼满三分钟，观众三十秒就划走——不是内容不好，是你的「镜头」永远停在同一个距离。<strong>景别是叙事语言，不是摄像机参数。</strong></p>
+</header>
+
+<section>
+  <h2><span class="sec">2.1</span>景别 = 心理距离</h2>
+  <p>拍同一个人，取景范围不同，观众的心理距离就不同。景别（画面取景的远近）常用五种，各有分工：</p>
+  <table>
+    <tr><th>景别</th><th>看到什么</th><th>叙事含义</th><th>类比</th></tr>
+    <tr><td><strong>远景</strong></td><td>大环境，人很小</td><td>交代环境、情绪留白</td><td>小说的环境描写</td></tr>
+    <tr><td><strong>全景</strong></td><td>人物全身</td><td>动作与空间关系</td><td>舞台全貌</td></tr>
+    <tr><td><strong>中景</strong></td><td>腰部以上</td><td>叙述主力，讲解标配</td><td>面对面聊天</td></tr>
+    <tr><td><strong>近景</strong></td><td>胸部以上</td><td>强调情绪与观点</td><td>凑近了说</td></tr>
+    <tr><td><strong>特写</strong></td><td>局部占满画面</td><td>细节、强调、心跳</td><td>指着给你看</td></tr>
+  </table>
+  <div class="callout intuition">
+    <span class="tag">💡 一句话直觉</span>
+    景别决定的是「观众感觉离你多远」。<strong>中景是讲解标配</strong>（面对面聊天的心理距离），特写像「指着给你看」，要留给金句和关键细节——整条片都用特写，等于一直贴着观众的脸说话。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">2.2</span>演示：景别切换器</h2>
+  <div class="demo">
+    <div class="demo-title">同一个人物，五种取景</div>
+    <div class="demo-note">点上方五个景别按钮。画面里的人物、山、太阳完全没变，变的只有取景框的远近——注意你的「心理距离」如何跟着变化。</div>
+    <div class="ctl"><div class="btn-group" id="d1-group">
+      <button data-s="0">远景</button>
+      <button data-s="1">全景</button>
+      <button class="on" data-s="2">中景</button>
+      <button data-s="3">近景</button>
+      <button data-s="4">特写</button>
+    </div></div>
+    <svg id="d1-svg" viewBox="0 0 480 300" style="width:100%;max-width:880px;display:block;margin:10px auto 0;background:#1a2740;border:1px solid var(--border);border-radius:10px">
+      <g id="d1-scene">
+        <rect x="-240" y="-160" width="960" height="620" fill="#1a2740"/>
+        <circle cx="120" cy="70" r="26" fill="#f6ad55" opacity=".85"/>
+        <path d="M-240,230 L60,120 L200,230 Z" fill="#22314e"/>
+        <path d="M120,230 L320,100 L560,230 Z" fill="#1d2a44"/>
+        <rect x="-240" y="230" width="960" height="230" fill="#16202f"/>
+        <rect x="376" y="214" width="6" height="16" fill="#6b4f2e"/>
+        <circle cx="379" cy="206" r="14" fill="#2f6f4f"/>
+        <rect x="104" y="220" width="5" height="12" fill="#6b4f2e"/>
+        <circle cx="106" cy="214" r="10" fill="#2f6f4f"/>
+        <circle cx="300" cy="160" r="14" fill="#e6e9f0"/>
+        <rect x="290" y="176" width="20" height="54" rx="8" fill="#4fd1c5"/>
+        <rect x="292" y="230" width="6" height="20" rx="3" fill="#9aa3b5"/>
+        <rect x="302" y="230" width="6" height="20" rx="3" fill="#9aa3b5"/>
+      </g>
+      <rect x="1" y="1" width="478" height="298" fill="none" stroke="#4a5468" stroke-width="2"/>
+      <text x="470" y="18" text-anchor="end" font-size="10" fill="#9aa3b5" font-family="ui-monospace,Consolas,monospace">取景框 16:9</text>
+    </svg>
+    <div class="readout">
+      <span class="badge info" id="d1-ro1">—</span>
+      <span class="badge info" id="d1-ro2">—</span>
+      <span class="badge warn" id="d1-ro3">—</span>
+    </div>
+  </div>
+  <div class="callout trap">
+    <span class="tag">⚠️ 新手常见坑</span>
+    全程一个景别怼到底，等于把摄像机钉死在墙上——观众看到的是监控录像，不是叙事。<strong>纯图形片也有景别</strong>：把图解局部放大占满画面就是特写，拉远看到全貌就是全景。做 MG 时别让所有元素永远同一缩放。
+  </div>
+  <div class="callout deep">
+    <span class="tag">∑ 想深一层</span>
+    景别的切换方向本身也是叙事：<strong>远 → 近是「聚焦」</strong>（从环境一步步逼近重点），<strong>近 → 远是「抽离」</strong>（从细节拉回全貌，常用于收尾）。分镜表里给每镜标一个景别，你就多了一根控制节奏的旋钮。
+  </div>
+</section>
+
+<section>
+  <h2><span class="sec">2.3</span>构图：三分法与呼吸感</h2>
+  <p>还有一条构图常识：<strong>三分法</strong>——把画面横竖各三等分，主体放在交叉点上，比怼在正中央更有呼吸感。这条对纯图形动画同样成立：重要元素别总居中。</p>
+  <div class="demo">
+    <div class="demo-title">三分法开关：居中 vs 交叉点</div>
+    <div class="demo-note">保持网格打开，切换主体的三种摆法。注意画面「空出来的那一侧」能放下什么——视线、字幕、下一张图。</div>
+    <div class="ctl">
+      <div class="btn-group" id="d2-group">
+        <button data-p="center">主体居中</button>
+        <button class="on" data-p="left">放左交叉点</button>
+        <button data-p="right">放右交叉点</button>
+      </div>
+      <label style="margin-left:8px"><input type="checkbox" id="d2-grid" checked> 显示三分法网格</label>
+    </div>
+    <svg id="d2-svg" viewBox="0 0 480 300" style="width:100%;max-width:880px;display:block;margin:10px auto 0;background:#1a2740;border:1px solid var(--border);border-radius:10px">
+      <rect width="480" height="200" fill="#1a2740"/>
+      <circle cx="400" cy="56" r="20" fill="#f6ad55" opacity=".8"/>
+      <rect y="200" width="480" height="100" fill="#16202f"/>
+      <g id="d2-gridlines" stroke="#4fd1c5" stroke-width="1" stroke-dasharray="5 5" opacity=".55">
+        <line x1="160" y1="0" x2="160" y2="300"/>
+        <line x1="320" y1="0" x2="320" y2="300"/>
+        <line x1="0" y1="100" x2="480" y2="100"/>
+        <line x1="0" y1="200" x2="480" y2="200"/>
+      </g>
+      <circle id="d2-dot" cx="160" cy="200" r="5" fill="#4fd1c5"/>
+      <g id="d2-person">
+        <circle cx="160" cy="152" r="11" fill="#e6e9f0"/>
+        <rect x="151" y="165" width="18" height="35" rx="7" fill="#4fd1c5"/>
+      </g>
+    </svg>
+    <div class="readout">
+      <span class="badge info" id="d2-ro1">—</span>
+      <span class="badge good" id="d2-ro2">—</span>
+    </div>
+  </div>
+  <div class="callout intuition">
+    <span class="tag">💡 为什么交叉点更舒服</span>
+    居中构图把所有方向都堵死了，画面没有「气口」；主体放到交叉点上，<strong>空出来的一侧自动变成留白</strong>——可以给人的视线方向、给字幕条、给下一个要入画的元素。构图的本质不是摆主体，是经营留白。
+  </div>
+</section>
+
+<div class="callout summary">
+  <span class="tag">✓ 本章小结</span>
+  景别 = 心理距离：远景交代环境、全景看动作、<strong>中景是讲解标配</strong>、近景强调观点、特写留给细节与金句。构图上主体别总居中，三分法交叉点 + 留白 = 呼吸感。下一章解决更直观的一层：画面长什么样——风格路线。
+</div>
+
+<div class="mark-done"><button data-done="ch2">标记本章为已完成</button></div>
+<div class="chap-nav">
+  <a href="01-anatomy.html"><div class="dir">← 上一章</div><div class="t">解剖：三轴体系</div></a>
+  <a class="next" href="03-style.html"><div class="dir">下一章 →</div><div class="t">气质：风格路线与设计契约</div></a>
+</div>
+
+</main>
+<footer>agent→video · CH.02 镜头：景别与构图</footer>
+<script src="../assets/js/site.js"></script>
+<script>
+/* ===== Demo 1：景别切换器 ===== */
+(function(){
+  var SHOTS=[
+    {name:'远景', s:1.0, fx:240, fy:150, see:'看到：大环境，人很小', mean:'交代环境、情绪留白', ana:'类比：小说的环境描写'},
+    {name:'全景', s:2.3, fx:300, fy:200, see:'看到：人物全身',       mean:'动作与空间关系',   ana:'类比：舞台全貌'},
+    {name:'中景', s:3.8, fx:300, fy:182, see:'看到：腰部以上',       mean:'叙述主力，讲解标配', ana:'类比：面对面聊天'},
+    {name:'近景', s:5.6, fx:300, fy:172, see:'看到：胸部以上',       mean:'强调情绪与观点',   ana:'类比：凑近了说'},
+    {name:'特写', s:8.0, fx:300, fy:160, see:'看到：局部占满画面',   mean:'细节、强调、心跳', ana:'类比：指着给你看'}
+  ];
+  var scene=document.getElementById('d1-scene');
+  var btns=document.querySelectorAll('#d1-group button');
+  function render(i){
+    var sh=SHOTS[i];
+    scene.setAttribute('transform','translate(240 150) scale('+sh.s+') translate('+(-sh.fx)+' '+(-sh.fy)+')');
+    btns.forEach(function(b,bi){b.classList.toggle('on',bi===i);});
+    document.getElementById('d1-ro1').textContent=sh.name+' · '+sh.see;
+    document.getElementById('d1-ro2').textContent='叙事：'+sh.mean;
+    document.getElementById('d1-ro3').textContent=sh.ana;
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){render(+b.getAttribute('data-s'));});});
+  render(2);
+})();
+
+/* ===== Demo 2：三分法开关 ===== */
+(function(){
+  var POS={
+    center:{x:240, msg:'居中：稳定、正式、对称——但四周被堵死，略显呆板', tip:'适合：标题卡、对称强调画面', good:false},
+    left:  {x:160, msg:'左交叉点：右侧留白，能放视线方向、字幕条、下一张图', tip:'呼吸感最强：叙事画面的默认摆法', good:true},
+    right: {x:320, msg:'右交叉点：左侧留白，适合从右往左的动线或对照构图', tip:'呼吸感强：与左侧留白形成变奏', good:true}
+  };
+  var person=document.getElementById('d2-person'),dot=document.getElementById('d2-dot');
+  var grid=document.getElementById('d2-gridlines'),gridCb=document.getElementById('d2-grid');
+  var btns=document.querySelectorAll('#d2-group button');
+  function render(k){
+    var p=POS[k];
+    person.setAttribute('transform','translate('+(p.x-160)+' 0)');
+    dot.setAttribute('cx',p.x);
+    btns.forEach(function(b){b.classList.toggle('on',b.getAttribute('data-p')===k);});
+    var ro1=document.getElementById('d2-ro1'),ro2=document.getElementById('d2-ro2');
+    ro1.textContent=p.msg; ro1.className='badge '+(p.good?'good':'warn');
+    ro2.textContent=p.tip; ro2.className='badge '+(p.good?'info':'warn');
+  }
+  btns.forEach(function(b){b.addEventListener('click',function(){render(b.getAttribute('data-p'));});});
+  gridCb.addEventListener('change',function(){grid.style.display=gridCb.checked?'':'none';dot.style.display=gridCb.checked?'':'none';});
+  render('left');
+})();
+</script>
+</body>
+</html>
