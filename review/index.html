@@ -3,10 +3,70 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>评审平台 · agent→video</title>
-<link rel="stylesheet" href="../assets/css/main.css">
+<title>video-review · 视频评审留档平台</title>
 <style>
-/* ---- 评审平台专用样式（变量沿用主站 main.css） ---- */
+/* ---- 自包含基础样式（与图解站同色系，但不依赖任何外部文件） ---- */
+:root{
+  --canvas:#0d1117; --surface:#161b26; --surface2:#1d2433; --border:#2a3244;
+  --text:#e6e9f0; --muted:#9aa3b5;
+  --accent:#4fd1c5; --accent2:#f6ad55;
+  --good:#48bb78; --warn:#ed8936; --bad:#fc8181;
+  --mono:ui-monospace,"Cascadia Code","JetBrains Mono",Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--canvas);color:var(--text);
+  font:16px/1.75 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+strong{color:#fff}
+h2{font-size:22px;margin:2.2em 0 .6em;padding-top:.6em;border-top:1px dashed var(--border)}
+h2 .sec{font-family:var(--mono);color:var(--accent);font-size:.75em;margin-right:.4em}
+.muted{color:var(--muted)}
+.topnav{position:sticky;top:0;z-index:50;background:rgba(13,17,23,.92);backdrop-filter:blur(8px);
+  border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px;
+  padding:10px 20px;flex-wrap:wrap}
+.topnav .brand{font-family:var(--mono);font-weight:700;color:var(--text);font-size:15px}
+.topnav .brand b{color:var(--accent)}
+.topnav a.nl{color:var(--muted);font-size:13.5px;padding:4px 9px;border-radius:7px;white-space:nowrap}
+.topnav a.nl:hover{color:var(--text);background:var(--surface2);text-decoration:none}
+.topnav a.nl.active{color:var(--accent);background:rgba(79,209,197,.1);box-shadow:inset 0 0 0 1px rgba(79,209,197,.35)}
+.wrap{max-width:960px;margin:0 auto;padding:36px 22px 90px}
+.chap-head{margin:18px 0 26px}
+.chap-num{font-family:var(--mono);font-size:13px;color:var(--accent);border:1px solid rgba(79,209,197,.4);
+  border-radius:7px;padding:2px 10px;display:inline-block;letter-spacing:.08em}
+.chap-head h1{margin:.45em 0 .25em;font-size:30px;line-height:1.3}
+.chap-head .hook{color:var(--muted);font-size:16.5px}
+.path-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:26px 0}
+.path-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 20px;display:block;color:var(--text)}
+.path-card:hover{border-color:var(--accent);text-decoration:none;transform:translateY(-2px);transition:.15s}
+.path-card .pc-num{font-family:var(--mono);color:var(--accent);font-size:13px}
+.path-card h3{margin:.3em 0 .3em;font-size:17px}
+.badge{font-family:var(--mono);font-size:13px;border-radius:8px;padding:5px 11px;
+  background:var(--surface2);border:1px solid var(--border)}
+.badge.good{color:var(--good);border-color:rgba(72,187,120,.5)}
+.badge.warn{color:var(--warn);border-color:rgba(237,137,54,.5)}
+.badge.bad{color:var(--bad);border-color:rgba(252,129,129,.5)}
+.badge.info{color:var(--accent);border-color:rgba(79,209,197,.5)}
+.pipeline{display:flex;flex-direction:column;gap:0;margin:10px 0}
+.pnode{display:flex;align-items:center;gap:14px;background:var(--surface2);
+  border:1px solid var(--border);border-radius:11px;padding:11px 15px;cursor:pointer;transition:.15s}
+.pnode:hover{border-color:var(--accent)}
+.pnode.on{border-color:var(--accent);background:rgba(79,209,197,.08)}
+.pnode.gate{border-color:rgba(246,173,85,.5);border-style:dashed}
+.pnode.gate.on{background:rgba(246,173,85,.1);border-color:var(--accent2)}
+.pnode .pn-ico{font-family:var(--mono);font-size:12px;min-width:64px;text-align:center;
+  border-radius:6px;padding:3px 6px;background:var(--canvas);color:var(--accent)}
+.pnode.gate .pn-ico{color:var(--accent2)}
+.pnode .pn-name{font-weight:600}
+.pnode .pn-sub{color:var(--muted);font-size:13px}
+.pnode-detail{display:none;background:var(--canvas);border:1px solid var(--border);border-radius:11px;
+  padding:14px 18px;margin:2px 0 10px 24px}
+.pnode-detail.open{display:block}
+.pnode-detail h4{margin:0 0 6px;color:var(--accent)}
+footer{border-top:1px solid var(--border);margin-top:60px;padding:22px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ---- 评审平台专用样式 ---- */
 .gate-strip{display:flex;gap:6px;margin:18px 0 8px;flex-wrap:wrap}
 .gnode{flex:1;min-width:96px;text-align:center;border:1px solid var(--border);border-radius:10px;
   padding:9px 6px 7px;cursor:pointer;background:var(--surface);transition:.15s;position:relative}
@@ -72,14 +132,12 @@ audio{width:100%}
 </head>
 <body>
 <nav class="topnav">
-  <a class="brand" href="https://display.ai-workspace.top/agent-video/">agent<b>→</b>video</a>
-  <a class="nl" href="https://display.ai-workspace.top/agent-video/">图解站</a>
-  <a class="nl active" href="./index.html">评审平台</a>
+  <a class="brand" href="./index.html">video<b>→</b>review</a>
 </nav>
 <main class="wrap" id="app">
   <div class="empty-state">载入中…</div>
 </main>
-<footer>agent→video · 评审平台（只读）· 评审动作在对话里发生，这里留档与呈现</footer>
+<footer>video→review · 视频评审留档平台（只读）· 评审动作在对话里发生，这里留档与呈现</footer>
 <script>
 (function(){
 'use strict';
