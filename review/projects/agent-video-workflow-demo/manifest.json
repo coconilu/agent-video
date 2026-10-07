@@ -1,0 +1,310 @@
+{
+  "schema_version": 1,
+  "project": {
+    "id": "agent-video-workflow-demo",
+    "title": "六轮五闸渐进式工作流（科普短片）",
+    "topic": "用 coding agent 做视频的对齐工作流",
+    "source": "交互图解站 11 章 + skill references",
+    "target_duration_s": 85,
+    "aspect": "16:9",
+    "created_at": "2026-10-07T02:23:25.797Z"
+  },
+  "workflow": {
+    "name": "agent-video-workflow",
+    "version": "1.0"
+  },
+  "status": "active",
+  "current_gate": "G4",
+  "gates": [
+    {
+      "id": "G1",
+      "name": "定位确认",
+      "round": 1,
+      "criteria": [
+        "定位四要素确认：选题 / 钩子 / 受众 / 目标时长",
+        "钩子从开场四型 / SCQA / open loop 中显式选型（钩子与叙事骨架域）",
+        "定位写进脚本文件头，之后每轮贴回（立意层错误再多闸也救不回）"
+      ],
+      "precheck": null,
+      "decision": {
+        "action": "approved",
+        "by": "human",
+        "comment": "用户确认立项（钩子选型：反直觉型）",
+        "at": "2026-10-07T02:23:26.661Z",
+        "attempt": 1
+      },
+      "history": [],
+      "artifacts": []
+    },
+    {
+      "id": "G2",
+      "name": "口播栏锁定",
+      "round": 2,
+      "criteria": [
+        "口播栏读出来顺（朗读一遍再定稿）",
+        "Mayer 分工：声音讲细节，不复述画面已展示的关系",
+        "叙事骨架成立"
+      ],
+      "precheck": null,
+      "decision": {
+        "action": "approved",
+        "by": "human",
+        "comment": "读出来顺；Mayer 分工（声音讲细节）；叙事骨架成立（痛点→证据→解法→守则→落版）",
+        "at": "2026-10-07T02:23:26.726Z",
+        "attempt": 1
+      },
+      "history": [],
+      "artifacts": [
+        {
+          "path": "alignment/script.md",
+          "type": "markdown",
+          "label": "口播栏（三栏脚本）",
+          "at": "2026-10-07T02:23:25.867Z"
+        }
+      ]
+    },
+    {
+      "id": "G3",
+      "name": "画面栏＋素材来源",
+      "round": 2,
+      "criteria": [
+        "画面栏逐镜过",
+        "每镜素材来源类型标注齐全（直接决定成本和工期）",
+        "图解一镜一图（八型选型）",
+        "景别与视线检查"
+      ],
+      "precheck": null,
+      "decision": {
+        "action": "approved",
+        "by": "human",
+        "comment": "一镜一图（八型选型）；来源标注齐全（MG×5/数据可视化×2/标题卡×1，AI 生成 0 镜）",
+        "at": "2026-10-07T02:23:26.793Z",
+        "attempt": 1
+      },
+      "history": [],
+      "artifacts": [
+        {
+          "path": "alignment/script.md",
+          "type": "markdown",
+          "label": "画面栏＋素材来源（三栏脚本）",
+          "at": "2026-10-07T02:23:25.937Z"
+        }
+      ]
+    },
+    {
+      "id": "STYLE",
+      "name": "风格选定",
+      "round": 3,
+      "criteria": [
+        "agent 出 2–3 个方向各带取舍说明，人做选择题",
+        "色彩排版写进契约（色值、字体三件套）",
+        "动效规范写进契约；可自动检查项落成软闸门"
+      ],
+      "precheck": null,
+      "decision": {
+        "action": "approved",
+        "by": "human",
+        "comment": "沿用图解站视觉体系；色彩排版（色值、字体三件套）与动效规范入契约",
+        "at": "2026-10-07T02:23:26.860Z",
+        "attempt": 1
+      },
+      "history": [],
+      "artifacts": [
+        {
+          "path": "alignment/style-contract.md",
+          "type": "markdown",
+          "label": "风格契约",
+          "at": "2026-10-07T02:23:26.004Z"
+        }
+      ]
+    },
+    {
+      "id": "G3.5",
+      "name": "关键帧预览",
+      "round": 4,
+      "criteria": [
+        "按素材类型分级施用：AI 生成视频首/尾/中间帧全审；数字人审定妆图；MG 线框扫一眼；静帧确认运镜起止框；实拍录屏审开录前步骤清单",
+        "图解选型贴合八型"
+      ],
+      "precheck": null,
+      "decision": {
+        "action": "approved",
+        "by": "human",
+        "comment": "分级施用：全片 MG/数据可视化类按「线框扫一眼」档执行；QC 帧 8 张覆盖全镜",
+        "at": "2026-10-07T02:23:26.926Z",
+        "attempt": 1
+      },
+      "history": [],
+      "artifacts": [
+        {
+          "path": "qc/f_5.5.png",
+          "type": "image",
+          "label": "QC 帧 f_5.5.png",
+          "at": "2026-10-07T02:23:26.072Z"
+        },
+        {
+          "path": "qc/f_16.png",
+          "type": "image",
+          "label": "QC 帧 f_16.png",
+          "at": "2026-10-07T02:23:26.139Z"
+        },
+        {
+          "path": "qc/f_27.png",
+          "type": "image",
+          "label": "QC 帧 f_27.png",
+          "at": "2026-10-07T02:23:26.203Z"
+        },
+        {
+          "path": "qc/f_40.png",
+          "type": "image",
+          "label": "QC 帧 f_40.png",
+          "at": "2026-10-07T02:23:26.267Z"
+        },
+        {
+          "path": "qc/f_49.5.png",
+          "type": "image",
+          "label": "QC 帧 f_49.5.png",
+          "at": "2026-10-07T02:23:26.334Z"
+        },
+        {
+          "path": "qc/f_62.png",
+          "type": "image",
+          "label": "QC 帧 f_62.png",
+          "at": "2026-10-07T02:23:26.400Z"
+        },
+        {
+          "path": "qc/f_74.png",
+          "type": "image",
+          "label": "QC 帧 f_74.png",
+          "at": "2026-10-07T02:23:26.465Z"
+        },
+        {
+          "path": "qc/f_85.png",
+          "type": "image",
+          "label": "QC 帧 f_85.png",
+          "at": "2026-10-07T02:23:26.531Z"
+        }
+      ]
+    },
+    {
+      "id": "G4",
+      "name": "草稿片终审",
+      "round": 5,
+      "criteria": [
+        "节奏与信息密度",
+        "事实准确性（数字、术语回源核对）",
+        "涌现项复核：动效密度均匀、Mayer 分工"
+      ],
+      "precheck": {
+        "by": "agent",
+        "result": "pass",
+        "notes": "8 帧目检无溢出重叠；lint 0 error；对比度 51/51 AA；成片 88.30s（2649 帧 @30fps）1920×1080 h264+AAC 7.9MB；音量 mean −21.8dB / max −4.1dB；事实核查（0.9⁸≈43%、六轮五闸、90/10 成本账、三工具分工）均与内容来源一致",
+        "at": "2026-10-07T02:23:26.997Z"
+      },
+      "decision": null,
+      "history": [],
+      "artifacts": [
+        {
+          "path": "agent-video-workflow.mp4",
+          "type": "video",
+          "label": "草稿片（88.3s 1080p）",
+          "at": "2026-10-07T02:23:26.596Z"
+        }
+      ]
+    },
+    {
+      "id": "G4a",
+      "name": "片段衔接确认",
+      "round": 5,
+      "parallel_with": "G4",
+      "criteria": [
+        "15 秒衔接小样审转场",
+        "配音连续性：ducking、BGM 情绪线"
+      ],
+      "precheck": null,
+      "decision": {
+        "action": "approved",
+        "by": "human",
+        "comment": "单片连续合成，无外部片段拼接；切镜点随章节徽标硬切，配音跨镜连续无重叠（字幕 cue 已强制不重叠）",
+        "at": "2026-10-07T02:23:27.065Z",
+        "attempt": 1
+      },
+      "history": [],
+      "artifacts": []
+    },
+    {
+      "id": "G5",
+      "name": "终稿＋分发物料",
+      "round": 6,
+      "criteria": [
+        "质量项：分辨率 / 调色 / 字幕规范",
+        "封面标题公式（决定点开率）",
+        "不再动叙事"
+      ],
+      "precheck": null,
+      "decision": null,
+      "history": [],
+      "artifacts": []
+    }
+  ],
+  "artifacts": {
+    "script": {
+      "path": "alignment/script.md",
+      "type": "markdown",
+      "at": "2026-10-07T02:23:25.937Z"
+    },
+    "style_contract": {
+      "path": "alignment/style-contract.md",
+      "type": "markdown",
+      "at": "2026-10-07T02:23:26.004Z"
+    },
+    "keyframes": [
+      {
+        "path": "qc/f_5.5.png",
+        "note": "QC 帧 f_5.5.png",
+        "at": "2026-10-07T02:23:26.072Z"
+      },
+      {
+        "path": "qc/f_16.png",
+        "note": "QC 帧 f_16.png",
+        "at": "2026-10-07T02:23:26.139Z"
+      },
+      {
+        "path": "qc/f_27.png",
+        "note": "QC 帧 f_27.png",
+        "at": "2026-10-07T02:23:26.203Z"
+      },
+      {
+        "path": "qc/f_40.png",
+        "note": "QC 帧 f_40.png",
+        "at": "2026-10-07T02:23:26.267Z"
+      },
+      {
+        "path": "qc/f_49.5.png",
+        "note": "QC 帧 f_49.5.png",
+        "at": "2026-10-07T02:23:26.334Z"
+      },
+      {
+        "path": "qc/f_62.png",
+        "note": "QC 帧 f_62.png",
+        "at": "2026-10-07T02:23:26.400Z"
+      },
+      {
+        "path": "qc/f_74.png",
+        "note": "QC 帧 f_74.png",
+        "at": "2026-10-07T02:23:26.465Z"
+      },
+      {
+        "path": "qc/f_85.png",
+        "note": "QC 帧 f_85.png",
+        "at": "2026-10-07T02:23:26.531Z"
+      }
+    ],
+    "draft_video": {
+      "path": "agent-video-workflow.mp4",
+      "type": "video",
+      "at": "2026-10-07T02:23:26.596Z"
+    },
+    "final_video": null
+  }
+}

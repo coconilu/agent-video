@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8"><title>六轮五闸渐进式工作流（科普短片） · style-contract.md</title>
+<style>
+body{margin:0;padding:18px 22px;background:#0d1117;color:#e6e9f0;font:15px/1.75 -apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+h1{font-size:22px;margin:.4em 0}h2{font-size:18px;margin:1.4em 0 .5em;padding-top:.5em;border-top:1px dashed #2a3244}
+h3{font-size:16px;margin:1.2em 0 .4em}h4,h5,h6{font-size:15px;margin:1em 0 .3em}
+p{margin:.6em 0}ul,ol{padding-left:1.4em}li{margin:.2em 0}
+strong{color:#fff}code{font-family:ui-monospace,Consolas,monospace;font-size:.9em;background:#1d2433;border:1px solid #2a3244;border-radius:5px;padding:.1em .4em;color:#4fd1c5}
+pre{background:#161b26;border:1px solid #2a3244;border-radius:8px;padding:12px 16px;overflow-x:auto}
+pre code{background:none;border:none;padding:0;color:#e6e9f0}
+table{border-collapse:collapse;width:100%;margin:1em 0;font-size:14px}
+th,td{border:1px solid #2a3244;padding:7px 10px;text-align:left;vertical-align:top}
+th{background:#1d2433}td{background:#161b26}
+hr{border:none;border-top:1px dashed #2a3244;margin:1.4em 0}
+blockquote{border-left:3px solid #f6ad55;margin:.8em 0;padding:2px 14px;color:#9aa3b5}
+a{color:#4fd1c5}
+</style></head><body>
+<h1>风格契约 · 六轮五闸科普短片（轮 3 定稿）</h1>
+<p>全片所有镜头引用本契约；改动需回到轮 3 重审。</p>
+<h2>色彩</h2>
+<table><thead><tr><th>角色</th><th>色值</th><th>用途</th></tr></thead><tbody><tr><td>画布</td><td><code>#0d1117</code> / <code>#0b1220</code></td><td>深色背景</td></tr><tr><td>主色（青）</td><td><code>#5eead4</code></td><td>强调、数据、正向信息、高亮块</td></tr><tr><td>点缀（琥珀）</td><td><code>#fbbf24</code></td><td>闸门标记、关键词、「贵/贵约束」语义</td></tr><tr><td>警示红</td><td>仅镜 1 红叉</td><td>全片唯一使用处</td></tr><tr><td>正文</td><td>浅灰白</td><td>正文与标签</td></tr></tbody></table>
+<p>色彩语义一致性强约束：青 = 推荐/低成本/正向，琥珀 = 闸门/成本/注意——镜 6 占比条、镜 7 卡片均遵守。</p>
+<h2>字体</h2>
+<ul>
+<li>中文：微软雅黑（Microsoft YaHei）为首位的字体栈；<code>@font-face src: local()</code> 已声明</li>
+<li>标题：粗体大字（提炼词级别，不整句上口播）</li>
+<li>正文/标签：常规字重</li>
+</ul>
+<h2>动效</h2>
+<ul>
+<li>单动作 0.3–0.5 秒，ease-out 缓动</li>
+<li>多元素入场一律 stagger 逐个进入</li>
+<li>全片动效密度均匀，无长时间静止画面，无无意义炫技</li>
+<li>点亮/高亮类动效节奏与口播逐项对齐（镜 4、镜 7 为关键执行镜）</li>
+</ul>
+<h2>字幕</h2>
+<ul>
+<li>逐句中文字幕，压底居中，不遮挡图解主体</li>
+<li>由 TTS 词级时间戳按标点切句生成；纯标点并入下一句；相邻 cue 不重叠</li>
+</ul>
+<h2>章节徽标</h2>
+<ul>
+<li>每镜左上角小胶囊：<code>01 · 痛点</code>、<code>02 · 错误复利</code>、<code>03 · 拆轮</code>、<code>04 · 顺序</code>、<code>05 · 音频先行</code>、<code>06 · 成本</code>、<code>07 · 分工</code>、<code>08 · 收尾</code></li>
+</ul>
+<h2>版式</h2>
+<ul>
+<li>一镜一图：每镜只承载一个图解类型（八型选型见 script.md 画面栏）</li>
+<li>主体内容居中安全区内，四周留白；流程图类横向排布距右缘 ≥ 安全边距</li>
+</ul>
+</body></html>

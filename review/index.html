@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>评审平台 · agent→video</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+<style>
+/* ---- 评审平台专用样式（变量沿用主站 main.css） ---- */
+.gate-strip{display:flex;gap:6px;margin:18px 0 8px;flex-wrap:wrap}
+.gnode{flex:1;min-width:96px;text-align:center;border:1px solid var(--border);border-radius:10px;
+  padding:9px 6px 7px;cursor:pointer;background:var(--surface);transition:.15s;position:relative}
+.gnode:hover{border-color:var(--accent)}
+.gnode .gid{font-family:var(--mono);font-size:13px;font-weight:700}
+.gnode .gname{font-size:11.5px;color:var(--muted);margin-top:2px;line-height:1.35}
+.gnode .gatt{font-size:10.5px;font-family:var(--mono);margin-top:3px;color:var(--bad)}
+.gnode.st-pending{opacity:.62}
+.gnode.st-pending .gid{color:var(--muted)}
+.gnode.st-approved{border-color:rgba(79,209,197,.55);background:rgba(79,209,197,.07)}
+.gnode.st-approved .gid{color:var(--accent)}
+.gnode.st-rejected{border-color:rgba(252,129,129,.6);background:rgba(252,129,129,.08)}
+.gnode.st-rejected .gid{color:var(--bad)}
+.gnode.st-current{border-color:var(--accent2);background:rgba(246,173,85,.1);
+  animation:gatepulse 2.2s ease-in-out infinite}
+.gnode.st-current .gid{color:var(--accent2)}
+@keyframes gatepulse{0%,100%{box-shadow:0 0 0 0 rgba(246,173,85,.45)}50%{box-shadow:0 0 0 6px rgba(246,173,85,0)}}
+.proj-card{position:relative}
+.proj-card .meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:9px;font-size:12.5px;color:var(--muted);font-family:var(--mono)}
+.progress-line{height:7px;background:var(--surface2);border-radius:99px;overflow:hidden;margin-top:10px}
+.progress-line i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent),#7ee8dc)}
+.hdr-card{background:var(--surface);border:1px solid var(--border);border-radius:13px;padding:18px 22px;margin:14px 0 6px}
+.hdr-card .kv{display:flex;gap:10px;margin:5px 0;font-size:14.5px;flex-wrap:wrap}
+.hdr-card .kv b{min-width:76px;color:var(--muted);font-weight:600;flex-shrink:0}
+.review-node{gap:12px}
+.review-node .pn-ico{min-width:56px}
+.review-detail{margin-left:0}
+.crit-list{margin:8px 0}
+.crit-list label{display:flex;gap:10px;align-items:flex-start;margin:7px 0;cursor:pointer;font-size:14px}
+.crit-list input{margin-top:5px;accent-color:var(--accent)}
+.precheck-box{border:1px dashed var(--border);border-left:4px solid #b794f4;border-radius:10px;
+  padding:12px 16px;margin:14px 0;background:rgba(183,148,244,.05);font-size:14px}
+.precheck-box .pc-tag{font-family:var(--mono);font-size:12px;color:#b794f4;font-weight:700;letter-spacing:.05em;display:block;margin-bottom:4px}
+.decision-box{border-radius:10px;padding:11px 16px;margin:12px 0;font-size:14.5px;border:1px solid var(--border)}
+.decision-box.approved{border-color:rgba(72,187,120,.5);background:rgba(72,187,120,.08)}
+.decision-box.rejected{border-color:rgba(252,129,129,.55);background:rgba(252,129,129,.08)}
+.reply-hint{margin:14px 0 4px;padding:11px 16px;border:1px dashed rgba(246,173,85,.55);border-radius:10px;
+  background:rgba(246,173,85,.07);font-size:14px;color:var(--accent2)}
+.artifact-block{margin:12px 0}
+.artifact-block .a-label{font-family:var(--mono);font-size:12px;color:var(--muted);margin-bottom:5px}
+.md-frame{width:100%;min-height:280px;border:1px solid var(--border);border-radius:10px;background:#0d1117}
+.img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+.img-grid a{display:block;border:1px solid var(--border);border-radius:9px;overflow:hidden}
+.img-grid img{width:100%;display:block}
+.img-grid a:hover{border-color:var(--accent)}
+video.av-player{width:100%;border-radius:10px;border:1px solid var(--border);background:#000}
+audio{width:100%}
+.timeline{margin:10px 0 0;padding-left:0;list-style:none}
+.timeline li{position:relative;padding:0 0 16px 26px;border-left:2px solid var(--border);margin-left:8px;font-size:14px}
+.timeline li:last-child{padding-bottom:2px}
+.timeline li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;
+  background:var(--surface2);border:2px solid var(--border)}
+.timeline li.ev-approved::before{border-color:var(--accent);background:rgba(79,209,197,.3)}
+.timeline li.ev-rejected::before{border-color:var(--bad);background:rgba(252,129,129,.3)}
+.timeline li.ev-precheck::before{border-color:#b794f4;background:rgba(183,148,244,.3)}
+.timeline li.ev-add::before{border-color:var(--accent2);background:rgba(246,173,85,.25)}
+.timeline .t-time{font-family:var(--mono);font-size:12px;color:var(--muted);margin-right:8px}
+.timeline .t-gate{font-family:var(--mono);font-size:12px;color:var(--accent2);margin-right:6px}
+.empty-state{text-align:center;color:var(--muted);padding:70px 0;font-size:15px}
+.back-link{font-size:13.5px}
+@media(max-width:720px){.gnode{min-width:44%}}
+</style>
+</head>
+<body>
+<nav class="topnav">
+  <a class="brand" href="../index.html">agent<b>→</b>video</a>
+  <a class="nl" href="../index.html">图解站</a>
+  <a class="nl active" href="./index.html">评审平台</a>
+</nav>
+<main class="wrap" id="app">
+  <div class="empty-state">载入中…</div>
+</main>
+<footer>agent→video · 评审平台（只读）· 评审动作在对话里发生，这里留档与呈现</footer>
+<script>
+(function(){
+'use strict';
+var app=document.getElementById('app');
+
+/* ---------- 小工具 ---------- */
+function el(tag,cls,html){var d=document.createElement(tag);if(cls)d.className=cls;if(html!=null)d.innerHTML=html;return d;}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function fmtT(iso){
+  if(!iso)return '—';
+  var d=new Date(iso);
+  if(isNaN(d))return iso;
+  function p(n){return (n<10?'0':'')+n;}
+  return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes());
+}
+function fetchJSON(url){
+  return fetch(url).then(function(r){
+    if(!r.ok)throw new Error(url+' → HTTP '+r.status);
+    return r.json();
+  });
+}
+var GATE_LABEL={approved:'✅ 通过',rejected:'❌ 打回'};
+var PRE_LABEL={pass:'pass',warn:'warn',fail:'fail'};
+var PRE_BADGE={pass:'good',warn:'warn',fail:'bad'};
+
+/* 闸门状态：pending / current / approved / rejected（rejected 即当前闸时两态叠加显示） */
+function gateState(m,g){
+  if(g.decision&&g.decision.action==='approved')return 'approved';
+  if(g.decision&&g.decision.action==='rejected')return 'rejected';
+  if(m.current_gate===g.id)return 'current';
+  return 'pending';
+}
+function gateStateText(st,g){
+  if(st==='approved')return '通过';
+  if(st==='rejected')return '打回';
+  if(st==='current')return '待审';
+  return '未开始';
+}
+/* 第 N 次送审：当前结论存在取 attempt；待审中则为 history 数+1 */
+function attemptNo(g){
+  if(g.decision&&g.decision.attempt)return g.decision.attempt;
+  return (g.history?g.history.length:0)+1;
+}
+
+/* ---------- 列表页 ---------- */
+function renderList(){
+  app.innerHTML='';
+  var head=el('header','chap-head');
+  head.innerHTML='<span class="chap-num">REVIEW</span><h1>评审平台 · 项目列表</h1>'
+    +'<p class="hook">六轮五闸工作流的留档看板——每个项目卡在哪道闸、等了多久，一目了然。看板只读；评审动作在对话里发生。</p>';
+  app.appendChild(head);
+  fetchJSON('projects/index.json').then(function(idx){
+    if(!idx.projects||!idx.projects.length){
+      app.appendChild(el('div','empty-state','还没有项目入库。'));
+      return;
+    }
+    var grid=el('div','path-grid');
+    idx.projects.forEach(function(p){
+      var a=el('a','path-card proj-card');
+      a.href='#/'+encodeURIComponent(p.id);
+      var cur=p.current_gate;
+      var badgeCls=p.status==='done'?'good':(cur?'warn':'good');
+      var badgeTxt=p.status==='done'?'已完工':(cur?('停在 '+cur):'全部通过');
+      a.innerHTML='<div class="pc-num">'+esc(p.id)+'</div>'
+        +'<h3>'+esc(p.title)+'</h3>'
+        +'<div class="meta"><span class="badge '+badgeCls+'">'+badgeTxt+'</span>'
+        +'<span>已过 '+p.gates_passed+' / '+p.gates_total+' 闸</span>'
+        +'<span>最近活动 '+fmtT(p.last_activity)+'</span></div>'
+        +'<div class="progress-line"><i style="width:'+Math.round(100*p.gates_passed/Math.max(1,p.gates_total))+'%"></i></div>';
+      grid.appendChild(a);
+    });
+    app.appendChild(grid);
+  }).catch(function(e){
+    app.appendChild(el('div','empty-state','读取 projects/index.json 失败：'+esc(e.message)+'<br>（看板需经 http(s) 访问，file:// 下浏览器禁止 fetch）'));
+  });
+}
+
+/* ---------- 详情页 ---------- */
+function renderDetail(pid,focusGate){
+  app.innerHTML='<div class="empty-state">载入项目 '+esc(pid)+' …</div>';
+  var base='projects/'+encodeURIComponent(pid)+'/';
+  fetchJSON(base+'manifest.json').then(function(m){
+    app.innerHTML='';
+    var P=m.project;
+
+    /* 头部定位卡（北极星常驻） */
+    app.appendChild(el('p',null,'<a class="back-link" href="#/">← 返回项目列表</a>'));
+    var hdr=el('div','hdr-card');
+    hdr.innerHTML='<span class="chap-num">'+esc(P.id)+(m.status==='done'?' · 已完工':'')+'</span>'
+      +'<h2 style="border:none;margin:.35em 0 .2em;padding:0">'+esc(P.title)+'</h2>'
+      +'<div class="kv"><b>选题</b><span>'+esc(P.topic)+'</span></div>'
+      +'<div class="kv"><b>内容来源</b><span>'+esc(P.source)+'</span></div>'
+      +'<div class="kv"><b>目标时长</b><span>'+esc(P.target_duration_s)+' s · '+esc(P.aspect)+'</span></div>'
+      +'<div class="kv"><b>创建于</b><span>'+fmtT(P.created_at)+'</span></div>'
+      +'<div class="kv"><b>当前闸</b><span>'+(m.current_gate
+          ?'<span class="badge warn">⛔ '+esc(m.current_gate)+' 待审</span>'
+          :'<span class="badge good">全部通过</span>')+'</span></div>';
+    app.appendChild(hdr);
+
+    /* 闸门条 */
+    var strip=el('div','gate-strip');
+    m.gates.forEach(function(g){
+      var st=gateState(m,g);
+      var n=el('div','gnode st-'+st);
+      var att='';
+      if(g.decision&&g.decision.action==='rejected')att='<div class="gatt">第 '+attemptNo(g)+' 次送审被打回</div>';
+      else if(!g.decision&&g.history&&g.history.length)att='<div class="gatt">第 '+attemptNo(g)+' 次送审</div>';
+      n.innerHTML='<div class="gid">'+esc(g.id)+'</div><div class="gname">'+esc(g.name)+'</div>'+att;
+      n.title=g.id+' · '+g.name+' · '+gateStateText(st,g);
+      n.addEventListener('click',function(){
+        var card=document.getElementById('card-'+g.id);
+        if(card){openCard(g.id);card.scrollIntoView({behavior:'smooth',block:'start'});}
+      });
+      strip.appendChild(n);
+    });
+    app.appendChild(strip);
+
+    /* 评审卡手风琴（复用主站 .pnode/.pnode-detail 模式） */
+    var pipe=el('div','pipeline');
+    app.appendChild(pipe);
+    var cardRefs={};
+    m.gates.forEach(function(g,i){
+      var st=gateState(m,g);
+      var node=el('div','pnode gate review-node');
+      node.id='card-'+g.id;
+      var badgeCls={approved:'info',rejected:'bad',current:'warn',pending:''}[st];
+      node.innerHTML='<span class="pn-ico">'+esc(g.id)+'</span>'
+        +'<span style="flex:1"><span class="pn-name">'+esc(g.name)+'</span> '
+        +'<span class="pn-sub">轮 '+esc(g.round)+(g.parallel_with?' · 与 '+esc(g.parallel_with)+' 平行':'')+'</span></span>'
+        +'<span class="badge '+badgeCls+'">'+gateStateText(st,g)+'</span>';
+      var det=el('div','pnode-detail review-detail');
+      cardRefs[g.id]={node:node,det:det};
+      node.addEventListener('click',function(){toggleCard(g.id);});
+      pipe.appendChild(node);
+      pipe.appendChild(det);
+      fillCard(m,g,det,base);
+    });
+
+    function toggleCard(gid){
+      var r=cardRefs[gid];if(!r)return;
+      var willOpen=!r.det.classList.contains('open');
+      pipe.querySelectorAll('.pnode').forEach(function(x){x.classList.remove('on');});
+      pipe.querySelectorAll('.pnode-detail').forEach(function(x){x.classList.remove('open');});
+      if(willOpen){r.node.classList.add('on');r.det.classList.add('open');}
+    }
+    function openCard(gid){
+      var r=cardRefs[gid];if(!r)return;
+      if(!r.det.classList.contains('open'))toggleCard(gid);
+    }
+    /* 默认展开：优先 URL 指定的闸（#/<id>/<gid> 深链），否则当前闸 */
+    var want=focusGate&&cardRefs[focusGate]?focusGate:(m.current_gate||m.gates[m.gates.length-1].id);
+    openCard(want);
+    if(focusGate&&cardRefs[focusGate]){
+      setTimeout(function(){document.getElementById('card-'+focusGate).scrollIntoView({block:'start'});},50);
+    }
+
+    /* 事件时间轴 */
+    var events=[];
+    m.gates.forEach(function(g){
+      (g.history||[]).forEach(function(h){
+        events.push({at:h.at,gate:g.id,kind:h.action==='approved'?'approved':'rejected',
+          text:'第 '+(h.attempt||'?')+' 次送审 · '+(GATE_LABEL[h.action]||h.action)+(h.comment?'：'+h.comment:'')+'（'+(h.by||'human')+'）'});
+      });
+      if(g.decision)events.push({at:g.decision.at,gate:g.id,kind:g.decision.action==='approved'?'approved':'rejected',
+        text:'第 '+attemptNo(g)+' 次送审 · '+GATE_LABEL[g.decision.action]+(g.decision.comment?'：'+g.decision.comment:'')+'（'+(g.decision.by||'human')+'） ← 当前结论'});
+      if(g.precheck)events.push({at:g.precheck.at,gate:g.id,kind:'precheck',
+        text:'机审 '+PRE_LABEL[g.precheck.result]+(g.precheck.notes?'：'+g.precheck.notes:'')});
+      (g.artifacts||[]).forEach(function(a){
+        events.push({at:a.at,gate:g.id,kind:'add',text:'登记产物 '+a.path+(a.label&&a.label!==a.path?'（'+a.label+'）':'')});
+      });
+    });
+    if(P.created_at)events.push({at:P.created_at,gate:'',kind:'add',text:'项目立项（G1 通过，manifest 建档）'});
+    if(m.artifacts&&m.artifacts.final_video)events.push({at:m.artifacts.final_video.at,gate:'G5',kind:'approved',text:'完工归档 · 成片 '+m.artifacts.final_video.path});
+    events.sort(function(a,b){return String(b.at).localeCompare(String(a.at));});
+    var th=el('h2',null,'<span class="sec">§</span>事件时间轴');
+    app.appendChild(th);
+    var tl=el('ul','timeline');
+    if(!events.length)tl.appendChild(el('li',null,'<span class="muted">暂无事件</span>'));
+    events.forEach(function(ev){
+      var li=el('li','ev-'+ev.kind);
+      li.innerHTML='<span class="t-time">'+fmtT(ev.at)+'</span>'
+        +(ev.gate?'<span class="t-gate">'+esc(ev.gate)+'</span>':'')
+        +esc(ev.text);
+      tl.appendChild(li);
+    });
+    app.appendChild(tl);
+  }).catch(function(e){
+    app.innerHTML='<div class="empty-state">读取项目失败：'+esc(e.message)+'<br><a href="#/">← 返回列表</a></div>';
+  });
+}
+
+/* 评审卡内容 */
+function fillCard(m,g,det,base){
+  det.innerHTML='';
+  det.appendChild(el('h4',null,esc(g.id)+' · '+esc(g.name)+'（轮 '+esc(g.round)+'）'));
+
+  /* 评审清单（criteria → checkbox，辅助逐项过，不强制） */
+  if(g.criteria&&g.criteria.length){
+    det.appendChild(el('h4',null,'评审清单（八域标准）'));
+    var cl=el('div','crit-list');
+    var key='rv-crit-'+m.project.id+'-'+g.id;
+    function getCk(){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(e){return[]}}
+    g.criteria.forEach(function(c,i){
+      var lab=el('label');
+      var cb=document.createElement('input');cb.type='checkbox';
+      cb.checked=getCk().indexOf(i)>=0;
+      var sp=el('span',null,esc(c));
+      function paint(){sp.style.color=cb.checked?'var(--good)':'var(--text)';sp.style.textDecoration=cb.checked?'line-through':'none';}
+      cb.addEventListener('change',function(){
+        var s=getCk();var j=s.indexOf(i);
+        if(cb.checked&&j<0)s.push(i);if(!cb.checked&&j>=0)s.splice(j,1);
+        try{localStorage.setItem(key,JSON.stringify(s));}catch(e){}
+        paint();
+      });
+      paint();
+      lab.appendChild(cb);lab.appendChild(sp);
+      cl.appendChild(lab);
+    });
+    det.appendChild(cl);
+  }
+
+  /* 机审区（与人审视觉隔离） */
+  if(g.precheck){
+    var pb=el('div','precheck-box');
+    pb.innerHTML='<span class="pc-tag">🤖 机审记录（agent，与人审分离）</span>'
+      +'<span class="badge '+(PRE_BADGE[g.precheck.result]||'info')+'">'+esc(PRE_LABEL[g.precheck.result]||g.precheck.result)+'</span> '
+      +'<span class="muted" style="font-family:var(--mono);font-size:12px">'+fmtT(g.precheck.at)+'</span>'
+      +(g.precheck.notes?'<div style="margin-top:6px">'+esc(g.precheck.notes)+'</div>':'');
+    det.appendChild(pb);
+  }
+
+  /* 产物查看器 */
+  var arts=(g.artifacts&&g.artifacts.length?g.artifacts:[]);
+  if(!arts.length){
+    /* 兼容 DESIGN 1.2 语义槽位：该闸没登记条目但顶层 artifacts 有对应物时也展示 */
+    var A=m.artifacts||{};
+    if(g.id==='G2'&&A.script)arts=[{path:A.script.path,type:'markdown',label:'口播栏脚本'}];
+    if(g.id==='G3'&&A.script)arts=[{path:A.script.path,type:'markdown',label:'三栏脚本'}];
+    if(g.id==='STYLE'&&A.style_contract)arts=[{path:A.style_contract.path,type:'markdown',label:'风格契约'}];
+    if(g.id==='G3.5'&&A.keyframes&&A.keyframes.length)arts=A.keyframes.map(function(k){return{path:k.path,type:'image',label:k.note||k.path};});
+    if(g.id==='G4'&&A.draft_video)arts=[{path:A.draft_video.path,type:'video',label:'草稿片'}];
+    if(g.id==='G5'&&A.final_video)arts=[{path:A.final_video.path,type:'video',label:'成片'}];
+  }
+  if(arts.length){
+    det.appendChild(el('h4',null,'产物'));
+    var imgs=[];
+    arts.forEach(function(a){
+      var url=base+a.path.split('/').map(encodeURIComponent).join('/');
+      if(a.type==='markdown'){
+        var blk=el('div','artifact-block');
+        blk.appendChild(el('div','a-label','📄 '+esc(a.label||a.path)+'（预渲染）· <a href="'+url+'" target="_blank">原始 md</a>'));
+        var fr=el('iframe','md-frame');
+        fr.setAttribute('sandbox','');
+        blk.appendChild(fr);
+        det.appendChild(blk);
+        fetch(url.replace(/\.(md|markdown)$/i,'.html')).then(function(r){
+          if(!r.ok)throw new Error('HTTP '+r.status);
+          return r.text();
+        }).then(function(html){fr.srcdoc=html;})
+          .catch(function(e){blk.appendChild(el('div','muted','预渲染 HTML 加载失败：'+esc(e.message)));});
+      }else if(a.type==='image'){
+        imgs.push({url:url,label:a.label||a.path});
+      }else if(a.type==='video'){
+        var vb=el('div','artifact-block');
+        vb.appendChild(el('div','a-label','🎬 '+esc(a.label||a.path)));
+        var v=el('video','av-player');v.controls=true;v.preload='metadata';v.src=url;
+        vb.appendChild(v);det.appendChild(vb);
+      }else if(a.type==='audio'){
+        var ab=el('div','artifact-block');
+        ab.appendChild(el('div','a-label','🔊 '+esc(a.label||a.path)));
+        var au=el('audio');au.controls=true;au.src=url;
+        ab.appendChild(au);det.appendChild(ab);
+      }else{
+        det.appendChild(el('div','artifact-block','<a href="'+url+'" target="_blank">📎 '+esc(a.label||a.path)+'</a>'));
+      }
+    });
+    if(imgs.length){
+      var ib=el('div','artifact-block');
+      ib.appendChild(el('div','a-label','🖼 关键帧 / 图片（'+imgs.length+' 张，点击看原图）'));
+      var grid=el('div','img-grid');
+      imgs.forEach(function(im){
+        var a=el('a');a.href=im.url;a.target='_blank';
+        var img=el('img');img.src=im.url;img.alt=im.label;img.loading='lazy';
+        a.appendChild(img);grid.appendChild(a);
+      });
+      ib.appendChild(grid);det.appendChild(ib);
+    }
+  }
+
+  /* 当前结论 */
+  if(g.decision){
+    var db=el('div','decision-box '+g.decision.action);
+    db.innerHTML='<strong>'+esc(GATE_LABEL[g.decision.action])+'</strong>'
+      +' · 第 '+attemptNo(g)+' 次送审 · '+(g.decision.by==='human'?'人工':'agent')+' · '+fmtT(g.decision.at)
+      +(g.decision.comment?'<div style="margin-top:4px">'+esc(g.decision.comment)+'</div>':'');
+    det.appendChild(db);
+  }
+  if(g.history&&g.history.length){
+    var hb=el('div','artifact-block');
+    hb.appendChild(el('div','a-label','历史结论（打回永久留档）'));
+    g.history.forEach(function(h){
+      hb.appendChild(el('div',null,'<span class="muted" style="font-family:var(--mono);font-size:12.5px">第 '+(h.attempt||'?')+' 次 · '+fmtT(h.at)+'</span> '+esc(GATE_LABEL[h.action]||h.action)+(h.comment?'：'+esc(h.comment):'')));
+    });
+    det.appendChild(hb);
+  }
+
+  /* 只读提示 */
+  var hint=el('div','reply-hint');
+  hint.innerHTML='✍️ 本看板只读。评审请在对话里进行：回复「<strong>过</strong>」或「<strong>打回 + 意见</strong>」即可，agent 会更新这里的状态。';
+  det.appendChild(hint);
+}
+
+/* ---------- 哈希路由 ---------- */
+function route(){
+  var h=location.hash.replace(/^#\/?/,'');
+  if(!h){renderList();return;}
+  var seg=h.split('/');
+  renderDetail(decodeURIComponent(seg[0]),seg[1]?decodeURIComponent(seg[1]):null);
+}
+window.addEventListener('hashchange',route);
+route();
+})();
+</script>
+</body>
+</html>

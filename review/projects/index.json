@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-10-07T02:23:27.151Z",
+  "projects": [
+    {
+      "id": "agent-video-workflow-demo",
+      "title": "六轮五闸渐进式工作流（科普短片）",
+      "current_gate": "G4",
+      "gates_passed": 6,
+      "gates_total": 8,
+      "status": "active",
+      "last_activity": "2026-10-07T02:23:27.065Z"
+    }
+  ]
+}
